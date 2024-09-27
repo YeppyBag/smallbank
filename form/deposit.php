@@ -28,7 +28,7 @@ include "../connect.inc.php";
     <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required><br>
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
     <input type="submit" value="ฝาก">
-    <button onclick="window.location.href='../index.php';">หน้าหลัก</button>
+
 </form>
 </body>
 </html>
