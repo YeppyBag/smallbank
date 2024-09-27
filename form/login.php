@@ -6,7 +6,6 @@ session_start();
 <head>
     <link rel="stylesheet" type="text/css" href="../css/login.css">
     <link rel="stylesheet" type="text/css" href="../css/redirect.css">
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>" />
     <script src="../script/login.ts"></script>
     <title>Sign Up / Login</title>
@@ -24,8 +23,7 @@ session_start();
             <div class="handle-message">
                 <?php if (isset($_GET['register-handle'])) echo htmlspecialchars($_GET['register-handle']); ?>
             </div>
-            <input type="text" name="name" maxlength="80" placeholder="Name" required>
-            <input type="text" name="username" maxlength="40" placeholder="Username" required>
+            <input type="text" name="username" maxlength="80" placeholder="Username" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="password" name="cpassword" placeholder="Confirm Password" required>
