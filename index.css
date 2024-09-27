@@ -6,7 +6,7 @@
 .container{
     width: 900px;
     height: auto;
-    margin: 0 auto;
+    margin: 20px auto;
     border-radius: 10px;
     display: flex;
     padding: 10px;
@@ -15,7 +15,7 @@
 .container2{
     width: 900px;
     height: auto;
-    margin:0 auto;
+    margin:20px auto;
     background: #d5d5d5;
 }
 .nav{
@@ -23,7 +23,19 @@
     width: 900px;
     height: auto;
 }
-
+.nav a{
+    margin-left: 8px;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    background: #ff66b2;
+    border-radius: 10px;
+    color: white;
+    transition: .5s;
+}
+.nav a:hover {
+    background: #ff99cc;
+}
 .balance{
     width: 300px;
     height: 250px;
@@ -52,7 +64,18 @@
     padding: 5px;
     text-decoration: none;
     font-size: 20px;
-    background: #007bb5;
+    background: #ff66b2;
     border-radius: 10px;
     color: white;
+    transition: .5s;
+}
+.balance a:hover{
+    background: #ff99cc;
+}
+.title{
+    display: flex;
+    margin: 0 auto;
+    width: 200px;
+    height: auto;
+    justify-content: center;
 }

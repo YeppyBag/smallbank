@@ -39,7 +39,7 @@
                         $sql = "SELECT * FROM tb_user WHERE user_id = '$id';";
                         $result = mysqli_query($conn,$sql);
                         $arr = mysqli_fetch_array($result);
-                        echo "<h1>".$arr['wallet_balance']."</h1>";
+                        echo "<h1>฿".$arr['wallet_balance']."</h1>";
                     }
                 ?>
             </div>
@@ -49,7 +49,12 @@
                 }
             ?>
         </div>
-        <div class="quick"></div>
+        <div class="quick">
+            <div class="title">
+                <H1>Quick Links</H1>
+            </div>
+
+        </div>
     </div>
 </body>
 </html>
