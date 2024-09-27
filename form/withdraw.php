@@ -10,6 +10,8 @@ include "../connect.inc.php";
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/deposit.css">
+    <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>" />
+    <script src="../script/login.ts"></script>
     <title>Withdraw</title>
 </head>
 <body>
