@@ -1,4 +1,8 @@
 <?php
+
+use common\FeatureUtil;
+
+include "../common/FeatureUtil.php";
 include "../connect.inc.php";
 ?>
 <!doctype html>
@@ -10,26 +14,21 @@ include "../connect.inc.php";
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/deposit.css">
+    <link rel="stylesheet" href="../css/pinkbutton.css">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'false' : 'true'; ?>" />
     <script src="../script/login.js"></script>
     <title>Deposit</title>
 </head>
 <body>
 <form name="deposit_money" method="post" action="../action/deposit.php">
-    <?php if (isset($_GET['deposit-handle'])): ?>
-        <div class="handle-message">
-            <?php echo htmlspecialchars($_GET['deposit-handle']); ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_GET['deposit-error'])): ?>
-        <div class="error-message">
-            <?php echo htmlspecialchars($_GET['deposit-error']); ?>
-        </div>
-    <?php endif; ?>
+    <?php
+    FeatureUtil::displayMessage('handle', $_GET['deposit-handle'] ?? null);
+    FeatureUtil::displayMessage('error', $_GET['deposit-error'] ?? null);
+    ?>
     <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required><br>
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
     <input type="submit" value="ฝาก">
+    <button onclick="window.location.href='../index.php';">หน้าหลัก</button>
 </form>
 </body>
 </html>
