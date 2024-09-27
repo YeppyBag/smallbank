@@ -1,0 +1,13 @@
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.handle-message {
+    color: greenyellow;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
