@@ -14,8 +14,13 @@
 <body>
     <div class="container2">
         <div class="nav">
-            <a href="action/login.php">login</a>
-            <a href="action/logout.php">logout</a>
+           <?php
+           if(!empty($_SESSION['user_id'])){
+               echo "<a href='action/logout.php'>logout</a>";
+           }else{
+               echo "<a href='form/login.php'>login</a>";
+           }
+           ?>
         </div>
     </div>
     <div class="container">
