@@ -5,6 +5,8 @@ class Wallet {
     private $conn;
     private $userID;
     private $balance;
+    private $fallback;
+    private $flag;
 
     public function __construct($conn, $userID) {
         $this->conn = $conn;
@@ -26,9 +28,11 @@ class Wallet {
         if ($amount > 0) {
             $this->balance += $amount;
             $this->updateBalance();
-            return "Deposit successful! New balance: " . $this->balance;
+            $this->flag = true;
+            return $this->fallback = "Deposit successful! New balance: " . $this->balance;
         } else {
-            return "Invalid amount.";
+            $this->flag = false;
+            return $this->fallback = "Invalid amount.";
         }
     }
 
@@ -36,14 +40,23 @@ class Wallet {
         if ($amount > 0 && $amount <= $this->balance) {
             $this->balance -= $amount;
             $this->updateBalance();
-            return "Withdrawal successful! Remaining balance: " . $this->balance;
+            $this->flag = true;
+            return $this->fallback = "Withdrawal successful! Remaining balance: " . $this->balance;
         } else {
-            return "Invalid amount or insufficient balance.";
+            $this->flag = false;
+            return $this->fallback = "Invalid amount or insufficient balance.";
         }
     }
 
     private function updateBalance() {
         $sql = "UPDATE tb_user SET wallet_balance='$this->balance' WHERE user_id='$this->userID'";
         $this->conn->query($sql);
+    }
+
+    public function getFallback() {
+        return $this->fallback;
+    }
+    public function getFlag() {
+        return $this->flag;
     }
 }

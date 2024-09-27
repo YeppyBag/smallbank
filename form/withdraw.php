@@ -20,7 +20,7 @@ include "../connect.inc.php";
     <div class="error-message">
         <?php if (isset($_GET['withdraw-error'])) echo htmlspecialchars($_GET['withdraw-error']); ?>
     </div>
-    <input type="number" name="amount" placeholder="ใส่จำนวนเงิน"><br>
+    <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required><br>
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
     <input type="submit" value="withdraw">
     <input type="reset" value="cancel">

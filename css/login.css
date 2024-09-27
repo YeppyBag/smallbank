@@ -6,16 +6,16 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: 'Jost', sans-serif;
-  background: #f8f8f8; /* Light background */
+  background: #f8f8f8;
 }
 
 .main {
   width: 350px;
   height: 600px;
-  background: linear-gradient(to bottom, #ffc2e0, #b5d4f7); /* Pink to blue pastel gradient */
+  background: linear-gradient(to bottom, #ffc2e0, #b5d4f7);
   overflow: hidden;
   border-radius: 10px;
-  box-shadow: 5px 20px 50px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+  box-shadow: 5px 20px 50px rgba(0, 0, 0, 0.1);
 }
 
 #mm {
@@ -29,7 +29,7 @@ body {
 }
 
 label {
-  color: #333; /* Dark text color for contrast */
+  color: #333;
   font-size: 2.3em;
   justify-content: center;
   display: flex;
@@ -42,7 +42,7 @@ label {
 input {
   width: 60%;
   height: 40px;
-  background: #ffebf3; /* Light pink input background */
+  background: #ffebf3;
   justify-content: center;
   display: flex;
   margin: 20px auto;
@@ -56,8 +56,8 @@ input {
 input:focus {
   width: 65%;
   height: 50px;
-  background: #e3f1fb; /* Light blue focus background */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Light shadow on focus */
+  background: #e3f1fb;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 button {
@@ -66,7 +66,7 @@ button {
   justify-content: center;
   display: block;
   color: #fff;
-  background: #ff66b2; /* Pastel pink button */
+  background: #ff66b2;
   font-size: 1em;
   font-weight: bold;
   margin: 30px auto 10px;
@@ -78,19 +78,19 @@ button {
 }
 
 button:hover {
-  background: #ff99cc; /* Lighter pastel pink on hover */
+  background: #ff99cc;
 }
 
 .login {
   height: 460px;
-  background: #e0f7fa; /* Light pastel blue background */
+  background: #e0f7fa;
   border-radius: 60% / 10%;
   transform: translateY(-180px);
   transition: .3s ease-in-out;
 }
 
 .login label {
-  color: #ff66b2; /* Pink label color */
+  color: #ff66b2;
   transform: scale(.6);
 }
 
@@ -98,12 +98,12 @@ button:hover {
   display: flex;
   justify-content: center;
   text-decoration: none;
-  color: #42992d; /* Green text color for links */
+  color: #42992d;
   transition: color 0.3s ease;
 }
 
 .login a:hover {
-  color: #007bb5; /* Blue accent color on hover */
+  color: #007bb5;
 }
 
 #mm:checked ~ .login {
