@@ -7,7 +7,7 @@ session_start();
     <link rel="stylesheet" type="text/css" href="../css/login.css">
     <link rel="stylesheet" type="text/css" href="../css/redirect.css">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>" />
-    <script src="../script/login.ts"></script>
+    <script src="../script/login.js"></script>
     <title>Sign Up / Login</title>
 </head>
 <body>
