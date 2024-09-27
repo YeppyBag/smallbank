@@ -60,27 +60,6 @@ input:focus {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-button {
-  width: 60%;
-  height: 40px;
-  justify-content: center;
-  display: block;
-  color: #fff;
-  background: #ff66b2;
-  font-size: 1em;
-  font-weight: bold;
-  margin: 30px auto 10px;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  transition: .2s ease-in;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #ff99cc;
-}
-
 .login {
   height: 460px;
   background: #e0f7fa;
