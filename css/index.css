@@ -10,22 +10,22 @@
     border-radius: 10px;
     display: flex;
     padding: 10px;
-    background: #d5d5d5;
+    background: linear-gradient(to bottom, #ffc2e0, #b5d4f7);
 }
 .container2{
     width: 900px;
     height: auto;
     margin:20px auto;
-    background: #d5d5d5;
 }
 .nav{
-    background: white;
     width: 900px;
-    height: auto;
+    height: 30px;
+    padding: 3px;
 }
 .nav a{
     margin-left: 8px;
-    padding: 5px;
+    margin-top: 10px;
+    padding: 2px;
     text-decoration: none;
     font-size: 20px;
     background: #ff66b2;
