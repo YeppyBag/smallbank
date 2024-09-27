@@ -13,13 +13,17 @@ include "../connect.inc.php";
     <title>Withdraw</title>
 </head>
 <body>
-<div class="container">
-    <form name=withdraw_money" method="post" action="../action/withdraw.php">
-        <input type="number" name="amount" placeholder="ใส่จำนวนเงิน"><br>
-        <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
-        <input type="submit" value="withdraw"><br>
-        <input type="reset" value="cancel">
-    </form>
-</div>
+<form name="withdraw_money" method="post" action="../action/withdraw.php">
+    <div class="handle-message">
+        <?php if (isset($_GET['withdraw-handle'])) echo htmlspecialchars($_GET['withdraw-handle']); ?>
+    </div>
+    <div class="error-message">
+        <?php if (isset($_GET['withdraw-error'])) echo htmlspecialchars($_GET['withdraw-error']); ?>
+    </div>
+    <input type="number" name="amount" placeholder="ใส่จำนวนเงิน"><br>
+    <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
+    <input type="submit" value="withdraw">
+    <input type="reset" value="cancel">
+</form>
 </body>
 </html>
