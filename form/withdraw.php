@@ -8,11 +8,13 @@ include "../connect.inc.php";
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Deposit</title>
+    <link rel="stylesheet" href="../css/redirect.css">
+    <title>Withdraw</title>
 </head>
 <body>
-<form action="">
-    <input type="text" name="withdraw" id="" placeholder="withdraw"><br>
+<form name=withdraw_money" method="post" action="../action/withdraw.php">
+    <input type="number" name="amount" placeholder="ใส่จำนวนเงิน"><br>
+    <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
     <input type="submit" value="withdraw">
     <input type="reset" value="cancel">
 </form>
