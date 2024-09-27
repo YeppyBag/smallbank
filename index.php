@@ -47,11 +47,18 @@ include("connect.inc.php");
             </div>
             <?php
                 if(!empty($_SESSION['user_id'])){
-                    echo "<a href='action/getIframe.php?id='1''>ฝากเงิน</a><a href='action/getIframe.php?id='1''>ถอนเงิน</a>";
+                    echo "<a href='action/getIframe.php?id=1'>ฝากเงิน</a><a href='action/getIframe.php?id=2'>ถอนเงิน</a>";
                 }
             ?>
         </div>
         <div class="quick">
+            <div class="name">
+            <?php
+                if(!empty($_SESSION['nameIframe'])){
+                    echo "<h1>".$_SESSION['nameIframe']."</h1>";
+                }else echo "";
+            ?>
+            </div>
             <iframe src="<?php if(empty($_SESSION['page'])){echo "";}else {echo $_SESSION['page'];}?>" frameborder="0"></iframe>
         </div>
         <div class="transac"></div>
