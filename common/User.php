@@ -26,4 +26,8 @@ class User {
     public function getWalletBalance() {
         return $this->walletBalance;
     }
+
+    public function getUserId() {
+        return $this->userId;
+    }
 }

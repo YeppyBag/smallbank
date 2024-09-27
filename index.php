@@ -1,8 +1,11 @@
 <?php
 
+use common\Transaction;
 use common\User;
 
 include "common/User.php";
+include "common/Transaction.php";
+include "common/Fee.php";
 include("connect.inc.php");
 ?>
 <!doctype html>
@@ -51,7 +54,7 @@ include("connect.inc.php");
                 }
             ?>
         </div>
-        <div class="quick">
+        <div class="quick"> <?php //TODO: Iframe ใน หน้า index ดูไม่ค่อย work ต้อง คอย refresh เพื่อให้ update element ?>
             <div class="name">
             <?php
                 if(!empty($_SESSION['nameIframe'])){
@@ -62,6 +65,40 @@ include("connect.inc.php");
             <iframe src="<?php if(empty($_SESSION['page'])){echo "";}else {echo $_SESSION['page'];}?>" frameborder="0"></iframe>
         </div>
         <div class="transac"></div>
+        <?php //TODO: ฝากจัดการ ฝั่ง transaction ด้วย แล้วก็ ถ้าจะเรียกใช้ ก็ให้เรียกผ่าน  $transaction = new Transaction($conn, $user_id); getTransactionByUserId
+        $transaction = new Transaction($conn, $_SESSION['user_id']);
+        $transactionData = $transaction->getTransactionByUserId($_SESSION['user_id']);
+        // ตรวจสอบว่ามีธุรกรรมหรือไม่
+        if (!empty($transactionData)) {
+            echo "<table border='1'>";
+            echo "<tr>
+            <th>Transaction ID</th>
+            <th>User ID</th>
+            <th>Transaction Type ID</th>
+            <th>Amount</th>
+            <th>Fee</th>
+            <th>Recipient User ID</th>
+            <th>Created At</th>
+          </tr>";
+
+            // ใช้ foreach เพื่อแสดงข้อมูลธุรกรรม
+            foreach ($transactionData as $transaction) {
+                echo "<tr>
+                <td>{$transaction['transaction_id']}</td>
+                <td>{$transaction['user_id']}</td>
+                <td>{$transaction['transaction_type_id']}</td>
+                <td>{$transaction['amount']}</td>
+                <td>{$transaction['fee']}</td>
+                <td>{$transaction['recipient_user_id']}</td>
+                <td>{$transaction['created_at']}</td>
+              </tr>";
+            }
+
+            echo "</table>";
+        } else {
+            echo "ไม่มีข้อมูลธุรกรรม";
+        }
+        ?>
     </div>
 </body>
 </html>

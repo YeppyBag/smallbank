@@ -1,16 +1,17 @@
 <?php
 
 namespace common;
-require_once "Fee.php";
 
 class Transaction {
     private $conn;
     private $table_name = "tb_transaction"; // ชื่อของตาราง
     private Fee $fee;
+    private User $user;
 
-    public function __construct($conn) {
+    public function __construct($conn,$user_id) {
         $this->conn = $conn;
         $this->fee = new Fee($this->conn);
+        $this->user = new User($this->conn,$user_id);
     }
 
     public function save($user_id, $transaction_type_id, $amount, $fee, $recipient_user_id = null) {
@@ -23,14 +24,14 @@ class Transaction {
         return $this->executeQuery($query);
     }
 
-    public function deposit($user_id, $amount) {
+    public function deposit($amount) {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > 5000)
             return "การฝากเงินไม่เกิน 5000 ต่อครั้ง ลองอีกครั้ง";
         $feePercentage = $this->fee->getFeeByAmount($amount);
-        if ($this->save($user_id, 3, $amount, $feePercentage)) { // 3 คือประเภทของการฝากเงิน
-            $newBalance = $this->depositToUserWallet($user_id, $amount);
+        if ($this->save($this->user->getUserId(), 3, $amount, $feePercentage)) { // 3 คือประเภทของการฝากเงิน
+            $newBalance = $this->depositToUserWallet($this->user->getUserId(), $amount);
             return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
         }
         return "การฝากล้มเหลว";
@@ -45,12 +46,11 @@ class Transaction {
         }
         return "ล้มเหลว";
     }
-    public function withdraw($user_id, $amount) {
-        $user = new User($this->conn, $user_id);
-        if ($amount > $user->getWalletBalance())
+    public function withdraw($amount) {
+        if ($amount > $this->user->getWalletBalance())
             return "เงินในบัญชีไม่เพียงพอ";
-        if ($this->save($user_id, 4, $amount,0)) {//ไม่เสียค่าทำเนียม
-            $newBalance = $this->withdrawToUserWallet($user_id, $amount);
+        if ($this->save($this->user->getUserId(), 4, $amount,0)) {//ไม่เสียค่าทำเนียม
+            $newBalance = $this->withdrawToUserWallet($this->user->getUserId(), $amount);
             return "ถอนเงินสำเร็จ ยอดเงินคงเหลือ: " . $newBalance;
         }
         return "หืม?";
@@ -67,6 +67,10 @@ class Transaction {
 
     public function getTransactionById($id) {
         $query = "SELECT * FROM {$this->table_name} WHERE transaction_id = $id";
+        return $this->fetchQuery($query);
+    }
+    public function getTransactionByUserId($user_id) {
+        $query = "SELECT * FROM {$this->table_name} WHERE user_id = $user_id";
         return $this->fetchQuery($query);
     }
 
