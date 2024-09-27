@@ -23,6 +23,7 @@
     width: 900px;
     height: auto;
 }
+
 .balance{
     width: 300px;
     height: 250px;
@@ -35,4 +36,23 @@
     height: 250px;
     border-radius: 10px;
     background: #fdfdfd;
+}
+.name{
+    display: flex;
+    margin: 0 auto;
+    width: 100px;
+    height: auto;
+    justify-content: center;
+}
+.wallet {
+    padding: 10px;
+}
+.balance a{
+    margin-left: 8px;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    background: #007bb5;
+    border-radius: 10px;
+    color: white;
 }

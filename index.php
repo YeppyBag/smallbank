@@ -25,7 +25,29 @@
     </div>
     <div class="container">
         <div class="balance">
-
+            <div class="name">
+                <?php
+                if(!empty($_SESSION['user_id'])){
+                    echo "<H1>".$_SESSION['username']."</H1>";
+                }else echo "<h1>Welcome</h1>";
+                ?>
+            </div>
+            <div class="wallet">
+                <?php
+                    if(!empty($_SESSION['user_id'])){
+                        $id = $_SESSION['user_id'];
+                        $sql = "SELECT * FROM tb_user WHERE user_id = '$id';";
+                        $result = mysqli_query($conn,$sql);
+                        $arr = mysqli_fetch_array($result);
+                        echo "<h1>".$arr['wallet_balance']."</h1>";
+                    }
+                ?>
+            </div>
+            <?php
+                if(!empty($_SESSION['user_id'])){
+                    echo "<a href=''>Deposit</a><a href=''>Withdraw</a>";
+                }
+            ?>
         </div>
         <div class="quick"></div>
     </div>
