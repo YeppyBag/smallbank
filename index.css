@@ -7,5 +7,32 @@
     width: 900px;
     height: auto;
     margin: 0 auto;
-    border: 1px red solid;
+    border-radius: 10px;
+    display: flex;
+    padding: 10px;
+    background: #d5d5d5;
+}
+.container2{
+    width: 900px;
+    height: auto;
+    margin:0 auto;
+    background: #d5d5d5;
+}
+.nav{
+    background: white;
+    width: 900px;
+    height: auto;
+}
+.balance{
+    width: 300px;
+    height: 250px;
+    background: #686363;
+    border-radius: 10px;
+}
+.quick{
+    margin-left: 10px;
+    width: 600px;
+    height: 250px;
+    border-radius: 10px;
+    background: #686363;
 }

@@ -12,8 +12,16 @@
     <title>Small Bank</title>
 </head>
 <body>
+    <div class="container2">
+        <div class="nav">
+            <a href="">login</a>
+            <a href="">logout</a>
+        </div>
+    </div>
     <div class="container">
-        <div class="balance"></div>
+        <div class="balance">
+
+        </div>
         <div class="quick"></div>
     </div>
 </body>
