@@ -14,8 +14,8 @@
 <body>
     <div class="container2">
         <div class="nav">
-            <a href="">login</a>
-            <a href="">logout</a>
+            <a href="action/login.php">login</a>
+            <a href="action/logout.php">logout</a>
         </div>
     </div>
     <div class="container">
