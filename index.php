@@ -47,7 +47,7 @@ include("connect.inc.php");
             </div>
             <?php
                 if(!empty($_SESSION['user_id'])){
-                    echo "<a href='form/deposit.php'>Deposit</a><a href='form/withdraw.php'>Withdraw</a>";
+                    echo "<a href='form/deposit.php'>ฝากเงิน</a><a href='form/withdraw.php'>ถอนเงิน</a>";
                 }
             ?>
         </div>
