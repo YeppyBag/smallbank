@@ -14,16 +14,20 @@ include "../connect.inc.php";
 </head>
 <body>
 <form name="withdraw_money" method="post" action="../action/withdraw.php">
-    <div class="handle-message">
-        <?php if (isset($_GET['withdraw-handle'])) echo htmlspecialchars($_GET['withdraw-handle']); ?>
-    </div>
-    <div class="error-message">
-        <?php if (isset($_GET['withdraw-error'])) echo htmlspecialchars($_GET['withdraw-error']); ?>
-    </div>
+    <?php if (isset($_GET['withdraw-handle'])): ?>
+        <div class="handle-message">
+            <?php echo htmlspecialchars($_GET['withdraw-handle']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['withdraw-error'])): ?>
+        <div class="error-message">
+            <?php echo htmlspecialchars($_GET['withdraw-error']); ?>
+        </div>
+    <?php endif; ?>
     <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required><br>
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
-    <input type="submit" value="withdraw">
-    <input type="reset" value="cancel">
+    <input type="submit" value="ถอน">
 </form>
 </body>
 </html>

@@ -14,16 +14,20 @@ include "../connect.inc.php";
 </head>
 <body>
 <form name="deposit_money" method="post" action="../action/deposit.php">
-    <div class="handle-message">
-        <?php if (isset($_GET['deposit-handle'])) echo htmlspecialchars($_GET['deposit-handle']); ?>
-    </div>
-    <div class="error-message">
-        <?php if (isset($_GET['deposit-error'])) echo htmlspecialchars($_GET['deposit-error']); ?>
-    </div>
+    <?php if (isset($_GET['deposit-handle'])): ?>
+        <div class="handle-message">
+            <?php echo htmlspecialchars($_GET['deposit-handle']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['deposit-error'])): ?>
+        <div class="error-message">
+            <?php echo htmlspecialchars($_GET['deposit-error']); ?>
+        </div>
+    <?php endif; ?>
     <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required><br>
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
-    <input type="submit" value="deposit">
-    <input type="reset" value="cancel">
+    <input type="submit" value="ฝาก">
 </form>
 </body>
 </html>
