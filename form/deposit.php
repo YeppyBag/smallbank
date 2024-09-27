@@ -20,15 +20,15 @@ include "../connect.inc.php";
     <title>Deposit</title>
 </head>
 <body>
-<form name="deposit_money" method="post" action="../action/deposit.php">
+<form name="deposit_money" method="post" action="../action/money_transaction.php">
     <?php
     FeatureUtil::displayMessage('handle', $_GET['deposit-handle'] ?? null);
     FeatureUtil::displayMessage('error', $_GET['deposit-error'] ?? null);
     ?>
-    <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required><br>
+    <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required max="5000" min="0"><br>
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
+    <input type="hidden" value="3" name="transaction_type_id"> <!--  ถอนเงิน ใน tb_transaction_type 3 - deposit  -->
     <input type="submit" value="ฝาก">
-
 </form>
 </body>
 </html>

@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="container">
-        <form action="../action/transfer.php" method="POST">
+        <form action="../action/money_transaction.php" method="POST">
             <input type="text" name="receiver" placeholder="Receiver Username"><br>
             <input type="number" name="balance" placeholder="Amount"><br>
             <input type="hidden" name="sender" value="<?php echo $_SESSION['user_id']?>">

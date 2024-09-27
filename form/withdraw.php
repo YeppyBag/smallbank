@@ -20,15 +20,15 @@ include "../common/FeatureUtil.php";
     <title>Withdraw</title>
 </head>
 <body>
-<form name="withdraw_money" method="post" action="../action/withdraw.php">
+<form name="withdraw_money" method="post" action="../action/money_transaction.php">
     <?php
     FeatureUtil::displayMessage('handle', $_GET['withdraw-handle'] ?? null);
     FeatureUtil::displayMessage('error', $_GET['withdraw-error'] ?? null);
     ?>
     <input type="number" name="amount" placeholder="ใส่จำนวนเงิน" required><br>
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
+    <input type="hidden" value="4" name="transaction_type_id"> <!--  ถอนเงิน ใน tb_transaction_type 4 - withdraw  -->
     <input type="submit" value="ถอน">
-
 </form>
 </body>
 </html>

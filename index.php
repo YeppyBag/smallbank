@@ -1,8 +1,8 @@
 <?php
 
-use common\Wallet;
+use common\User;
 
-include "common/Wallet.php";
+include "common/User.php";
 include("connect.inc.php");
 ?>
 <!doctype html>
@@ -40,8 +40,8 @@ include("connect.inc.php");
                 <?php
                     if(!empty($_SESSION['user_id'])){
                         $id = $_SESSION['user_id'];
-                        $wallet = new Wallet($conn, $id);
-                        echo "<h1>" . $wallet->getBalance() . "</h1>";
+                        $user = new User($conn, $id);
+                        echo "<h1>" . $user->getWalletBalance() . "</h1>";
                     }
                 ?>
             </div>
