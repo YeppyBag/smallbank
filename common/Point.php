@@ -2,7 +2,6 @@
 
 namespace common;
 
-class Point
-{
+class Point {
 
 }
