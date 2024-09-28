@@ -12,16 +12,21 @@ class Fee {
 
     public function getFeeByAmount($amount) {
         $query = "SELECT fee_percentage FROM {$this->table_name} 
-                  WHERE amount_min <= $amount AND amount_max >= $amount";
+                  WHERE amount_min <= $amount AND amount_max >= $amount AND fee_id != 5";
 
         $result = mysqli_query($this->conn, $query);
-        if (!$result) {
-            die("Query failed: " . mysqli_error($this->conn));
-        }
+        if (!$result) die("Query failed: " . mysqli_error($this->conn));
+        if ($row = mysqli_fetch_assoc($result)) return $row['fee_percentage'];
 
-        if ($row = mysqli_fetch_assoc($result)) {
-            return $row['fee_percentage'];
-        }
+        return null;
+    }
+    public function getSenderFee() {
+        $query = "SELECT fee_percentage FROM {$this->table_name}
+        WHERE fee_id = 5";
+
+        $result = mysqli_query($this->conn, $query);
+        if (!$result) die("Query failed: " . mysqli_error($this->conn));
+        if ($row = mysqli_fetch_assoc($result)) return $row['fee_percentage'];
 
         return null;
     }
