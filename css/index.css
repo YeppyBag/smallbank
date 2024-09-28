@@ -96,7 +96,7 @@ body {
 }
 .transaction {
     padding: 10px;
-    height: 530px;
+    height: 600px;
     width: 100%;
     overflow-y: auto;
     background: white;
@@ -230,7 +230,7 @@ table tr td {
         width: 95%;
     }
 
-    .left, .right {
+    .left, .right, .transaction {
         flex: 1 1 100%;
         min-width: auto;
     }
