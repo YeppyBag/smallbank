@@ -67,12 +67,15 @@ class Transaction {
         return "ล้มเหลว";
     }
 
-    public function getTransactionById($id) {
+    public function getTransactionById($id): ?array {
         $query = "SELECT * FROM {$this->table_name} WHERE transaction_id = $id";
         return $this->fetchQuery($query);
     }
-
-    public function getAllTransactions() {
+    public function getTransactionByUserId($user_id): ?array {
+        $query = "SELECT * FROM {$this->table_name} WHERE user_id = $user_id";
+        return $this->fetchQuery($query);
+    }
+    public function getAllTransactions(): ?array {
         $query = "SELECT * FROM {$this->table_name}";
         return $this->fetchQuery($query);
     }

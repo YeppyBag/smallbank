@@ -1,5 +1,6 @@
 <?php
 
+use common\Transaction;
 use common\User;
 
 include("connect.inc.php");
@@ -73,41 +74,42 @@ require_once "common/User.php";
     </div>
     <div class="transac">
         <div class="document">
-            <!--            if (!empty($_SESSION['user_id'])) {-->
-            <!--                include "connect.inc.php";-->
-            <!--                $transaction = new Transaction($conn, $_SESSION['user_id']);-->
-            <!--                $transactionData = $transaction->getTransactionByUserId($_SESSION['user_id']);-->
-            <!--                // ตรวจสอบว่ามีธุรกรรมหรือไม่-->
-            <!--                if (!empty($transactionData)) {-->
-            <!--                    echo "<table border='1'>";-->
-            <!--                    echo "<tr>-->
-            <!--            <th>Transaction ID</th>-->
-            <!--            <th>User ID</th>-->
-            <!--            <th>Transaction Type ID</th>-->
-            <!--            <th>Amount</th>-->
-            <!--            <th>Fee</th>-->
-            <!--            <th>Recipient User ID</th>-->
-            <!--            <th>Created At</th>-->
-            <!--          </tr>";-->
-            <!---->
-            <!--                    // ใช้ foreach เพื่อแสดงข้อมูลธุรกรรม-->
-            <!--                    foreach ($transactionData as $transaction) {-->
-            <!--                        echo "<tr>-->
-            <!--                <td>{$transaction['transaction_id']}</td>-->
-            <!--                <td>{$transaction['user_id']}</td>-->
-            <!--                <td>{$transaction['transaction_type_id']}</td>-->
-            <!--                <td>{$transaction['amount']}</td>-->
-            <!--                <td>{$transaction['fee']}</td>-->
-            <!--                <td>{$transaction['recipient_user_id']}</td>-->
-            <!--                <td>{$transaction['created_at']}</td>-->
-            <!--              </tr>";-->
-            <!--                    }-->
-            <!---->
-            <!--                    echo "</table>";-->
-            <!--                } else {-->
-            <!--                    echo "ไม่มีข้อมูลธุรกรรม";-->
-            <!--                }-->
-            <!--            }-->
+            <?php
+            if (!empty($_SESSION['user_id'])) {
+                $transaction = new Transaction($conn, $_SESSION['user_id']);
+                $transactionData = $transaction->getTransactionByUserId($_SESSION['user_id']);
+                // ตรวจสอบว่ามีธุรกรรมหรือไม่
+                if (!empty($transactionData)) {
+                    echo "<table border='1'>";
+                    echo "<tr>
+                        <th>Transaction ID</th>
+                        <th>User ID</th>
+                        <th>Transaction Type ID</th>
+                        <th>Amount</th>
+                        <th>Fee</th>
+                        <th>Recipient User ID</th>
+                        <th>Created At</th>
+                      </tr>";
+
+                    // ใช้ foreach เพื่อแสดงข้อมูลธุรกรรม
+                    foreach ($transactionData as $transaction) {
+                        echo "<tr>
+                            <td>{$transaction['transaction_id']}</td>
+                            <td>{$transaction['user_id']}</td>
+                            <td>{$transaction['transaction_type_id']}</td>
+                            <td>{$transaction['amount']}</td>
+                            <td>{$transaction['fee']}</td>
+                            <td>{$transaction['recipient_user_id']}</td>
+                            <td>{$transaction['created_at']}</td>
+                          </tr>";
+                    }
+
+                    echo "</table>";
+                } else {
+                    echo "ไม่มีข้อมูลธุรกรรม";
+                }
+            }
+            ?>
         </div>
     </div>
 
