@@ -14,8 +14,9 @@ require_once "common/User.php";
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/profile.css">
     <title>Small Bank</title>
 </head>
 
@@ -26,6 +27,7 @@ require_once "common/User.php";
             if (!isset($_SESSION['user_id'])) {
                 echo "<a href='form/login.php'>SIGN UP / LOG IN</a>";
             } else {
+                $user = new User($conn, $_SESSION['user_id']);
                 echo "<div class='dropdown'>";
                 echo "<a href='#' class='dropbtn'>Profile</a>";
                 echo "<div class='dropdown-content'>";
@@ -39,7 +41,9 @@ require_once "common/User.php";
         <div class="frame"></div>
         <div class="containerLR">
             <div class="left">
-                <div class="profile"></div>
+                <div class="profile">
+                    <div class="profile-image" style="background-image: url('<?php echo $user->getProfile(); ?>');"></div>
+                </div>
                 <div class="balance">
                     <div class="name">
                         <div class="current">
@@ -71,6 +75,7 @@ require_once "common/User.php";
                 <div class="option">
                     <button onclick="window.open('form/deposit.php', '_blank');">ฝากเงิน</button>
                     <button onclick="window.open('form/withdraw.php', '_blank');">ถอน</button>
+                    <button onclick="window.open('form/transfer.php', '_blank');">โอนเงิน</button>
                 </div>
             </div>
             <div class="right">
