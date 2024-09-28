@@ -29,6 +29,7 @@ include "../connect.inc.php";
     <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
     <input type="hidden" value="3" name="transaction_type_id"> <!--  ถอนเงิน ใน tb_transaction_type 3 - deposit  -->
     <input type="submit" value="ฝาก">
+    <button >ยกเลิก</button>
 </form>
 </body>
 </html>

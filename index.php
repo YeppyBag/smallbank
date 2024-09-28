@@ -16,12 +16,15 @@ require_once "common/User.php";
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/index.css">
-
+    <script src="script/index.js"></script>
     <title>Small Bank</title>
 </head>
 
 <body>
     <div class="container">
+        <dialog id="iframe-dialog">
+            <iframe src="form/deposit.php" frameborder="0"></iframe>
+        </dialog>
         <div class="nav">
             <?php
             if (!empty($_SESSION['user_id'])) {
@@ -31,6 +34,7 @@ require_once "common/User.php";
             }
             ?>
         </div>
+        <div class="frame"></div>
         <div class="containerLR">
             <div class="left">
                 <div class="profile"></div>
