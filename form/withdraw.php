@@ -5,12 +5,11 @@ include "../connect.inc.php";
 include "../common/FeatureUtil.php";
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/deposit.css">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'false' : 'true'; ?>" />
@@ -20,7 +19,7 @@ include "../common/FeatureUtil.php";
 </head>
 <body>
 <div class="container">
-    <h2>Withdraw Funds</h2>
+    <h2>ถอนเงิน</h2>
     <form name="withdraw_money" method="post" action="../action/money_transaction.php" onsubmit="confirmAction(event, 'Withdraw')">
         <?php
         FeatureUtil::displayMessage('handle', $_GET['withdraw-handle'] ?? null);
@@ -29,7 +28,7 @@ include "../common/FeatureUtil.php";
         <input type="number" name="amount" placeholder="Enter Amount" required>
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="4" name="transaction_type_id"> <!--  Withdraw in tb_transaction_type 4 -->
-        <input type="submit" value="Withdraw">
+        <input type="submit" value="ถอน">
     </form>
 </div>
 </body>
