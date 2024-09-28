@@ -1,5 +1,5 @@
 .profile {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     margin: 20px;
@@ -17,5 +17,24 @@
 }
 
 .profile-image:hover {
-    transform: scale(1.05); /* Slightly enlarge the image on hover */
+    transform: scale(1.05);
+}
+
+
+@media (max-width: 768px) {
+    .profile-image {
+        width: 30vw;
+        height: 30vw;
+        z-index: 2;
+        position: absolute;
+        top: 15vw; left:35vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-image {
+        width: 30vw;
+        height: 30vw;
+        top: 25vw; left:35vw;
+    }
 }
