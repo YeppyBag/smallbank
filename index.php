@@ -51,8 +51,8 @@ require_once "common/User.php";
                 }
                 ?>
             </div>
-            <button onclick="Iframe(1)">ฝากเงิน</button>
-            <button onclick="Iframe(2)">ถอน</button>
+            <button onclick="Iframe('form/deposit.php')">ฝากเงิน</button>
+            <button onclick="Iframe('form/withdraw.php')">ถอน</button>
         </div>
         <div class="quick">
             <?php //TODO: Iframe ใน หน้า index ดูไม่ค่อย work ต้อง คอย refresh เพื่อให้ update element ?>
@@ -109,15 +109,8 @@ require_once "common/User.php";
 
     </div>
     <script>
-        function Iframe(page) {
-            switch (page) {
-                case 1: document.getElementById("iframe").src = "form/deposit.php";
-                    break;
-                case 2: document.getElementById("iframe").src = "form/withdraw.php";
-                    break;
-                default:
-                    break;
-            }
+        function Iframe(select) {
+            document.getElementById("iframe").src = select;
         }
     </script>
 </body>
