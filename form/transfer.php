@@ -11,13 +11,14 @@ require_once "../common/User.php";
 <html lang="th">
 <head>
     <link rel="stylesheet" href="../css/redirect.css">
-    <link rel="stylesheet" href="../css/transfer.css"> <!-- New CSS for Transfer form -->
-    <link rel="stylesheet" href="../css/profile.css"> <!-- New CSS for Transfer form -->
-    <link rel="stylesheet" href="../css/nav.css"> <!-- New CSS for Transfer form -->
+    <link rel="stylesheet" href="../css/transfer.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="../css/nav.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'false' : 'true'; ?>"/>
-    <script src="../script/login.js"></script>
+    <script src="../script/Login.js"></script>
     <title>Transfer</title>
 </head>
 <body>
@@ -31,7 +32,8 @@ $user = new User($conn, $_SESSION['user_id']);
     <h2>Transfer Money</h2>
     <div class="user-info">
         <div class="profile">
-            <div class="profile-image" style="background-image: url('<?php echo "../". $user->getProfile(); ?>');"></div>
+            <div class="profile-image"
+                 style="background-image: url('<?php echo "../" . $user->getProfile(); ?>');"></div>
         </div>
         <p class="user-name"><?php echo $user->getUsername(); ?></p>
     </div>

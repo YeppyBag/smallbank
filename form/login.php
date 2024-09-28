@@ -13,7 +13,7 @@ session_start();
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/pinkbutton.css">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>"/>
-    <script src="../script/login.js"></script>
+    <script src="../script/Login.js"></script>
     <title>Sign Up / Login</title>
 </head>
 <body>
