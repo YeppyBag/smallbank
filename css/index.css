@@ -186,15 +186,6 @@ body {
     transform: translateY(-2px);
 }
 
-dialog {
-    margin: 20px auto;
-    border: 2px #d87f81 solid;
-    border-radius: 10px;
-    box-shadow: 0 0 8px 0 #eab595;
-    padding: 10px;
-    animation: fadeIn 0.3s;
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -218,18 +209,6 @@ table tr td {
 
 .two {
     background: rgb(142, 139, 139);
-}
-
-dialog button {
-    border: none;
-    background: white;
-    color: red;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-dialog button:hover {
-    background: #eab595;
 }
 
 .dropdown {

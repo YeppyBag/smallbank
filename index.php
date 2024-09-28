@@ -16,16 +16,11 @@ require_once "common/User.php";
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/index.css">
-    <script src="script/index.js" defer></script>
     <title>Small Bank</title>
 </head>
 
 <body>
     <div class="container">
-        <dialog id="iframe-dialog">
-            <button onclick="closeIframe()">X</button><br>
-            <iframe id="iframe-content"></iframe>
-        </dialog>
         <div class="nav">
             <?php
             if (!isset($_SESSION['user_id'])) {
@@ -41,7 +36,6 @@ require_once "common/User.php";
             }
             ?>
         </div>
-
         <div class="frame"></div>
         <div class="containerLR">
             <div class="left">
@@ -75,9 +69,8 @@ require_once "common/User.php";
                     </div>
                 </div>
                 <div class="option">
-                    <button onclick="Iframe('form/deposit.php')">ฝากเงิน</button>
-                    <button onclick="Iframe('form/withdraw.php')">ถอน</button>
-
+                    <button onclick="window.open('form/deposit.php', '_blank');">ฝากเงิน</button>
+                    <button onclick="window.open('form/withdraw.php', '_blank');">ถอน</button>
                 </div>
             </div>
             <div class="right">
