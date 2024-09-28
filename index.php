@@ -23,8 +23,9 @@ require_once "common/User.php";
 <body>
     <div class="container">
         <dialog id="iframe-dialog">
-            <iframe id="iframe-content" width="100%" height="400px"></iframe>
-            <button onclick="closeIframe()">Close</button>
+            <a class="x"href="">X</a><br>
+            <iframe id="iframe-content"></iframe>
+
         </dialog>
         <div class="nav">
             <?php
