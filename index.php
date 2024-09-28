@@ -73,9 +73,9 @@ require_once "common/User.php";
                     </div>
                 </div>
                 <div class="option">
-                    <button onclick="window.open('form/deposit.php', '_blank');">ฝากเงิน</button>
-                    <button onclick="window.open('form/withdraw.php', '_blank');">ถอน</button>
-                    <button onclick="window.open('form/transfer.php', '_blank');">โอนเงิน</button>
+                    <button onclick="window.location.href='form/deposit.php';">ฝากเงิน</button>
+                    <button onclick="window.location.href='form/withdraw.php';">ถอน</button>
+                    <button onclick="window.location.href='form/transfer.php';">โอนเงิน</button>
                 </div>
             </div>
             <div class="right">
