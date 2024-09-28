@@ -99,6 +99,10 @@ class Transaction {
         $query = "SELECT * FROM {$this->table_name} WHERE user_id = $user_id";
         return $this->fetchQuery($query);
     }
+    public function getTransactionByUserIdOrderBy($user_id,$order): ?array {
+        $query = "SELECT * FROM {$this->table_name} WHERE user_id = $user_id ORDER BY $order";
+        return $this->fetchQuery($query);
+    }
     public function getAllTransactions(): ?array {
         $query = "SELECT * FROM {$this->table_name}";
         return $this->fetchQuery($query);
