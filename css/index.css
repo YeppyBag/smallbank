@@ -11,7 +11,8 @@ body {
 
 .container {
     padding: 10px;
-    width: 50%;
+    width: 100%;
+    max-width: 1200px;
     height: auto;
     margin: 10px auto;
     background: linear-gradient(to bottom, #eab595, #d87f81, #ae6378);
@@ -26,6 +27,8 @@ body {
     flex-wrap: wrap;
     height: 100%;
     gap: 10px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .left {
@@ -33,12 +36,13 @@ body {
     flex: 1;
     min-width: 300px;
 }
+
 .right {
     padding: 10px;
     flex: 1;
-    min-width: 700px;
+    min-width: 100%;
+    overflow: auto;
 }
-
 .balance {
     padding: 20px;
     width: 100%;
@@ -80,6 +84,7 @@ body {
 .balance h1 {
     margin-bottom: 5px;
 }
+
 .balance p {
     color: darkgray;
     margin: 5px;
@@ -94,6 +99,7 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
+
 .transaction {
     padding: 10px;
     height: 600px;
@@ -117,7 +123,6 @@ body {
 .transaction::-webkit-scrollbar-track {
     background: #f0f0f0;
 }
-
 
 .balance:hover, .option:hover, .transaction:hover {
     transform: translateY(-5px);
@@ -159,11 +164,38 @@ body {
 }
 
 table {
-    border-radius: 5px;
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 table th {
-    border-radius: 5px;
+    background: linear-gradient(to bottom, #eab595, #d87f81);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 2px solid #ae6378;
+    border-collapse: collapse;
+}
+
+table tr {
+    transition: background 0.3s ease;
+}
+
+table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+table tr:hover {
+    background: rgba(231, 127, 129, 0.2);
 }
 
 table tr td {
@@ -208,7 +240,7 @@ table tr td {
 
 .dropdown:hover .dropdown-content {
     display: block;
-    opacity: 1; 
+    opacity: 1;
     transform: translateY(0);
 }
 
@@ -226,13 +258,17 @@ table tr td {
 }
 
 @media (max-width: 768px) {
+    table th, table td {
+        padding: 10px;
+        font-size: 14px;
+    }
     .container {
         width: 95%;
     }
 
     .left, .right, .transaction {
         flex: 1 1 100%;
-        min-width: auto;
+        min-width: 100%;
     }
 
     .profile {
@@ -249,10 +285,5 @@ table tr td {
 @media (max-width: 480px) {
     .option {
         flex-direction: column;
-    }
-}
-@media (max-width: 1920px){
-    .transaction{
-        width: 76%;
     }
 }
