@@ -33,16 +33,17 @@ body {
 
 .left {
     padding: 10px;
-    flex: 1;
+    flex: 1 1 10%;
     min-width: 300px;
 }
 
 .right {
     padding: 10px;
-    flex: 1;
-    min-width: 100%;
+    flex: 1 1 50%;
+    min-width: 300px;
     overflow: auto;
 }
+
 .balance {
     padding: 20px;
     width: 100%;
@@ -62,6 +63,7 @@ body {
 .balance .current h3 {
     font-size: 24px;
     color: #333;
+    padding-bottom: 10px;
 }
 
 .balance .username h4 {
@@ -69,7 +71,7 @@ body {
 }
 
 .balance .wallet h1 {
-    font-size: 36px;
+    font-size: 32px;
     margin: 10px 0;
     padding-right: 10px;
 }
@@ -102,7 +104,7 @@ body {
 
 .transaction {
     padding: 10px;
-    height: 600px;
+    height: 602px;
     width: 100%;
     overflow-y: auto;
     background: white;

@@ -53,7 +53,7 @@ require_once "common/User.php";
                         <div class="username">
                             <?php
                             if (!empty($_SESSION['user_id'])) {
-                                echo "<H4>" . $_SESSION['username'] . "</H4>";
+                                echo "<h3>" . $_SESSION['username'] . "</h3>";
                             } else
                                 echo "";
                             ?>
