@@ -23,7 +23,7 @@ require_once "common/User.php";
 <body>
     <div class="container">
         <dialog id="iframe-dialog">
-            <a class="x"href="">X</a><br>
+            <button onclick="closeIframe()">X</button><br>
             <iframe id="iframe-content"></iframe>
 
         </dialog>
@@ -63,6 +63,8 @@ require_once "common/User.php";
                             echo "<h1>฿" . $user->getWalletBalance() . "</h1>";
                         }
                         ?>
+                        <span class="line"></span><br>
+                        <h1>P:0</h1>
                     </div>
                 </div>
                 <div class="option">
@@ -101,6 +103,7 @@ require_once "common/User.php";
                             <td>{$transaction['recipient_user_id']}</td>
                             <td>{$transaction['created_at']}</td>
                           </tr>";
+
                             }
 
                             echo "</table>";
