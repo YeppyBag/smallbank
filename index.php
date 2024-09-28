@@ -21,7 +21,7 @@ require_once "common/User.php";
 </head>
 
 <body>
-    <div class="container2">
+    <div class="container">
         <div class="nav">
             <?php
             if (!empty($_SESSION['user_id'])) {
@@ -31,51 +31,49 @@ require_once "common/User.php";
             }
             ?>
         </div>
-    </div>
-    <div class="container">
-        <div class="balance">
-            <div class="name">
-                <?php
-                if (!empty($_SESSION['user_id'])) {
-                    echo "<H1>" . $_SESSION['username'] . "</H1>";
-                } else
-                    echo "<h1>Welcome</h1>";
-                ?>
+        <div class="containerLR">
+            <div class="left">
+                <div class="profile"></div>
+                <div class="balance">
+                    <div class="name">
+                        <div class="current">
+                            <h3>Balance</h3>
+                        </div>
+                        <div class="username">
+                            <?php
+                            if (!empty($_SESSION['user_id'])) {
+                                echo "<H4>" . $_SESSION['username'] . "</H4>";
+                            } else
+                                echo "";
+                            ?>
+                        </div>
+                    </div>
+                    <span class="line"></span>
+                    <div class="wallet">
+                        <?php
+                        if (!empty($_SESSION['user_id'])) {
+                            $id = $_SESSION['user_id'];
+                            $user = new User($conn, $id);
+                            echo "<h1>฿" . $user->getWalletBalance() . "</h1>";
+                        }
+                        ?>
+                    </div>
+                </div>
+                <div class="option">
+                    <button onclick="Iframe('form/deposit.php')">ฝากเงิน</button>
+                    <button onclick="Iframe('form/withdraw.php')">ถอน</button>
+                </div>
             </div>
-            <div class="wallet">
-                <?php
-                if (!empty($_SESSION['user_id'])) {
-                    $id = $_SESSION['user_id'];
-                    $user = new User($conn, $id);
-                    echo "<h1>" . $user->getWalletBalance() . "</h1>";
-                }
-                ?>
-            </div>
-            <button onclick="Iframe('form/deposit.php')">ฝากเงิน</button>
-            <button onclick="Iframe('form/withdraw.php')">ถอน</button>
-        </div>
-        <div class="quick">
-            <?php //TODO: Iframe ใน หน้า index ดูไม่ค่อย work ต้อง คอย refresh เพื่อให้ update element ?>
-            <div class="name">
-                <?php
-                if (!empty($_SESSION['nameIframe'])) {
-                    echo "<h1>" . $_SESSION['nameIframe'] . "</h1>";
-                } else
-                    echo "";
-                ?>
-            </div>
-            <iframe id="iframe" src="" frameborder="0"></iframe>
-        </div>
-        <div class="transac">
-            <div class="document">
-                <?php
-                if (!empty($_SESSION['user_id'])) {
-                    $transaction = new Transaction($conn, $_SESSION['user_id']);
-                    $transactionData = $transaction->getTransactionByUserId($_SESSION['user_id']);
-                    // ตรวจสอบว่ามีธุรกรรมหรือไม่
-                    if (!empty($transactionData)) {
-                        echo "<table border='1'>";
-                        echo "<tr>
+            <div class="right">
+                <div class="transaction">
+                    <?php
+                    if (!empty($_SESSION['user_id'])) {
+                        $transaction = new Transaction($conn, $_SESSION['user_id']);
+                        $transactionData = $transaction->getTransactionByUserId($_SESSION['user_id']);
+                        // ตรวจสอบว่ามีธุรกรรมหรือไม่
+                        if (!empty($transactionData)) {
+                            echo "<table border='1'>";
+                            echo "<tr>
                         <th>Transaction ID</th>
                         <th>User ID</th>
                         <th>Transaction Type ID</th>
@@ -85,9 +83,9 @@ require_once "common/User.php";
                         <th>Created At</th>
                       </tr>";
 
-                        // ใช้ foreach เพื่อแสดงข้อมูลธุรกรรม
-                        foreach ($transactionData as $transaction) {
-                            echo "<tr>
+                            // ใช้ foreach เพื่อแสดงข้อมูลธุรกรรม
+                            foreach ($transactionData as $transaction) {
+                                echo "<tr>
                             <td>{$transaction['transaction_id']}</td>
                             <td>{$transaction['user_id']}</td>
                             <td>{$transaction['transaction_type_id']}</td>
@@ -96,23 +94,18 @@ require_once "common/User.php";
                             <td>{$transaction['recipient_user_id']}</td>
                             <td>{$transaction['created_at']}</td>
                           </tr>";
-                        }
+                            }
 
-                        echo "</table>";
-                    } else {
-                        echo "ไม่มีข้อมูลธุรกรรม";
+                            echo "</table>";
+                        } else {
+                            echo "ไม่มีข้อมูลธุรกรรม";
+                        }
                     }
-                }
-                ?>
+                    ?>
+                </div>
             </div>
         </div>
-
     </div>
-    <script>
-        function Iframe(select) {
-            document.getElementById("iframe").src = select;
-        }
-    </script>
 </body>
 
 </html>
