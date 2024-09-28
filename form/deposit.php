@@ -22,7 +22,7 @@ include "../connect.inc.php";
 <body>
 <div class="container">
     <h2>ฝากเงิน</h2>
-    <form name="deposit_money" method="post" action="../action/money_transaction.php" onsubmit="confirmDeposit(event)">
+    <form name="deposit_money" method="post" action="confirm_deposit.php" onsubmit="confirmDeposit(event)">
         <?php
         $user_id = $_SESSION['user_id'];
         FeatureUtil::displayMessage('handle', $_GET['deposit-handle'] ?? null);

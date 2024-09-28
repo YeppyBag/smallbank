@@ -35,7 +35,7 @@ $user = new User($conn, $_SESSION['user_id']);
         </div>
         <p class="user-name"><?php echo $user->getUsername(); ?></p>
     </div>
-    <form name="transfer_money" method="POST" action="../action/money_transaction.php">
+    <form name="transfer.php" method="POST" action="confirm_transfer.php">
         <?php
         FeatureUtil::displayMessage('handle', $_GET['transfer-handle'] ?? null);
         FeatureUtil::displayMessage('error', $_GET['transfer-error'] ?? null);

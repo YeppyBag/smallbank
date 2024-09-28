@@ -20,7 +20,7 @@ include "../common/FeatureUtil.php";
 <body>
 <div class="container">
     <h2>ถอนเงิน</h2>
-    <form name="withdraw_money" method="post" action="../action/money_transaction.php" onsubmit="confirmAction(event, 'Withdraw')">
+    <form name="withdraw_money" method="post" action="confirm_withdraw.php" onsubmit="confirmAction(event, 'Withdraw')">
         <?php
         FeatureUtil::displayMessage('handle', $_GET['withdraw-handle'] ?? null);
         FeatureUtil::displayMessage('error', $_GET['withdraw-error'] ?? null);
