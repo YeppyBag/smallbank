@@ -2,16 +2,18 @@
 
 namespace common;
 
+require_once "Fee.php";
+
 class Transaction {
     private $conn;
     private $table_name = "tb_transaction"; // ชื่อของตาราง
     private Fee $fee;
     private User $user;
 
-    public function __construct($conn,$user_id) {
+    public function __construct($conn, $userID) {
         $this->conn = $conn;
         $this->fee = new Fee($this->conn);
-        $this->user = new User($this->conn,$user_id);
+        $this->user = new User($this->conn, $userID);
     }
 
     public function save($user_id, $transaction_type_id, $amount, $fee, $recipient_user_id = null) {
@@ -49,7 +51,7 @@ class Transaction {
     public function withdraw($amount) {
         if ($amount > $this->user->getWalletBalance())
             return "เงินในบัญชีไม่เพียงพอ";
-        if ($this->save($this->user->getUserId(), 4, $amount,0)) {//ไม่เสียค่าทำเนียม
+        if ($this->save($this->user->getUserId(), 4, $amount,0)) {//ไม่เสียค่าทำเนียม 4 ถอนเงิน
             $newBalance = $this->withdrawToUserWallet($this->user->getUserId(), $amount);
             return "ถอนเงินสำเร็จ ยอดเงินคงเหลือ: " . $newBalance;
         }
@@ -67,10 +69,6 @@ class Transaction {
 
     public function getTransactionById($id) {
         $query = "SELECT * FROM {$this->table_name} WHERE transaction_id = $id";
-        return $this->fetchQuery($query);
-    }
-    public function getTransactionByUserId($user_id) {
-        $query = "SELECT * FROM {$this->table_name} WHERE user_id = $user_id";
         return $this->fetchQuery($query);
     }
 

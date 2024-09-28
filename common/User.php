@@ -3,6 +3,7 @@
 namespace common;
 
 class User {
+    private string $table_name = 'tb_user';
     private $conn;
     private $userId;
     private $walletBalance;
@@ -14,7 +15,7 @@ class User {
     }
 
     public function initWalletBalance() {
-        $sql = "SELECT wallet_balance FROM tb_user WHERE user_id = $this->userId";
+        $sql = "SELECT wallet_balance FROM {$this->table_name} WHERE user_id = $this->userId";
         $result = $this->conn->query($sql);
         if ($row = mysqli_fetch_assoc($result)) {
             $this->walletBalance = $row['wallet_balance'];
