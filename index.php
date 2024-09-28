@@ -25,17 +25,23 @@ require_once "common/User.php";
         <dialog id="iframe-dialog">
             <button onclick="closeIframe()">X</button><br>
             <iframe id="iframe-content"></iframe>
-
         </dialog>
         <div class="nav">
             <?php
-            if (!empty($_SESSION['user_id'])) {
-                echo "<a href='action/logout.php'>logout</a>";
+            if (!isset($_SESSION['user_id'])) {
+                echo "<a href='form/login.php'>SIGN UP / LOG IN</a>";
             } else {
-                echo "<a href='form/login.php'>login</a>";
+                echo "<div class='dropdown'>";
+                echo "<a href='#' class='dropbtn'>Profile</a>";
+                echo "<div class='dropdown-content'>";
+                echo "<a href='form/setting.php'>Setting</a>";
+                echo "<a href='action/logout.php'>Logout</a>";
+                echo "</div>";
+                echo "</div>";
             }
             ?>
         </div>
+
         <div class="frame"></div>
         <div class="containerLR">
             <div class="left">
@@ -44,6 +50,7 @@ require_once "common/User.php";
                     <div class="name">
                         <div class="current">
                             <h3>Balance</h3>
+                            <p>Avalible</p>
                         </div>
                         <div class="username">
                             <?php
@@ -60,7 +67,7 @@ require_once "common/User.php";
                         if (!empty($_SESSION['user_id'])) {
                             $id = $_SESSION['user_id'];
                             $user = new User($conn, $id);
-                            echo "<h1>฿" . $user->getWalletBalance() . "</h1>";
+                            echo "<h1>฿ " . $user->getWalletBalance() . "</h1>";
                         }
                         ?>
                         <span class="line"></span><br>

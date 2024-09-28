@@ -11,23 +11,18 @@ body {
 
 .container {
     padding: 10px;
-    width: 1100px;
-    height: 610px;
+    width: 50%;
+    height: auto;
     margin: 10px auto;
     background: linear-gradient(to bottom, #eab595, #d87f81, #ae6378);
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.container:hover {
-    transform: scale(1.02);
 }
 
 .nav {
     padding: 5px;
     width: 100%;
-    height: 30px;
+    height: auto;
     background: white;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -49,31 +44,28 @@ body {
 .containerLR {
     padding: 10px;
     margin: 10px 0;
-    width: 100%;
-    height: 420px;
     display: flex;
+    flex-wrap: wrap;
+    height: 100%;
     gap: 10px;
 }
 
 .left {
     padding: 10px;
-    width: 500px;
-    height: 400px;
+    flex: 1;
+    min-width: 300px;
 }
-
 .right {
     padding: 10px;
-    width: 900px;
-    height: 545px;
+    flex: 1;
+    min-width: 700px;
 }
 
 .profile {
-    margin: 0 auto;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
     width: 150px;
     height: 150px;
-    background: url(https://pixahive.com/wp-content/uploads/2020/12/Night-view-of-moon-225849-pixahive.jpg) no-repeat;
-    background-position: center;
+    background: url(https://pixahive.com/wp-content/uploads/2020/12/Night-view-of-moon-225849-pixahive.jpg) no-repeat center;
     background-size: cover;
     border: 1px red solid;
     border-radius: 50%;
@@ -84,26 +76,85 @@ body {
     transform: scale(1.1);
 }
 
-.balance, .option {
+.balance {
+    padding: 20px;
+    width: 100%;
+    height: auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.balance .name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance .current h3 {
+    font-size: 24px;
+    color: #333;
+}
+
+.balance .username h4 {
+    font-size: 28px;
+}
+
+.balance .wallet h1 {
+    font-size: 36px;
+    margin: 10px 0;
+    padding-right: 10px;
+}
+
+.balance .wallet .line {
+    width: 100%;
+    height: 2px;
+    background: #e0e0e0;
+    margin: 10px 0;
+}
+
+.balance h1 {
+    margin-bottom: 5px;
+}
+.balance p {
+    color: darkgray;
+    margin: 5px;
+}
+
+.option {
     padding: 10px;
     width: 100%;
+    height: auto;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+.transaction {
+    padding: 10px;
+    height: 530px;
+    width: 100%;
+    overflow-y: auto;
     background: white;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
-.transaction {
-    height: 100%;
-    text-align: center;
-    overflow: auto;
-    padding: 10px;
-    width: 100%;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+.transaction::-webkit-scrollbar {
+    width: 8px;
 }
+
+.transaction::-webkit-scrollbar-thumb {
+    background-color: #ae6378;
+    border-radius: 10px;
+}
+
+.transaction::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
 
 .balance:hover, .option:hover, .transaction:hover {
     transform: translateY(-5px);
@@ -111,25 +162,14 @@ body {
 
 .option {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
-    height: 195px;
-}
-
-.name {
-    display: flex;
-    justify-content: space-between;
-}
-
-.line {
-    width: 100%;
-    height: 1px;
-    background: rgb(174, 174, 174);
-    display: inline-block;
 }
 
 .option button {
-    width: 70px;
+    width: 100%;
+    max-width: 70px;
     height: 41px;
     border: none;
     padding: 10px;
@@ -147,7 +187,7 @@ body {
 }
 
 dialog {
-    margin: 200px auto;
+    margin: 20px auto;
     border: 2px #d87f81 solid;
     border-radius: 10px;
     box-shadow: 0 0 8px 0 #eab595;
@@ -162,11 +202,6 @@ dialog {
     to {
         opacity: 1;
     }
-}
-
-iframe {
-    height: 200px;
-    border: none;
 }
 
 table {
@@ -195,4 +230,86 @@ dialog button {
 
 dialog button:hover {
     background: #eab595;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: black;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.dropbtn:hover {
+    color: #d87f81;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1; /
+    transform: translateY(0);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.3s;
+    border-radius: 8px;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .left, .right {
+        flex: 1 1 100%;
+        min-width: auto;
+    }
+
+    .profile {
+        width: 100px;
+        height: 100px;
+    }
+
+    .option button {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav a {
+        margin: 2px 5px;
+    }
+
+    .option {
+        flex-direction: column;
+    }
 }
