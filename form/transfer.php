@@ -37,25 +37,35 @@ $user = new User($conn, $_SESSION['user_id']);
         </div>
         <p class="user-name"><?php echo $user->getUsername(); ?></p>
     </div>
-    <form name="transfer_money" method="POST" action="../action/money_transaction.php">
+    <form name="transfer_money" method="POST" action="../action/check_transaction.php">
         <?php
         FeatureUtil::displayMessage('handle', $_GET['transfer-handle'] ?? null);
         FeatureUtil::displayMessage('error', $_GET['transfer-error'] ?? null);
         ?>
         <div class="transfer-method">
             <label>
-                <input type="radio" name="transfer_type" value="username" checked>
+                <input type="radio" name="transfer_type" value="username" checked
+                       onclick="updatePlaceholder('username')">
                 By Username
             </label>
             <label>
-                <input type="radio" name="transfer_type" value="email">
+                <input type="radio" name="transfer_type" value="email" onclick="updatePlaceholder('email')">
                 By Email
             </label>
         </div>
+        <input type="text" id="receiver" name="receiver" placeholder="Receiver Username" required><br>
+        <script>
+            function updatePlaceholder(type) {
+                const receiverInput = document.getElementById('receiver');
+                if (type === 'username') {
+                    receiverInput.placeholder = "Receiver Username";
+                } else if (type === 'email') {
+                    receiverInput.placeholder = "Receiver Email";
+                }
+            }
+        </script>
 
-        <input type="text" name="receiver" placeholder="Receiver Username or Email" required><br>
         <input type="number" name="amount" placeholder="Amount" required min="0"><br>
-
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="2" name="transaction_type_id"> <!-- Send in tb_transaction_type 2 -->
 

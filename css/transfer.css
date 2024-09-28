@@ -4,13 +4,25 @@
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 h2 {
     color: #333;
     margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
 }
 
 .user-info {
@@ -18,6 +30,11 @@ h2 {
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.user-info:hover {
+    transform: scale(1.05);
 }
 
 .user-avatar {
@@ -26,11 +43,19 @@ h2 {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
+    border: 2px solid #007bff;
+    transition: border-color 0.3s;
+}
+
+.user-avatar:hover {
+    border-color: #0056b3;
 }
 
 .user-name {
     font-size: 1.2rem;
     color: #666;
+    font-weight: 600;
+    margin: 5px 0;
 }
 
 .transfer-method {
@@ -42,7 +67,6 @@ h2 {
     margin-right: 20px;
 }
 
-/* Input fields styling */
 input[type="text"], input[type="number"] {
     width: 100%;
     padding: 10px;
@@ -50,13 +74,14 @@ input[type="text"], input[type="number"] {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
+    transition: border-color 0.3s;
 }
 
-input[type="number"] {
-    text-align: right;
+input[type="text"]:focus, input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
-/* Button styling */
 input[type="submit"], input[type="reset"] {
     width: 48%;
     padding: 10px;
@@ -64,6 +89,7 @@ input[type="submit"], input[type="reset"] {
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 input[type="submit"] {
