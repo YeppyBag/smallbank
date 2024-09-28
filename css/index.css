@@ -19,28 +19,6 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.nav {
-    padding: 5px;
-    width: 100%;
-    height: auto;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.nav a {
-    padding: 3px;
-    text-decoration: none;
-    color: black;
-    margin: 2px 10px;
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
-}
-
-.nav a:hover {
-    border-color: #ae6378;
-}
-
 .containerLR {
     padding: 10px;
     margin: 10px 0;
@@ -59,21 +37,6 @@ body {
     padding: 10px;
     flex: 1;
     min-width: 700px;
-}
-
-.profile {
-    margin: 0 auto 10px;
-    width: 150px;
-    height: 150px;
-    background: url(https://pixahive.com/wp-content/uploads/2020/12/Night-view-of-moon-225849-pixahive.jpg) no-repeat center;
-    background-size: cover;
-    border: 1px red solid;
-    border-radius: 50%;
-    transition: transform 0.3s ease;
-}
-
-.profile:hover {
-    transform: scale(1.1);
 }
 
 .balance {
@@ -284,10 +247,6 @@ table tr td {
 }
 
 @media (max-width: 480px) {
-    .nav a {
-        margin: 2px 5px;
-    }
-
     .option {
         flex-direction: column;
     }
