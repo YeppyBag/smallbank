@@ -1,5 +1,5 @@
 .container {
-    width: 400px;
+    width: fit-content;
     margin: 0 auto;
     padding: 20px;
     background-color: #f8f9fa;
@@ -7,6 +7,8 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     animation: fadeIn 0.5s ease-in-out;
+    font-family: "Kanit", sans-serif;
+    font-style: normal;
 }
 
 @keyframes fadeIn {
@@ -21,7 +23,6 @@
 h2 {
     color: #333;
     margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
     font-weight: bold;
 }
 
@@ -59,16 +60,49 @@ h2 {
 }
 
 .transfer-method {
-    margin-bottom: 20px;
-    font-size: 1rem;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 0.5rem;
+    background-color: #EEE;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 300px;
+    font-size: 14px;
 }
 
 .transfer-method label {
     margin-right: 20px;
 }
+.transfer-method .radio {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.transfer-method .radio input {
+    display: none;
+}
+
+.transfer-method .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .5rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all .15s ease-in-out;
+}
+
+.transfer-method .radio input:checked + .name {
+    background-color: #fff;
+    font-weight: 600;
+}
 
 input[type="text"], input[type="number"] {
-    width: 100%;
+    width: fit-content;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;

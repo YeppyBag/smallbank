@@ -2,10 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Kanit", sans-serif;
+    font-style: normal;
 }
 
 body {
-    font-family: Arial, sans-serif;
     background-color: #f6f9fc;
     display: flex;
     justify-content: center;

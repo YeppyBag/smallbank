@@ -1,5 +1,9 @@
+* {
+    font-family: "Kanit", sans-serif;
+    font-style: normal;
+}
 .profile {
-    display: block;
+    display: flex;
     justify-content: center;
     align-items: center;
     margin: 20px;
