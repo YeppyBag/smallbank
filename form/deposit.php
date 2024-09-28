@@ -16,7 +16,7 @@ include "../connect.inc.php";
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/deposit.css">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'false' : 'true'; ?>"/>
-    <script src="../script/login.js"></script>
+    <script src="../script/Login.js"></script>
     <title>Deposit</title>
 </head>
 <body>
