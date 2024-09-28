@@ -92,3 +92,7 @@
 .quick h1{
     margin: 0 auto;
 }
+.document{
+    margin: 10px auto;
+    text-align: center;
+}
