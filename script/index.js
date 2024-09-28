@@ -1,8 +1,13 @@
-const dialog = document.getElementById('iframe-dialog')
+const dialog = document.getElementById('iframe-dialog');
+const iframe = document.getElementById('iframe-content');
+
 function Iframe(select) {
-    dialog.src = select
-    dialog.showModal()
+    console.log("Iframe function called with URL: " + select); // Debugging
+    iframe.src = select;
+    dialog.showModal();
 }
+
 function closeIframe() {
-    dialog.close()
+    console.log("Close iframe called"); // Debugging
+    dialog.close();
 }

@@ -14,7 +14,6 @@ include "../common/FeatureUtil.php";
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/deposit.css">
-    <link rel="stylesheet" href="../css/pinkbutton.css">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'false' : 'true'; ?>" />
     <script src="../script/login.js"></script>
     <title>Withdraw</title>
