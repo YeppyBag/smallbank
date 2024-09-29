@@ -21,32 +21,32 @@ class User {
         return null;
     }
 
-    public function getWalletBalance() {
+    public function getWalletBalance() : float {
         return $this->walletBalance;
     }
 
-    public function getId() {
+    public function getId() : int {
         return $this->userId;
     }
-    public function getProfile() {
+    public function getProfile() : string {
         $sql = "SELECT profile FROM $this->table_name WHERE user_id = $this->userId";
         $result = $this->conn->query($sql);
         if ($row = mysqli_fetch_assoc($result)) return $row['profile'];
-        return null;
+        return "img/default-profile.png";
     }
-    public function getEmail() {
+    public function getEmail() : string {
         $sql = "SELECT email FROM $this->table_name WHERE user_id = $this->userId";
         $result = $this->conn->query($sql);
         if ($row = mysqli_fetch_assoc($result)) return $row['email'];
-        return null;
+        return "Can't get Email";
     }
-    public function getUsername() {
+    public function getUsername() : string{
         $sql = "SELECT username FROM $this->table_name WHERE user_id = $this->userId";
         $result = $this->conn->query($sql);
         if ($row = mysqli_fetch_assoc($result)) return $row['username'];
-        return null;
+        return "Can't get Username";
     }
-    public function getUserInfo() {
+    public function getUserInfo(): ?array {
         $sql = "SELECT * FROM $this->table_name WHERE user_id = $this->userId";
         $result = $this->conn->query($sql);
         if ($row = mysqli_fetch_assoc($result)) return $row;
