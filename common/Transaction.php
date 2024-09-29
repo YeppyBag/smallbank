@@ -27,7 +27,7 @@ class Transaction {
         return $this->executeQuery($query);
     }
 
-    public function deposit($amount, $transaction_type_id) {
+    public function deposit($amount, $transaction_type_id): string {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > 5000)
@@ -50,7 +50,7 @@ class Transaction {
         }
         return "ล้มเหลว";
     }
-    public function withdraw($amount, $transaction_type_id) {
+    public function withdraw($amount, $transaction_type_id) : string {
         if ($amount > $this->user->getWalletBalance())
             return "เงินในบัญชีไม่เพียงพอ";
         if ($this->save($transaction_type_id, $amount,0,0)) {
