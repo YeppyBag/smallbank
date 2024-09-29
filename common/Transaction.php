@@ -16,23 +16,25 @@ class Transaction {
         $this->user = new User($this->conn, $userID);
     }
 
-    public function save($user_id, $transaction_type_id, $amount, $fee, $recipient_user_id = null) {
+    public function save($transaction_type_id, $amount, $fee,$fee_amount, $recipient_user_id = null) {
+        $user_id = $this->user->getId();
         if ($recipient_user_id === null)
-            $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee, recipient_user_id, created_at)
-                  VALUES ($user_id, $transaction_type_id, $amount, $fee, NULL, NOW())";
+            $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee,fee_amount, recipient_user_id, created_at)
+                  VALUES ($user_id, $transaction_type_id, $amount, $fee,$fee_amount, NULL, NOW())";
          else
-             $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee, recipient_user_id, created_at)
-                  VALUES ($user_id, $transaction_type_id, $amount, $fee, $recipient_user_id, NOW())";
+             $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee,fee_amount, recipient_user_id, created_at)
+                  VALUES ($user_id, $transaction_type_id, $amount, $fee,$fee_amount, $recipient_user_id, NOW())";
         return $this->executeQuery($query);
     }
 
-    public function deposit($amount, $transaction_type_id): string {
+    public function deposit($amount, $transaction_type_id) {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > 5000)
             return "การฝากเงินไม่เกิน 5000 ต่อครั้ง ลองอีกครั้ง";
-        $feePercentage = $this->fee->getFeeByAmount($amount);
-        if ($this->save($this->user->getId(), $transaction_type_id, $amount, $feePercentage)) { // 3 คือประเภทของการฝากเงิน
+        $fee = $this->fee->getFeeByPercentage($amount);
+        $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
+        if ($this->save($transaction_type_id, $amount, $fee, $fee_amount)) {
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount);
             return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
         }
@@ -48,10 +50,10 @@ class Transaction {
         }
         return "ล้มเหลว";
     }
-    public function withdraw($amount, $transaction_type_id): string {
+    public function withdraw($amount, $transaction_type_id) {
         if ($amount > $this->user->getWalletBalance())
             return "เงินในบัญชีไม่เพียงพอ";
-        if ($this->save($this->user->getId(), $transaction_type_id, $amount,0)) {//ไม่เสียค่าทำเนียม 4 ถอนเงิน
+        if ($this->save($transaction_type_id, $amount,0,0)) {
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
             return "ถอนเงินสำเร็จ ยอดเงินคงเหลือ: " . $newBalance;
         }
