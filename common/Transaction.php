@@ -3,21 +3,23 @@
 namespace common;
 
 require_once "Fee.php";
+require_once "Point.php";
 
 class Transaction {
     private $conn;
     private $table_name = "tb_transaction"; // ชื่อของตาราง
     private Fee $fee;
     private User $user;
+    private Point $point;
 
     public function __construct($conn, $userID) {
         $this->conn = $conn;
         $this->fee = new Fee($this->conn);
         $this->user = new User($this->conn, $userID);
+        $this->point = new Point($this->conn, $userID);
     }
 
-    public function save($transaction_type_id, $amount, $fee,$fee_amount, $recipient_user_id = null) {
-        $user_id = $this->user->getId();
+    public function save($user_id, $transaction_type_id, $amount, $fee,$fee_amount, $recipient_user_id = null) {
         if ($recipient_user_id === null)
             $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee,fee_amount, recipient_user_id, created_at)
                   VALUES ($user_id, $transaction_type_id, $amount, $fee,$fee_amount, NULL, NOW())";
@@ -34,7 +36,7 @@ class Transaction {
             return "การฝากเงินไม่เกิน 5000 ต่อครั้ง ลองอีกครั้ง";
         $fee = $this->fee->getFeeByAmount($amount);
         $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
-        if ($this->save($transaction_type_id, $amount, $fee, $fee_amount)) {
+        if ($this->save($this->user->getId(),$transaction_type_id, $amount, $fee, $fee_amount)) {
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount);
             return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
         }
@@ -53,7 +55,7 @@ class Transaction {
     public function withdraw($amount, $transaction_type_id) : string {
         if ($amount > $this->user->getWalletBalance())
             return "เงินในบัญชีไม่เพียงพอ";
-        if ($this->save($transaction_type_id, $amount,0,0)) {
+        if ($this->save($this->user->getId(), $transaction_type_id, $amount,0,0)) {//ไม่เสียค่าทำเนียม 4 ถอนเงิน
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
             return "ถอนเงินสำเร็จ ยอดเงินคงเหลือ: " . $newBalance;
         }
@@ -69,13 +71,14 @@ class Transaction {
         return "ล้มเหลว";
     }
     public function send($amount, $transaction_type_id, $receiver_user_id) : string {
-        if ($amount < 1) {
-            return "จำนวนไม่ถูกต้อง";
-        }
+        if ($amount < 1) return "จำนวนไม่ถูกต้อง";
         if ($amount > $this->user->getWalletBalance()) return "ยอดเงินไม่เพียงพอ";
         $feePercentage = $this->fee->getSenderFee();
-        $amountfee = $amount + $amount * $feePercentage; // 20 + (20 * 0.01) = 20.2
-        if ($this->save($this->user->getId(), $transaction_type_id, $amountfee, $feePercentage, $receiver_user_id)) {
+        $fee_amount = $amount * $feePercentage; // 20 + (20 * 0.01) = 20.2
+        if ($this->save($this->user->getId(), $transaction_type_id, $amount, $feePercentage, $fee_amount, $receiver_user_id)) {
+            //ระบบ point
+            $this->point->handleSendPoint($amount);
+            //ระบบ หลัก
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
             $this->receive($this->user->getId(),$amount,1 ,$receiver_user_id);
             return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance;
@@ -86,7 +89,7 @@ class Transaction {
         if ($amount < 1) {
             return "จำนวนไม่ถูกต้อง";
         }
-        if ($this->save($receiver_user_id, $transaction_type_id, $amount, 0, $sender_id)) {
+        if ($this->save($receiver_user_id, $transaction_type_id, $amount, 0,0, $sender_id)) {
             $this->depositToUserWallet($receiver_user_id, $amount);
             return "รับเงินจาก :" . $amount;
         }

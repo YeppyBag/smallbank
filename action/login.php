@@ -1,4 +1,7 @@
 <?php
+
+use common\Point;
+
 include "../connect.inc.php";
 session_start();
 
@@ -11,6 +14,8 @@ $query = mysqli_query($conn, $sql);
 if (mysqli_num_rows($query) > 0) {
     $arr = $query->fetch_assoc();
     if (password_verify($password, $arr["password"])) {
+        $point = new Point($conn, $arr["user_id"]);
+        $point->deleteExpiredPoints();
         $_SESSION['user_id'] = $arr["user_id"];
         $_SESSION['username'] = $arr["username"];
         header("Location: ../index.php");

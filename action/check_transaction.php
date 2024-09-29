@@ -79,7 +79,7 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
                             <span>PAYMENT</span>
                             <div class="details">
                                 <span>จำนวนเงินทั้งหมด:</span>
-                                <span><?= htmlspecialchars($subtotol) ?> บาท</span>
+                                <span><?= htmlspecialchars($amount) ?> บาท</span>
                                 <span>ค่าธรรมเนียม:</span>
                                 <span><?= htmlspecialchars($amountfee) ?> บาท</span>
                                 <span>Fee:</span>

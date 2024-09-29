@@ -1,5 +1,6 @@
 <?php
 
+use common\Point;
 use common\Transaction;
 use common\TransactionType;
 use common\User;
@@ -9,8 +10,10 @@ require_once "common/Transaction.php";
 require_once "common/TransactionType.php";
 require_once "common/User.php";
 
-if (isset($_SESSION['user_id']))
+if (isset($_SESSION['user_id'])) {
     $user = new User($conn, $_SESSION['user_id']);
+    $userPoint = new Point($conn, $_SESSION['user_id']);
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -79,7 +82,7 @@ if (isset($_SESSION['user_id']))
                     }
                     ?>
                     <span class="line"></span><br>
-                    <h2>P: </h2>
+                    <h2>P: <?php echo $userPoint->getPoints(); ?> </h2>
                 </div>
             </div>
             <div class="option">
