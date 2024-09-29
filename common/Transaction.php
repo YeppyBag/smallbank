@@ -32,7 +32,7 @@ class Transaction {
             return "จำนวนไม่ถูกต้อง";
         if ($amount > 5000)
             return "การฝากเงินไม่เกิน 5000 ต่อครั้ง ลองอีกครั้ง";
-        $fee = $this->fee->getFeeByPercentage($amount);
+        $fee = $this->fee->getFeeByAmount($amount);
         $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
         if ($this->save($transaction_type_id, $amount, $fee, $fee_amount)) {
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount);
