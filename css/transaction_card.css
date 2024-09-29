@@ -46,7 +46,9 @@
     float: right;
     text-align: right;
 }
-
+.sender {
+    padding: 90px;
+}
 .transaction_user {
     font-size: 24px;
     font-weight: 200;
