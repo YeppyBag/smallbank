@@ -63,11 +63,10 @@ $user = new User($conn, $_SESSION['user_id']);
         <script>
             function updatePlaceholder(type) {
                 const receiverInput = document.getElementById('receiver');
-                if (type === 'username') {
+                if (type === 'username')
                     receiverInput.placeholder = "Receiver Username";
-                } else if (type === 'email') {
+                 else if (type === 'email')
                     receiverInput.placeholder = "Receiver Email";
-                }
             }
         </script>
 
