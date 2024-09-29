@@ -15,6 +15,7 @@ body {
 }
 
 .container {
+    margin-top: 75px;
     width: 400px;
     background: linear-gradient(to bottom right, #eaeef2, #d3d6db);
     border-radius: 10px;
