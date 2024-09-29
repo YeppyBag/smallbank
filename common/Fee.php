@@ -4,7 +4,7 @@ namespace common;
 
 class Fee {
     private $conn;
-    private $table_name = "tb_fee"; // ชื่อของตาราง
+    private string $table_name = "tb_fee"; // ชื่อของตาราง
 
     public function __construct($conn) {
         $this->conn = $conn;
@@ -17,7 +17,6 @@ class Fee {
         $result = mysqli_query($this->conn, $query);
         if (!$result) die("Query failed: " . mysqli_error($this->conn));
         if ($row = mysqli_fetch_assoc($result)) return $row['fee_percentage'];
-
         return null;
     }
     public function getSenderFee() {
