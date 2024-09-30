@@ -56,7 +56,7 @@ if (isset($_SESSION['user_id'])) {
             <p>ยอดเงินคงเหลือ</p>
             <h1>฿ <?php echo number_format($user->getWalletBalance(), 2); ?></h1>
         </div>
-        <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="1"><br>
+        <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="1" step="0.01.><br>
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="3" name="transaction_type_id">
         <input type="submit" value="ฝาก">
