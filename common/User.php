@@ -5,8 +5,8 @@ namespace common;
 class User {
     private string $table_name = 'tb_user';
     private $conn;
-    private $userId;
-    private $walletBalance;
+    private int $userId;
+    private float $walletBalance;
 
     public function __construct($conn,$userId) {
         $this->conn = $conn;
