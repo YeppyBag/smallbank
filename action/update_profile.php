@@ -22,6 +22,8 @@ $old_file_path = $row['profile'];
 
 if (isset($_FILES['profile']) && $_FILES['profile']['error'] == UPLOAD_ERR_OK) {
     $upload_dir = '../profiles/';
+    if (!is_dir($upload_dir)) //สร้าง folder
+        mkdir($upload_dir,0775,true);
     $file_name = $_FILES['profile']['name'];
     $file_tmp = $_FILES['profile']['tmp_name'];
 
