@@ -14,7 +14,6 @@ include "../connect.inc.php";
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="../css/redirect.css">
-    <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/deposit.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,9 +29,6 @@ include "../connect.inc.php";
 </head>
 <body>
 <div class="container">
-    <div class="nav">
-        <a href="../index.php">Home</a>
-    </div>
     <h2>ฝากเงิน</h2>
     <form name="deposit_money" method="post" action="../action/money_transaction.php" onsubmit="confirmAction(event,'ฝากเงิน')">
         <?php

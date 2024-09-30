@@ -30,9 +30,6 @@ include "../connect.inc.php";
 </head>
 <body>
 <div class="container">
-    <div class="nav">
-        <a href="../index.php">Home</a>
-    </div>
     <h2>ถอนเงิน</h2>
     <form name="withdraw_money" method="post" action="../action/money_transaction.php"
           onsubmit="confirmAction(event, 'Withdraw')">
