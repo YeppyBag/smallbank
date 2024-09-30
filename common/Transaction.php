@@ -37,7 +37,9 @@ class Transaction {
         $fee = $this->fee->getFeeByAmount($amount);
         $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
         if ($this->save($this->user->getId(),3, $amount, $fee, $fee_amount)) {
+            $transactionId = mysqli_insert_id($this->conn);
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount);
+            $this->point->addPoints($amount, $transactionId);
             return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
         }
         return "การฝากล้มเหลว";
@@ -76,8 +78,9 @@ class Transaction {
         $feePercentage = $this->fee->getSenderFee();
         $fee_amount = $amount * $feePercentage; // 20 + (20 * 0.01) = 20.2
         if ($this->save($this->user->getId(), 2, $amount, $feePercentage, $fee_amount, $receiver_user_id)) {
+            $transaction_id = mysqli_insert_id($this->conn);
             //ระบบ point
-            $this->point->handleSendPoint($amount);
+            $this->point->handleSendPoint($amount, $transaction_id);
             //ระบบ หลัก
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
             $this->receive($this->user->getId(),$amount, 2);
@@ -118,7 +121,7 @@ class Transaction {
     }
 
     private function fetchQuery($query) {
-        $result = mysqli_query($this->conn, $query);
+        $result = $this->executeQuery($query);
         if (!$result) die("Query failed: " . mysqli_error($this->conn));
         $data = [];
         while ($row = mysqli_fetch_assoc($result))
