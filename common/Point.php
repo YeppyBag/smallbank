@@ -46,14 +46,34 @@ class Point {
         return 0;
     }
 
-    public function getTransactionHistory() {
+    public function getTransactionHistory(): ?array {
         $query = "SELECT * FROM tb_point_transaction WHERE user_id = $this->userId ORDER BY created_at DESC";
-        return $this->executeQuery($query);
+        return $this->fetchQuery($query);
+    }
+    public function getPointHistory(): ?array {
+        $query = "SELECT * FROM tb_point WHERE user_id = $this->userId";
+        return $this->fetchQuery($query);
     }
     public function handleSendPoint($amount, $transaction_id) { // โอน
         if ($amount >= 1000) {
-            $this->addPoints($amount * 0.01, $transaction_id); // 1200 * 0.01 =  12
+            $this->addPoints(self::promotionPointGain($amount), $transaction_id); // 1200 * 0.01 =  12
         }
+    }
+
+    public static function promotionPointGain($amount) {
+        return floor($amount * self::eventX2());
+    }
+
+    private static function eventX2(): float {
+        $currentDay = date('N'); // มี ตัว D 'wed'
+        $currentHour = date('H');
+
+        $pointMultiplier = 0.01; // Default multiplier
+
+        if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 21)) {
+            $pointMultiplier = 0.02; // Double points
+        }
+        return $pointMultiplier;
     }
 
     public function deleteExpiredPoints() { //ลบแต้ม บูด
