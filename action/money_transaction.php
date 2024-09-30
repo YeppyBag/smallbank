@@ -24,7 +24,7 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
         $result = $transaction->withdraw($amount);
     } elseif ($transactionType == 2) { // Send
         $receiver_id = $_POST['receiver_id'];
-        $result = $transaction->send($amount);
+        $result = $transaction->send($amount, $receiver_id);
     } else {
         header("Location: ../form/deposit.php?deposit-error=Invalid transaction type.");
         exit();
