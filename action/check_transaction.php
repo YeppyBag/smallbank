@@ -78,28 +78,25 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
                         <div class="payments">
                             <span>PAYMENT</span>
                             <div class="details">
-                                <span>จำนวนเงินทั้งหมด:</span>
-                                <span><?= htmlspecialchars($amount) ?> บาท</span>
-                                <span>ค่าธรรมเนียม:</span>
-                                <span><?= htmlspecialchars($amountfee) ?> บาท</span>
-                                <span>Fee:</span>
-                                <span><?= $fee->getSenderFee() ?></span>
+                                <span>จำนวนเงินทั้งหมด :</span>
+                                <span><?= number_format($amount,2) ?> บาท</span>
+                                <span>ค่าธรรมเนียม (<?= $fee->getSenderFee() * 100?>%) : </span>
+                                <span><?= number_format($amountfee,2) ?> บาท</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="card checkout">
-                <div class="footer">
-                    <label class="price"><?= htmlspecialchars($subtotol) ?> บาท</label>
-                    <form method="POST" action="../action/money_transaction.php">
-                        <input type="hidden" name="user_id" value="<?= htmlspecialchars($sender->getId())?>">
-                        <input type="hidden" name="amount" value="<?= htmlspecialchars($amount) ?>">
-                        <input type="hidden" name="receiver_id" value="<?= htmlspecialchars($receiver_id) ?>">
-                        <input type="hidden" name="transaction_type_id" value="<?= htmlspecialchars($transaction_type_id) ?>" > <!-- Send in tb_transaction_type 2 -->
-                        <input type="submit" value="ยืนยัน" class="checkout-btn">
-                    </form>
+                <div class="card checkout">
+                    <div class="footer">
+                        <label class="price"><?= number_format($subtotol) ?> บาท</label>
+                        <form method="POST" action="../action/money_transaction.php">
+                            <input type="hidden" name="user_id" value="<?= htmlspecialchars($sender->getId())?>">
+                            <input type="hidden" name="amount" value="<?= htmlspecialchars($amount) ?>">
+                            <input type="hidden" name="receiver_id" value="<?= htmlspecialchars($receiver_id) ?>">
+                            <input type="hidden" name="transaction_type_id" value="<?= htmlspecialchars($transaction_type_id) ?>" > <!-- Send in tb_transaction_type 2 -->
+                            <input type="submit" value="ยืนยัน" class="checkout-btn">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
