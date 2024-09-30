@@ -3,7 +3,7 @@
 use common\Point;
 
 include "../connect.inc.php";
-session_start();
+require_once "../common/Point.php";
 
 $username = $_POST["username"];
 $password = $_POST["password"];
