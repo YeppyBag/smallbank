@@ -30,6 +30,7 @@ $currency = '฿';
     <title>SmallBank Dashboard</title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/navbar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -83,7 +84,8 @@ $currency = '฿';
 
                 <div class="point-amount">
                     <?php if ($islogin) : ?>
-                    <p class="point">Points: <?php echo number_format($userPoint->getPoints()) ?> </p>
+                    <p class="point"><?php echo number_format($userPoint->getPoints()) ?> </p>
+                        <p class="available-text">Pts.</p>
                     <?php endif;?>
                 </div>
 

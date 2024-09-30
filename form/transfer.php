@@ -13,7 +13,7 @@ require_once "../common/User.php";
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/transfer.css">
     <link rel="stylesheet" href="../css/profile.css">
-    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -32,10 +32,10 @@ require_once "../common/User.php";
 $user = new User($conn, $_SESSION['user_id']);
 ?>
 <div class="container">
-    <div class="nav">
+    <div class="navbar">
         <a href="../index.php">Home</a>
     </div>
-    <h2>Transfer Money</h2>
+    <h2>โอนเงิน</h2>
     <div class="user-info">
         <div class="profile">
             <div class="profile-image"
@@ -52,11 +52,11 @@ $user = new User($conn, $_SESSION['user_id']);
             <label class="radio">
                 <input type="radio" name="transfer_type" value="username" checked
                        onclick="updatePlaceholder('username')">
-                <span class="name">By Username</span>
+                <span class="name">โอนโดยชื่อ</span>
             </label>
             <label class="radio">
                 <input type="radio" name="transfer_type" value="email" onclick="updatePlaceholder('email')">
-                <span class="name">By Email</span>
+                <span class="name">โอนโดยเมล</span>
             </label>
         </div>
         <input type="text" id="receiver" name="receiver" placeholder="Receiver Username" required><br>
@@ -64,18 +64,18 @@ $user = new User($conn, $_SESSION['user_id']);
             function updatePlaceholder(type) {
                 const receiverInput = document.getElementById('receiver');
                 if (type === 'username')
-                    receiverInput.placeholder = "Receiver Username";
+                    receiverInput.placeholder = "ชื่อ ผู้รับ";
                  else if (type === 'email')
-                    receiverInput.placeholder = "Receiver Email";
+                    receiverInput.placeholder = "อีเมล ผู้รับ";
             }
         </script>
 
-        <input type="number" name="amount" placeholder="Amount" required min="0"><br>
+        <input type="number" name="amount" placeholder="จำนวนเงิน" required min="1"><br>
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="2" name="transaction_type_id"> <!-- Send in tb_transaction_type 2 -->
 
-        <input type="submit" value="Send" class="btn-send">
-        <input type="reset" value="Cancel" class="btn-cancel">
+        <input type="submit" value="โอนเงิน" class="btn-send">
+        <input type="reset" value="รีเซ็ต" class="btn-cancel">
     </form>
 </div>
 </body>

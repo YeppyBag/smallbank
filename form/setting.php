@@ -13,11 +13,15 @@ require_once "../common/User.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Settings</title>
     <link rel="stylesheet" href="../css/setting.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'false' : 'true'; ?>"/>
     <script src="../script/Login.js"></script>
 </head>
 <body>
 <div class="container">
+    <div class="navbar">
+        <a href="../index.php">Home</a>
+    </div>
     <?php
     if (isset($_SESSION['user_id'])) {
         $user = new User($conn, $_SESSION['user_id']);
