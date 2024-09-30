@@ -26,6 +26,3 @@ switch ($page) {
     default:
 
 }
-
-
-?>
