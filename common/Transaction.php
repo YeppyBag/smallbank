@@ -37,9 +37,7 @@ class Transaction {
         $fee = $this->fee->getFeeByAmount($amount);
         $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
         if ($this->save($this->user->getId(),3, $amount, $fee, $fee_amount)) {
-            $transactionId = mysqli_insert_id($this->conn);
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount);
-            $this->point->addPoints($amount, $transactionId);
             return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
         }
         return "การฝากล้มเหลว";
@@ -82,7 +80,7 @@ class Transaction {
             //ระบบ point
             $this->point->handleSendPoint($amount, $transaction_id);
             //ระบบ หลัก
-            $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
+            $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount + $fee_amount);
             $this->receive($this->user->getId(),$amount, 2);
             return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance;
         }
