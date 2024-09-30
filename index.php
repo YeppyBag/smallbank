@@ -78,7 +78,7 @@ if (isset($_SESSION['user_id'])) {
                 <div class="wallet">
                     <?php
                     if (!empty($_SESSION['user_id'])) {
-                        echo "<h1>฿ " . $user->getWalletBalance() . "</h1>";
+                        echo "<h1>฿ " .number_format( $user->getWalletBalance() , 2) . "</h1>";
                     }
                     ?>
                     <span class="line"></span><br>
