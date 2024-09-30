@@ -24,6 +24,7 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="../css/deposit.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/pointuse.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -56,7 +57,22 @@ if (isset($_SESSION['user_id'])) {
             <p>ยอดเงินคงเหลือ</p>
             <h1>฿ <?php echo number_format($user->getWalletBalance(), 2); ?></h1>
         </div>
-        <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="1" step="0.01.><br>
+
+        <div class="point_used">
+            ใช้แต้ม Pts.
+            <input
+                    checked=""
+                    id="point_used_checkbox"
+                    class="point-checkbox"
+                    name="point_used"
+                    type="checkbox"
+            />
+            <label for="point_used_checkbox" class="pointswitch-label">
+                <div class="point-inner"></div>
+                <span class="tooltip">ใช้แต้ม Pts. ในการลด ค่าธรรมเนียม 1 หน่วย ต่อ 1 Pts.</span>
+            </label>
+        </div>
+        <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="1" step="0.01">
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="3" name="transaction_type_id">
         <input type="submit" value="ฝาก">

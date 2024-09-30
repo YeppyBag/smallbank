@@ -113,7 +113,6 @@ button {
 
 .point-amount {
     display: flex;
-    justify-content: space-between;
     align-items: baseline;
     padding-left: 20px;
 }
@@ -127,6 +126,11 @@ button {
 .point-amount .available-text {
     font-size: 28px;
     font-weight: 200;
+    color: #777;
+}
+.point-almost-expire {
+    display: flex;
+    padding-left: 20px;
     color: #777;
 }
 

@@ -89,6 +89,7 @@ $currency = '฿';
                         <p class="available-text">Pts.</p>
                     <?php endif;?>
                 </div>
+                <p class="point-almost-expire">1 Pts. can use till 1/10/2024</p>
 
                 <div class="actions">
                     <?php if ($islogin) : ?>
@@ -120,7 +121,7 @@ $currency = '฿';
                     <?php
                     $transactionData = $transaction->getTransactionByUserIdOrderBy($user_id, "created_at DESC");
                     $pointTransaction = $userPoint->getTransactionHistory();
-                    $pointHistory = $userPoint->getPointHistory(); // Fetch all point transactions for this user
+                    $pointHistory = $userPoint->getPointHistory();
 
                     $map = [
                         "1" => "รับเงิน",
@@ -143,14 +144,13 @@ $currency = '฿';
                         $transactionType = isset($map[$transaction['transaction_type_id']]) ? $map[$transaction['transaction_type_id']] : 'Unknown';
 
                         $pointAmount = 0;
-                        $pointExpirationDate = '-'; // Default value if no match is found
+                        $pointExpirationDate = '-';
 
-                        // Check for matching point transactions
                         foreach ($pointHistory as $pointHistoryZ) {
                             if (date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at'])) == date('Y-m-d H:i:s', strtotime($transaction['created_at']))) {
-                                $pointAmount = $pointHistoryZ['points']; // Fetch the points (not point_amount)
-                                $pointExpirationDate = date('d/m/Y H:i:s', strtotime($pointHistoryZ['expiration_date'])); // Fetch expiration date
-                                break; // Exit loop once we find a match
+                                $pointAmount = $pointHistoryZ['points'];
+                                $pointExpirationDate = date('d/m/Y H:i:s', strtotime($pointHistoryZ['expiration_date']));
+                                break;
                             }
                         }
                         ?>
@@ -183,8 +183,8 @@ $currency = '฿';
 <script>
     document.querySelectorAll('.btn').forEach(button => {
         button.addEventListener('click', function() {
-            this.innerHTML = 'Loading...'; // Change button text
-            this.disabled = true; // Disable button
+            this.innerHTML = 'รอซักครู่';
+            this.disabled = true;
             window.location.href = this.getAttribute('data-url');
         });
     });
