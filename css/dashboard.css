@@ -127,6 +127,8 @@ button {
 
 .actions {
     margin-left: 20px;
+    margin-right: 10px;
+    display: flex;
 }
 
 .actions .btn {
@@ -139,6 +141,7 @@ button {
     margin-bottom: 10px;
     font-size: 16px;
     font-weight: 500;
+    flex-grow: 1;
 }
 
 .actions .btn:hover {
