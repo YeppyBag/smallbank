@@ -4,21 +4,21 @@ namespace common;
 
 class Point {
     private $conn;
-    private $userId;
-
+    private int $userId;
+    private int $expireDays = 3;
     public function __construct($conn, $userId) {
         $this->conn = $conn;
         $this->userId = $userId;
     }
 
     public function addPoints($amount) {
-        $expirationDate = date('Y-m-d', strtotime('+3 days'));
+        $expirationDate = date('Y-m-d', strtotime('+'.$this->expireDays.' days'));
         $insertPoints = "INSERT INTO tb_point (user_id, points, expiration_date) 
                      VALUES ($this->userId, $amount, '$expirationDate')";
         $this->executeQuery($insertPoints);
 
-        $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type) 
-                       VALUES ($this->userId, $amount, 'earn')";
+        $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id) 
+                       VALUES ($this->userId, $amount, 5)";
         $this->executeQuery($logTransaction);
     }
 
@@ -29,8 +29,8 @@ class Point {
             $updatePoints = "UPDATE tb_point SET points = points - $amount WHERE user_id = $this->userId";
             $this->executeQuery($updatePoints);
 
-            $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type) 
-                               VALUES ($this->userId, $amount, 'use')";
+            $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id) 
+                               VALUES ($this->userId, $amount, 6)";
             $this->executeQuery($logTransaction);
             return true;
         } else {
