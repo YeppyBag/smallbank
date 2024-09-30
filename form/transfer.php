@@ -1,11 +1,18 @@
 <?php
 
 use common\FeatureUtil;
+use common\Point;
 use common\User;
 
 include "../connect.inc.php";
 require_once "../common/FeatureUtil.php";
 require_once "../common/User.php";
+require_once "../common/Point.php";
+
+if (isset($_SESSION['user_id'])) {
+    $point = new Point($conn, $_SESSION["user_id"]);
+    $point->deleteExpiredPoints();
+}
 ?>
 <!doctype html>
 <html lang="th">
@@ -70,7 +77,7 @@ $user = new User($conn, $_SESSION['user_id']);
             }
         </script>
 
-        <input type="number" name="amount" placeholder="จำนวนเงิน" required min="1"><br>
+        <input type="number" name="amount" placeholder="จำนวนเงิน" required min="1" step="0.01"><br>
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="2" name="transaction_type_id"> <!-- Send in tb_transaction_type 2 -->
 
