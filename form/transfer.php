@@ -55,6 +55,10 @@ $user = new User($conn, $_SESSION['user_id']);
         FeatureUtil::displayMessage('handle', $_GET['transfer-handle'] ?? null);
         FeatureUtil::displayMessage('error', $_GET['transfer-error'] ?? null);
         ?>
+        <div class="balance">
+            <p>ยอดเงินที่ทำการได้</p>
+            <h1>฿ <?php echo number_format($user->getWalletBalance(), 2); ?></h1>
+        </div>
         <div class="transfer-method">
             <label class="radio">
                 <input type="radio" name="transfer_type" value="username" checked
