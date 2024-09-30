@@ -80,16 +80,16 @@ class Transaction {
             $this->point->handleSendPoint($amount);
             //ระบบ หลัก
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
-            $this->receive($this->user->getId(),$amount,1 ,$receiver_user_id);
+            $this->receive($this->user->getId(),$amount, $receiver_user_id);
             return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance;
         }
         return "โอนเงินล้มเหลว";
     }
-    public function receive($sender_id, $amount, $transaction_type_id, $receiver_user_id) : string {
+    public function receive($sender_id, $amount, $receiver_user_id) : string {
         if ($amount < 1) {
             return "จำนวนไม่ถูกต้อง";
         }
-        if ($this->save($receiver_user_id, $transaction_type_id, $amount, 0,0, $sender_id)) {
+        if ($this->save($receiver_user_id, 1, $amount, 0,0, $sender_id)) {
             $this->depositToUserWallet($receiver_user_id, $amount);
             return "รับเงินจาก :" . $amount;
         }

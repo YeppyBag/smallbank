@@ -12,7 +12,8 @@ if ($password !== $cpassword) {
 }
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO tb_user (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
+$sql = "INSERT INTO tb_user (username, email, password) 
+VALUES ('$username', '$email', '$hashed_password')"; //todo: แก้ใน database
 $query = mysqli_query($conn, $sql);
 
 if ($query) {
