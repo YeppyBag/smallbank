@@ -1,0 +1,241 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+body, h1, h2, h3, p, td, th {
+    margin: 0;
+    padding-right: 20px;
+    font-family: 'Kanit', sans-serif;
+}
+
+body {
+    background-color: #f4f5f7;
+    margin: 0;
+    flex-direction: column;
+    display: flex;
+    min-height: 100vh;
+    align-items: center
+}
+
+
+h1, h2, h3 {
+    color: #333;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container {
+    width: 100%;
+    max-width: 1500px;
+    padding: 20px;
+    background-color: #f4f5f7;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    height: 100vh;
+}
+.navbar {
+    display: flex;
+    padding: 10px 20px;
+    justify-content: space-between;
+}
+
+.navbar a {
+    font-size:32px;
+    color: #003087;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #0958db;
+    transform: scale(1.1);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: block;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 8px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
+}
+
+.dropdown-content a {
+    font-size: 20px;
+    color: #003087;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+}
+
+.dashboard {
+    display: flex;
+    height: fit-content;
+    width: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+
+}
+
+.sidebar {
+    padding: 10px;
+    width: 30%;
+    flex-shrink: 0;
+    background-color: #f4f5f7;
+    overflow-y: auto;
+}
+
+.main-content {
+    width: 70%;
+    height: 89vh;
+    padding: 10px;
+    background-color: #f4f5f7;
+    overflow-y: auto;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 38px;
+    color: #003087;
+    font-weight: 600;
+}
+.balance-section {
+    border-radius: 5%;
+    background-color: white;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+}
+
+.balance-current {
+    width: 100%;
+    padding: 20px;
+}
+
+.balance-current h2 {
+    font-weight: 200;
+    color: #003087;
+    border-bottom: solid 2px #a0a6bb;
+}
+.balance-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-left: 20px;
+}
+
+.balance-amount h1 {
+    font-size: 42px;
+    color: #333;
+    font-weight: 300;
+    margin: 0;
+}
+
+.balance-amount .available-text {
+    font-size: 16px;
+    font-weight: 200;
+    color: #777;
+}
+.point-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-left: 20px;
+}
+.point {
+    font-size: 32px;
+    font-weight: 200;
+    color: #333;
+}
+
+.actions {
+    margin-left: 20px;
+}
+
+.actions .btn {
+    background-color: #0070ba;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.actions .btn:hover {
+    background-color: #005ea6;
+}
+
+.recent-activity {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.activity-table th, .activity-table td {
+    padding: 15px;
+}
+
+.activity-table th {
+    background-color: #f4f5f7;
+    font-weight: 500;
+}
+
+.activity-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.activity-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.amount {
+    text-align: right;
+    width: 220px;
+}
+.amount-th {
+    text-align: right;
+}
+
+.footer {
+    background-color: #003087;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    margin-top: auto;
+}
