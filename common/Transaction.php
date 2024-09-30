@@ -7,7 +7,7 @@ require_once "Point.php";
 
 class Transaction {
     private $conn;
-    private $table_name = "tb_transaction"; // ชื่อของตาราง
+    private string $table_name = "tb_transaction"; // ชื่อของตาราง
     private Fee $fee;
     private User $user;
     private Point $point;
@@ -70,7 +70,7 @@ class Transaction {
         }
         return "ล้มเหลว";
     }
-    public function send($amount) : string {  // send = 2
+    public function send($amount, $receiver_user_id) : string {  // send = 2
         if ($amount < 1) return "จำนวนไม่ถูกต้อง";
         if ($amount > $this->user->getWalletBalance()) return "ยอดเงินไม่เพียงพอ";
         $feePercentage = $this->fee->getSenderFee();
