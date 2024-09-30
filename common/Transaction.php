@@ -29,14 +29,14 @@ class Transaction {
         return $this->executeQuery($query);
     }
 
-    public function deposit($amount, $transaction_type_id): string {
+    public function deposit($amount): string {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > 5000)
             return "การฝากเงินไม่เกิน 5000 ต่อครั้ง ลองอีกครั้ง";
         $fee = $this->fee->getFeeByAmount($amount);
         $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
-        if ($this->save($this->user->getId(),$transaction_type_id, $amount, $fee, $fee_amount)) {
+        if ($this->save($this->user->getId(),3, $amount, $fee, $fee_amount)) {
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount);
             return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
         }
@@ -52,10 +52,10 @@ class Transaction {
         }
         return "ล้มเหลว";
     }
-    public function withdraw($amount, $transaction_type_id) : string {
+    public function withdraw($amount) : string {
         if ($amount > $this->user->getWalletBalance())
             return "เงินในบัญชีไม่เพียงพอ";
-        if ($this->save($this->user->getId(), $transaction_type_id, $amount,0,0)) {//ไม่เสียค่าทำเนียม 4 ถอนเงิน
+        if ($this->save($this->user->getId(), 4, $amount,0,0)) {//ไม่เสียค่าทำเนียม 4 ถอนเงิน
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
             return "ถอนเงินสำเร็จ ยอดเงินคงเหลือ: " . $newBalance;
         }
@@ -70,22 +70,22 @@ class Transaction {
         }
         return "ล้มเหลว";
     }
-    public function send($amount, $transaction_type_id, $receiver_user_id) : string {
+    public function send($amount) : string {  // send = 2
         if ($amount < 1) return "จำนวนไม่ถูกต้อง";
         if ($amount > $this->user->getWalletBalance()) return "ยอดเงินไม่เพียงพอ";
         $feePercentage = $this->fee->getSenderFee();
         $fee_amount = $amount * $feePercentage; // 20 + (20 * 0.01) = 20.2
-        if ($this->save($this->user->getId(), $transaction_type_id, $amount, $feePercentage, $fee_amount, $receiver_user_id)) {
+        if ($this->save($this->user->getId(), 2, $amount, $feePercentage, $fee_amount, $receiver_user_id)) {
             //ระบบ point
             $this->point->handleSendPoint($amount);
             //ระบบ หลัก
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount);
-            $this->receive($this->user->getId(),$amount, $receiver_user_id);
+            $this->receive($this->user->getId(),$amount, 2);
             return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance;
         }
         return "โอนเงินล้มเหลว";
     }
-    public function receive($sender_id, $amount, $receiver_user_id) : string {
+    public function receive($sender_id, $amount, $receiver_user_id) : string { // receive = 1
         if ($amount < 1) {
             return "จำนวนไม่ถูกต้อง";
         }
