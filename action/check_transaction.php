@@ -1,11 +1,13 @@
 <?php
 
 use common\Fee;
+use common\Point;
 use common\User;
 
 include "../connect.inc.php";
 require_once "../common/User.php";
 require_once "../common/Fee.php";
+require_once "../common/Point.php";
 
 if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['amount'])) {
     $user_id = $_POST['user_id'];
@@ -35,7 +37,6 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
         $row = $result->fetch_assoc();
         $receiver_id = $row['user_id'];
         $receiver = new User($conn,$receiver_id);
-        $receiver_username = $row['username'];
         $fee = new Fee($conn);
         $amountfee = $amount * $fee->getSenderFee();
         $subtotol = $amountfee + $amount;
@@ -70,8 +71,8 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
                         <div class="transaction-info">
                             <span>TRANSACTION INFO</span>
                             <div class="transaction-details">
-                                <p class="sender">ผู้โอน: mrchai</p>
-                                <p class="receiver">ผู้รับ: Qu4rtzer</p>
+                                <p class="sender">ผู้โอน: <?php echo $sender->getUsername();?></p>
+                                <p class="receiver">ผู้รับ: <?php echo $receivername; ?></p>
                             </div>
                         </div>
                         <hr />
@@ -82,13 +83,15 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
                                 <span><?= number_format($amount,2) ?> บาท</span>
                                 <span>ค่าธรรมเนียม (<?= $fee->getSenderFee() * 100?>%) : </span>
                                 <span><?= number_format($amountfee,2) ?> บาท</span>
+                                <span>แต้มที่จะได้รับ : </span>
+                                <span><?= number_format(Point::promotionPointGain($amount)) ?> Pts.</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card checkout">
                     <div class="footer">
-                        <label class="price"><?= number_format($subtotol) ?> บาท</label>
+                        <label class="price"><?= number_format($subtotol,2) ?> บาท</label>
                         <form method="POST" action="../action/money_transaction.php">
                             <input type="hidden" name="user_id" value="<?= htmlspecialchars($sender->getId())?>">
                             <input type="hidden" name="amount" value="<?= htmlspecialchars($amount) ?>">
