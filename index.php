@@ -9,141 +9,176 @@ include("connect.inc.php");
 require_once "common/Transaction.php";
 require_once "common/TransactionType.php";
 require_once "common/User.php";
-
+require_once "common/point.php";
+$islogin = false;
 if (isset($_SESSION['user_id'])) {
-    $user = new User($conn, $_SESSION['user_id']);
-    $userPoint = new Point($conn, $_SESSION['user_id']);
+    $islogin = true;
+    $user_id = $_SESSION['user_id'];
+    $user = new User($conn, $user_id);
+    $userPoint = new Point($conn, $user_id);
+    $transaction = new Transaction($conn, $user_id);
+    $transactionType = new TransactionType($conn);
 }
+$currency = '฿';
 ?>
-<!doctype html>
-<html lang="en">
 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/nav.css">
+    <title>SmallBank Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/profile.css">
-    <link rel="stylesheet" href="css/transaction_card.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-          rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-    </style>
-    <title>Small Bank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 <div class="container">
-    <div class="nav">
+    <div class="navbar">
+        <h1 class="logo">SmallBank</h1>
         <?php
-        if (!isset($_SESSION['user_id'])) {
+        if (!$islogin) {
             echo "<a href='form/login.php'>SIGN UP / LOG IN</a>";
+            echo '<div class="dropdown-login" id="login-form-container" style="display: none;"></div>';
         } else {
             echo "<div class='dropdown'>";
-            echo "<a href='#' class='dropbtn'>Profile</a>";
+            echo "<a href='#'>Profile</a>";
             echo "<div class='dropdown-content'>";
             echo "<a href='form/setting.php'>Setting</a>";
             echo "<a href='action/logout.php'>Logout</a>";
-            echo "</div>";
-            echo "</div>";
+            echo "</div></div>";
         }
         ?>
     </div>
-    <div class="frame"></div>
-    <div class="containerLR">
-        <div class="left">
+    <div class="dashboard">
+        <div class="sidebar">
             <div class="profile">
-                <div class="profile-image" style="background-image: url('<?php echo $user->getProfile(); ?>');"></div>
+                <div class="profile-image" style="background-image: url('<?php if ($islogin)
+                    echo $user->getProfile();
+                else echo "img/default-profile.png";
+                ?>
+                        ');"></div>
             </div>
-            <div class="balance">
-                <div class="name">
-                    <div class="current">
-                        <h3>Balance</h3>
-                        <p>Avalible</p>
-                    </div>
-                    <div class="username">
-                        <?php
-                        if (!empty($_SESSION['user_id'])) {
-                            echo "<h3>" . $_SESSION['username'] . "</h3>";
-                        } else
-                            echo "";
-                        ?>
-                    </div>
+
+            <div class="balance-section">
+                <div class="balance-current">
+                    <h2>
+                    <?php if ($islogin) : ?>
+                    ยินดีต้อนรับ <?php $user->getUsername() ?>จำนวนเงินปัจจุบัน
+                    <?php else : ?>
+                        ยินดีต้อนรับ ท่านสมาชิก
+                    <?php endif; ?>
+                    </h2>
                 </div>
-                <span class="line"></span>
-                <div class="wallet">
-                    <?php
-                    if (!empty($_SESSION['user_id'])) {
-                        echo "<h1>฿ " .number_format( $user->getWalletBalance() , 2) . "</h1>";
-                    }
-                    ?>
-                    <span class="line"></span><br>
-                    <h2>P: <?php echo $userPoint->getPoints(); ?> </h2>
+                <div class="balance-amount">
+                    <?php if ($islogin) echo "<h1>" . $currency . number_format($user->getWalletBalance(),2) . "</h1>"; ?>
+                    <?php if ($islogin) : ?>
+                    <p class="available-text">มีอยู่</p>
+                    <?php else : ?>
+                    <p class="available-text">กรุณาเข้าสู่ระบบพื่อดูยอดเงิน</p>
+                    <?php endif; ?>
                 </div>
-            </div>
-            <div class="option">
-                <button onclick="window.location.href='form/deposit.php';">ฝากเงิน</button>
-                <button onclick="window.location.href='form/withdraw.php';">ถอน</button>
-                <button onclick="window.location.href='form/transfer.php';">โอนเงิน</button>
+
+                <div class="point-amount">
+                    <?php if ($islogin) : ?>
+                    <p class="point">Points: <?php echo number_format($userPoint->getPoints()) ?> </p>
+                    <?php endif;?>
+                </div>
+
+                <div class="actions">
+                    <?php if ($islogin) : ?>
+                    <button class="btn" data-url="form/deposit.php">ฝากเงิน</button>
+                    <button class="btn" data-url="form/withdraw.php">ถอน</button>
+                    <button class="btn" data-url="form/transfer.php">โอนเงิน</button>
+                    <?php endif;?>
+                </div>
             </div>
         </div>
-        <div class="right">
-            <div class="transaction">
-                <?php
-                if (!empty($_SESSION['user_id'])) {
-                    $transaction = new Transaction($conn, $_SESSION['user_id']);
-                    $transactionType = new TransactionType($conn);
-                    $transactionData = $transaction->getTransactionByUserIdOrderBy($_SESSION['user_id'], "created_at DESC");
 
-                    if (!empty($transactionData)) {
-                        foreach ($transactionData as $transaction) {
-                            $transactionTime = date('H:i', strtotime($transaction['created_at']));
-                            $transactionDate = date('d/m/Y', strtotime($transaction['created_at']));
+        <div class="main-content">
+            <div class="recent-activity">
+                <h2>ประวัติธุรกรรม</h2>
+                <?php if ($islogin) : ?>
+                <table class="activity-table">
+                    <thead>
+                    <tr>
+                        <th>ชื่อธุรกรรม</th>
+                        <th>ประเภทธุรกรรม</th>
+                        <th>วันที่</th>
+                        <th>แต้มที่ได้รับ</th>
+                        <th>ค่าธรรมเนียม</th>
+                        <th class="amount-th">จำนวนเงิน</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $transactionData = $transaction->getTransactionByUserIdOrderBy($user_id, "created_at DESC");
+                    $pointTransactions = $userPoint->getTransactionHistory(); // Fetch all point transactions for this user
 
-                            $tranType = $transactionType->getTransactionTypeByIndex($transaction['transaction_type_id'] - 1);
+                    $map = [
+                        "1" => "รับเงิน",
+                        "2" => "โอนเงิน",
+                        "3" => "ฝากเงิน",
+                        "4" => "ถอนเงิน"
+                    ]; // Transaction type mapping
 
-                            $amountClass = ($transaction['transaction_type_id'] == 1 || $transaction['transaction_type_id'] == 3) ? 'amount-deposit' : 'amount-withdrawal';
-                            $amountPrefix = ($amountClass === 'amount-deposit') ? '+' : '-';
+                    foreach ($transactionData as $transaction):
+                        $senderUserId = $transaction['recipient_user_id'];
+                        $transactionDate = date('d/m/Y H:i:s', strtotime($transaction['created_at']));
 
-                            $transactionMessage = '';
-                            $username = '';
+                        $prefix = 'SmallBank';
 
-                            switch ($transaction['transaction_type_id']) {
-                                case 1:
-                                case 3:
-                                    $transactionMessage = 'Received money from ';
-                                    $senderUserId = $transaction['recipient_user_id'];
-                                    break;
-                                case 2:
-                                    $transactionMessage = 'Sent money to ';
-                                    $senderUserId = $transaction['recipient_user_id'];
-                                    break;
-                            }
-
-                            if (!empty($senderUserId)) {
-                                $senderUser = new User($conn, $senderUserId);
-                                $username = $senderUser->getUsername();
-                            }
-
-                            echo "<div class='card'>
-                                    <p class='transaction_amount $amountClass'><span>{$amountPrefix}{$transaction['amount']} Baht</span></p>
-                                    <p class='transaction_type'><span>{$tranType}</span><span class='sub_time'>{$transactionTime}</span></p>
-                                    <p class='transaction_user'><span>User: {$user->getUsername()}</span><span class='sender'>{$transactionMessage}{$username}</span><span class='sub_date'>{$transactionDate}</span></p>
-                                 <svg fill='#ffffff' height='40px' width='40px' version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' xml:space='preserve' stroke='#ffffff' class='icon'><g id='SVGRepo_bgCarrier' stroke-width='0'></g><g id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'></g><g id='SVGRepo_iconCarrier'><g><g><path d='M335.367,257.951c-7.187,0-13.033,5.847-13.033,13.034v43.562c0,7.187,5.847,13.033,13.033,13.033H512v-69.628H335.367z M357.347,312.858c-11.097,0-20.094-8.996-20.094-20.094c0-11.097,8.996-20.094,20.094-20.094s20.094,8.996,20.094,20.094 C377.44,303.862,368.444,312.858,357.347,312.858z'/></g></g><g><g><path d='M335.367,227.534H512V152.95c0-23.959-19.492-43.45-43.45-43.45h-6.084H133.703H43.45C19.492,109.5,0,128.991,0,152.95v310.047c0,23.959,19.492,43.451,43.45,43.451h425.099c23.959,0,43.45-19.492,43.45-43.451v-105H335.367c-23.959,0-43.45-19.491-43.45-43.45v-43.562C291.917,247.026,311.41,227.534,335.367,227.534z'/></g></g><g><g><polygon points='425.425,5.552 219.067,79.082 451.626,79.082 '/></g></g></g></svg>
-                            </div>";
+                        if (!empty($senderUserId)) {
+                            $senderUser = new User($conn, $senderUserId);
+                            $prefix = $transaction['transaction_type_id'] == 1 ? 'โอนจาก ' . $senderUser->getUsername() :
+                                ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $senderUser->getUsername() : $prefix);
                         }
-                    } else {
-                        echo "ไม่มีข้อมูลธุรกรรม";
-                    }
-                }
-//                ?>
+
+                        $transactionType = isset($map[$transaction['transaction_type_id']]) ? $map[$transaction['transaction_type_id']] : 'Unknown';
+
+                        $pointAmount = 0;
+
+                        foreach ($pointTransactions as $pointTransaction) {
+                            if ($pointTransaction['created_at'] == $transaction['created_at']) {
+                                $pointAmount = $pointTransaction['point_amount']; // Fetch the point amount
+                                break;
+                            }
+                        }
+                        ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($prefix); ?></td>
+                            <td><?php echo htmlspecialchars($transactionType); ?></td>
+                            <td><?php echo $transactionDate; ?></td>
+                            <td><?php echo number_format($pointAmount); ?></td>
+                            <td>฿<?php echo number_format(($transaction['fee_amount']),2); ?></td>
+                            <td class="amount">฿<?php echo number_format(($transaction['amount'])); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php else : ?>
+                <br>
+                <h2>เข้าสู่ระบบ เพื่อดูข้อมูลธุรกรรม</h2>
+                <br>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
+
+<div class="footer">
+    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved.</p>
+</div>
+<script>
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', function() {
+            this.innerHTML = 'Loading...'; // Change button text
+            this.disabled = true; // Disable button
+            window.location.href = this.getAttribute('data-url');
+        });
+    });
+</script>
 </body>
 </html>
