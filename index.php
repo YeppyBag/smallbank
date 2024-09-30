@@ -178,7 +178,7 @@ $currency = '฿';
 </div>
 
 <div class="footer">
-    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved.</p>
+    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 0.9.0.</p>
 </div>
 <script>
     document.querySelectorAll('.btn').forEach(button => {
