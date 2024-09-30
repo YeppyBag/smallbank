@@ -34,8 +34,14 @@ require_once "../common/User.php";
             <input type="text" id="username" name="username" value = "<?php echo $user->getUsername(); ?>"required>
 
             <label for="user_profile">Pic Profile:</label>
-            <input type="file" id="profile_picture" name="profile" accept="image/png,image/jfif,image/jpeg"
-                   onchange="previewImage(event)">
+
+            <div class="custom-file-input">
+                <input type="file" id="profile_picture" name="profile" accept="image/png,image/jpeg,image/jfif" class="file-input" onchange="previewImage(event)">
+                <label for="profile_picture" class="file-label">
+                    <i class="fas fa-file-upload"></i> Choose a profile picture
+                </label>
+                <span class="file-name">No file chosen</span>
+            </div>
 
             <div class="image-preview" id="imagePreview" style="display: none;">
                 <img id="preview" src="#" alt="Profile Preview">
@@ -47,6 +53,5 @@ require_once "../common/User.php";
     </div>
 </div>
 <script src="../script/PreviewImg.js"></script>
-<script src="../script/BlockMessageCallback.js"></script>
 </body>
 </html>
