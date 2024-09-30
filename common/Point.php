@@ -11,26 +11,26 @@ class Point {
         $this->userId = $userId;
     }
 
-    public function addPoints($amount) {
+    public function addPoints($amount, $transactionId) {
         $expirationDate = date('Y-m-d', strtotime('+'.$this->expireDays.' days'));
         $insertPoints = "INSERT INTO tb_point (user_id, points, expiration_date) 
                      VALUES ($this->userId, $amount, '$expirationDate')";
         $this->executeQuery($insertPoints);
 
-        $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id) 
-                       VALUES ($this->userId, $amount, 5)";
+        $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
+                       VALUES ($this->userId, $amount, 5, $transactionId)";
         $this->executeQuery($logTransaction);
     }
 
 
-    public function usePoints($amount) {
+    public function usePoints($amount, $transactionId) {
         $currentPoints = $this->getPoints();
         if ($currentPoints >= $amount) {
             $updatePoints = "UPDATE tb_point SET points = points - $amount WHERE user_id = $this->userId";
             $this->executeQuery($updatePoints);
 
-            $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id) 
-                               VALUES ($this->userId, $amount, 6)";
+            $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
+                               VALUES ($this->userId, $amount, 6, $transactionId)";
             $this->executeQuery($logTransaction);
             return true;
         } else {
@@ -48,17 +48,11 @@ class Point {
 
     public function getTransactionHistory() {
         $query = "SELECT * FROM tb_point_transaction WHERE user_id = $this->userId ORDER BY created_at DESC";
-        $result = mysqli_query($this->conn, $query);
-
-        $transactions = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $transactions[] = $row;
-        }
-        return $transactions;
+        return $this->executeQuery($query);
     }
-    public function handleSendPoint($amount) { // โอน
+    public function handleSendPoint($amount, $transaction_id) { // โอน
         if ($amount >= 1000) {
-            $this->addPoints($amount * 0.01); // 1200 * 0.01 =  12
+            $this->addPoints($amount * 0.01, $transaction_id); // 1200 * 0.01 =  12
         }
     }
 
@@ -69,5 +63,13 @@ class Point {
 
     private function executeQuery($query) {
         return mysqli_query($this->conn, $query);
+    }
+    private function fetchQuery($query) {
+        $result = $this->executeQuery($query);
+        if (!$result) die("Query failed: " . mysqli_error($this->conn));
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result))
+            $data[] = $row;
+        return $data;
     }
 }
