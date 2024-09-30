@@ -11,8 +11,8 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
     $amount = $_POST['amount'];
     $transactionType = $_POST['transaction_type_id'];
 
-    if ($amount > 5000) {
-        header("Location: ../your_deposit_page.php?deposit-error=Deposit amount cannot exceed 5000");
+    if ($transactionType == 3 && $amount > 5000) {
+        header("Location: ..form/deposit_page.php?deposit-error=Deposit amount cannot exceed 5000");
         exit();
     }
 
