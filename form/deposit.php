@@ -1,11 +1,18 @@
 <?php
 
 use common\FeatureUtil;
+use common\Point;
 use common\User;
 
 require_once "../common/FeatureUtil.php";
 require_once "../common/User.php";
+require_once "../common/Point.php";
 include "../connect.inc.php";
+
+if (isset($_SESSION['user_id'])) {
+    $point = new Point($conn, $_SESSION["user_id"]);
+    $point->deleteExpiredPoints();
+}
 ?>
 <!doctype html>
 <html lang="th">
@@ -49,9 +56,9 @@ include "../connect.inc.php";
             <p>ยอดเงินคงเหลือ</p>
             <h1>฿ <?php echo number_format($user->getWalletBalance(), 2); ?></h1>
         </div>
-        <input type="number" name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="0"><br>
+        <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="1"><br>
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
-        <input type="hidden" value="3" name="transaction_type_id"> <!--  Deposit in tb_transaction_type 3 -->
+        <input type="hidden" value="3" name="transaction_type_id">
         <input type="submit" value="ฝาก">
     </form>
 </div>

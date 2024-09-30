@@ -1,11 +1,18 @@
 <?php
 
 use common\FeatureUtil;
+use common\Point;
 use common\User;
 
 require_once "../common/FeatureUtil.php";
 require_once "../common/User.php";
+require_once "../common/Point.php";
 include "../connect.inc.php";
+
+if (isset($_SESSION['user_id'])) {
+    $point = new Point($conn, $_SESSION["user_id"]);
+    $point->deleteExpiredPoints();
+}
 ?>
 <!doctype html>
 <html lang="th">

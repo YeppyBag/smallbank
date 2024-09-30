@@ -18,6 +18,7 @@ if (isset($_SESSION['user_id'])) {
     $userPoint = new Point($conn, $user_id);
     $transaction = new Transaction($conn, $user_id);
     $transactionType = new TransactionType($conn);
+    $userPoint->deleteExpiredPoints();
 }
 $currency = '฿';
 ?>
@@ -108,8 +109,9 @@ $currency = '฿';
                     <tr>
                         <th>ชื่อธุรกรรม</th>
                         <th>ประเภทธุรกรรม</th>
-                        <th>วันที่</th>
+                        <th>วันที่ทำการ</th>
                         <th>แต้มที่ได้รับ</th>
+                        <th>วันที่แต้มหมดอายุ</th>
                         <th>ค่าธรรมเนียม</th>
                         <th class="amount-th">จำนวนเงิน</th>
                     </tr>
@@ -117,7 +119,8 @@ $currency = '฿';
                     <tbody>
                     <?php
                     $transactionData = $transaction->getTransactionByUserIdOrderBy($user_id, "created_at DESC");
-                    $pointTransactions = $userPoint->getTransactionHistory(); // Fetch all point transactions for this user
+                    $pointTransaction = $userPoint->getTransactionHistory();
+                    $pointHistory = $userPoint->getPointHistory(); // Fetch all point transactions for this user
 
                     $map = [
                         "1" => "รับเงิน",
@@ -133,19 +136,21 @@ $currency = '฿';
                         $prefix = 'SmallBank';
 
                         if (!empty($senderUserId)) {
-                            $senderUser = new User($conn, $senderUserId);
-                            $prefix = $transaction['transaction_type_id'] == 1 ? 'โอนจาก ' . $senderUser->getUsername() :
-                                ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $senderUser->getUsername() : $prefix);
+                            $prefix = $transaction['transaction_type_id'] == 1 ? 'โอนจาก ' . $user->getUsername() :
+                                ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $user->getUsername() : $prefix);
                         }
 
                         $transactionType = isset($map[$transaction['transaction_type_id']]) ? $map[$transaction['transaction_type_id']] : 'Unknown';
 
                         $pointAmount = 0;
+                        $pointExpirationDate = '-'; // Default value if no match is found
 
-                        foreach ($pointTransactions as $pointTransaction) {
-                            if ($pointTransaction['created_at'] == $transaction['created_at']) {
-                                $pointAmount = $pointTransaction['point_amount']; // Fetch the point amount
-                                break;
+                        // Check for matching point transactions
+                        foreach ($pointHistory as $pointHistoryZ) {
+                            if (date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at'])) == date('Y-m-d H:i:s', strtotime($transaction['created_at']))) {
+                                $pointAmount = $pointHistoryZ['points']; // Fetch the points (not point_amount)
+                                $pointExpirationDate = date('d/m/Y H:i:s', strtotime($pointHistoryZ['expiration_date'])); // Fetch expiration date
+                                break; // Exit loop once we find a match
                             }
                         }
                         ?>
@@ -154,11 +159,13 @@ $currency = '฿';
                             <td><?php echo htmlspecialchars($transactionType); ?></td>
                             <td><?php echo $transactionDate; ?></td>
                             <td><?php echo number_format($pointAmount); ?></td>
-                            <td>฿<?php echo number_format(($transaction['fee_amount']),2); ?></td>
-                            <td class="amount">฿<?php echo number_format(($transaction['amount'])); ?></td>
+                            <td><?php echo htmlspecialchars($pointExpirationDate); ?></td>
+                            <td>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></td>
+                            <td class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
+
                 </table>
                 <?php else : ?>
                 <br>
