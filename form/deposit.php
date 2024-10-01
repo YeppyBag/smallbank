@@ -33,7 +33,6 @@ if (isset($_SESSION['user_id'])) {
     </style>
     <input type="hidden" id="isLoggedIn" value="<?php echo isset($_SESSION['user_id']) ? 'false' : 'true'; ?>"/>
     <script src="../script/Login.js"></script>
-    <script src="../script/ConfirmAction.js"></script>
     <title>Deposit</title>
 </head>
 <body>
@@ -42,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
         <a href="../index.php">Home</a>
     </div>
     <h2>ฝากเงิน</h2>
-    <form name="deposit_money" method="post" action="../action/money_transaction.php" onsubmit="confirmAction(event,'ฝากเงิน')">
+    <form name="deposit_money" method="post" action="../action/check_deposit.php">
         <?php
         $user_id = $_SESSION['user_id'];
         FeatureUtil::displayMessage('handle', $_GET['deposit-handle'] ?? null);
@@ -66,13 +65,17 @@ if (isset($_SESSION['user_id'])) {
                     class="point-checkbox"
                     name="point_used"
                     type="checkbox"
+                    value="1"
+                    <?php if ($point->getPoints() <= 0) : ?>
+                    disabled
+                    <?php endif; ?>
             />
             <label for="point_used_checkbox" class="pointswitch-label">
                 <div class="point-inner"></div>
                 <span class="tooltip">ใช้แต้ม Pts. ในการลด ค่าธรรมเนียม 1 หน่วย ต่อ 1 Pts.</span>
             </label>
         </div>
-        <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="1" step="0.01">
+        <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="20" step="0.01">
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="3" name="transaction_type_id">
         <input type="submit" value="ฝาก">

@@ -19,6 +19,9 @@ if (isset($_SESSION['user_id'])) {
     $transaction = new Transaction($conn, $user_id);
     $transactionType = new TransactionType($conn);
     $userPoint->deleteExpiredPoints();
+    $points_to_expire = $userPoint->getPointsExpiringInOneDay();
+    $expire_day = date('Y-m-d', strtotime('+1 day'));
+    $points_expire_message = sprintf("%d Pts. สามารถใช้ได้ภายใน %s", $points_to_expire, $expire_day);
 }
 $currency = '฿';
 ?>
@@ -95,8 +98,11 @@ $currency = '฿';
                         <p class="available-text">Pts.</p>
                     <?php endif; ?>
                 </div>
-                <p class="point-almost-expire">1 Pts. can use till 1/10/2024</p>
-
+                <?php if ($points_to_expire > 0) : ?>
+                <p class="point-almost-expire"><?= $points_expire_message ?></p>
+                <?php else: ?>
+                <p class="point-almost-expire">ยังไม่มีแต้มจะหมดอายุเร็วๆนี้</p>
+                <?php endif; ?>
                 <div class="actions">
                     <?php if ($islogin): ?>
                         <button class="btn" data-url="form/deposit.php">ฝากเงิน</button>
@@ -153,12 +159,24 @@ $currency = '฿';
                             $pointExpirationDate = '-';
 
                             foreach ($pointHistory as $pointHistoryZ) {
-                                if (date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at'])) == date('Y-m-d H:i:s', strtotime($transaction['created_at']))) {
+                                $pointCreatedAt = date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at']));
+                                $transactionCreatedAt = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
+
+                                if ($pointCreatedAt == $transactionCreatedAt) {
                                     $pointAmount = $pointHistoryZ['points'];
                                     $pointExpirationDate = date('d/m/Y', strtotime($pointHistoryZ['expiration_date']));
                                     break;
                                 }
+                                foreach ($pointTransaction as $pointTrans) {
+                                    $pointTransCreatedAt = date('Y-m-d H:i:s', strtotime($pointTrans['created_at']));
+
+                                    if ($pointTransCreatedAt == $transactionCreatedAt && $pointTrans['transaction_type_id'] == 6) {
+                                        $pointAmount = -$pointTrans['point_amount'];
+                                        break;
+                                    }
+                                }
                             }
+
                             ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($prefix); ?></td>

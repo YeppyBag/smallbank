@@ -29,19 +29,37 @@ class Transaction {
         return $this->executeQuery($query);
     }
 
-    public function deposit($amount): string {
+    public function deposit($amount, $usePoint): string {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > 5000)
-            return "การฝากเงินไม่เกิน 5000 ต่อครั้ง ลองอีกครั้ง";
-        $fee = $this->fee->getFeeByAmount($amount);
-        $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
-        if ($this->save($this->user->getId(),3, $amount, $fee, $fee_amount)) {
+            return "การฝากเงินได้ครั้งละไม่เกิน 5000 ลองอีกครั้ง";
+
+        $fee_rate = $this->fee->getFeeRate($amount);
+        $localize = "";
+
+        $fee_amount = $this->fee->getFeeAmount($amount);
+        $available_points = $this->point->getPoints();
+        $points_to_use = min($fee_amount, $available_points);
+
+        if ($this->save($this->user->getId(), 3, $amount, $fee_rate, $fee_amount)) {
+            $transaction_id = mysqli_insert_id($this->conn);
+
+            if ($usePoint == 1 && $available_points > 0) {
+                $fee_amount -= $points_to_use;
+
+                $this->point->usePoints($points_to_use, $transaction_id);
+                $localize = "แต้มคงเหลือ: " . $this->point->getPoints();
+            }
+
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount - $fee_amount);
-            return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
+            return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance . $localize;
         }
+
         return "การฝากล้มเหลว";
     }
+
+
 
     private function depositToUserWallet($user_id, $amount) {
         $query = "UPDATE tb_user SET wallet_balance = wallet_balance + $amount WHERE user_id = $user_id";
@@ -99,10 +117,10 @@ class Transaction {
 
     public function getTransactionByUserIdJoinTable($user_id): ?array {
         $query = "SELECT t.*, u.username AS recipient_username 
-FROM tb_transaction t LEFT JOIN tb_user u 
-ON t.recipient_user_id = u.user_id 
-WHERE t.user_id = $user_id 
-ORDER BY t.created_at DESC";
+            FROM tb_transaction t LEFT JOIN tb_user u 
+            ON t.recipient_user_id = u.user_id 
+            WHERE t.user_id = $user_id 
+            ORDER BY t.created_at DESC";
         return $this->fetchQuery($query);
     }
     private function executeQuery($query) {

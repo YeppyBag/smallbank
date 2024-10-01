@@ -2,6 +2,10 @@
 
 namespace common;
 
+use Config;
+
+require_once "Config.php";
+
 class Point {
     private $conn;
     private int $userId;
@@ -32,9 +36,6 @@ class Point {
             $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
                                VALUES ($this->userId, $amount, 6, $transactionId)";
             $this->executeQuery($logTransaction);
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -55,7 +56,7 @@ class Point {
         return $this->fetchQuery($query);
     }
     public function handleSendPoint($amount, $transaction_id) { // โอน
-        if ($amount >= 1000) {
+        if ($amount >= Config::$reachGainPoint) {
             $this->addPoints(self::promotionPointGain($amount), $transaction_id); // 1200 * 0.01 =  12
         }
     }
@@ -68,10 +69,10 @@ class Point {
         $currentDay = date('N'); // มี ตัว D 'wed'
         $currentHour = date('H');
 
-        $pointMultiplier = 0.01;
+        $pointMultiplier = Config::$pointGain;
 
         if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 21)) {
-            $pointMultiplier = 0.02;
+            $pointMultiplier = Config::$extraPointGain;
         }
         return $pointMultiplier;
     }
@@ -79,6 +80,20 @@ class Point {
     public function deleteExpiredPoints() { //ลบแต้ม บูด
         $query = "DELETE FROM tb_point WHERE expiration_date <= CURDATE()";
         return $this->executeQuery($query);
+    }
+    public function getPointsExpiringInOneDay(): int {
+        $expire_date = date('Y-m-d', strtotime('+1 day'));
+        $query = "SELECT SUM(points) AS expiring_points 
+              FROM tb_point 
+              WHERE user_id = $this->userId 
+              AND expiration_date = '$expire_date'";
+
+        $result = $this->executeQuery($query);
+
+        if ($row = mysqli_fetch_assoc($result))
+            return (int)($row['expiring_points'] ?? 0);
+
+        return 0;
     }
 
     private function executeQuery($query) {
