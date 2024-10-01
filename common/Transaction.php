@@ -97,23 +97,14 @@ class Transaction {
         return "ล้มเหลว";
     }
 
-    public function getTransactionById($id): ?array {
-        $query = "SELECT * FROM {$this->table_name} WHERE transaction_id = $id";
+    public function getTransactionByUserIdJoinTable($user_id): ?array {
+        $query = "SELECT t.*, u.username AS recipient_username 
+FROM tb_transaction t LEFT JOIN tb_user u 
+ON t.recipient_user_id = u.user_id 
+WHERE t.user_id = $user_id 
+ORDER BY t.created_at DESC";
         return $this->fetchQuery($query);
     }
-    public function getTransactionByUserId($user_id): ?array {
-        $query = "SELECT * FROM {$this->table_name} WHERE user_id = $user_id";
-        return $this->fetchQuery($query);
-    }
-    public function getTransactionByUserIdOrderBy($user_id,$order): ?array {
-        $query = "SELECT * FROM {$this->table_name} WHERE user_id = $user_id ORDER BY $order";
-        return $this->fetchQuery($query);
-    }
-    public function getAllTransactions(): ?array {
-        $query = "SELECT * FROM {$this->table_name}";
-        return $this->fetchQuery($query);
-    }
-
     private function executeQuery($query) {
         return mysqli_query($this->conn, $query);
     }

@@ -24,7 +24,6 @@ $currency = '฿';
 ?>
 
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -37,7 +36,6 @@ $currency = '฿';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
     <div class="container">
         <dialog>
@@ -108,70 +106,70 @@ $currency = '฿';
                 </div>
             </div>
 
-            <div class="main-content">
-                <div class="recent-activity">
-                    <h2>ประวัติธุรกรรม</h2>
-                    <?php if ($islogin): ?>
-                        <table class="activity-table">
-                            <thead>
-                                <tr>
-                                    <th>ชื่อธุรกรรม</th>
-                                    <th>ประเภทธุรกรรม</th>
-                                    <th>วันที่ทำการ</th>
-                                    <th>แต้มที่ได้รับ</th>
-                                    <th>วันที่แต้มหมดอายุ</th>
-                                    <th>ค่าธรรมเนียม</th>
-                                    <th class="amount-th">จำนวนเงิน</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $transactionData = $transaction->getTransactionByUserIdOrderBy($user_id, "created_at DESC");
-                                $pointTransaction = $userPoint->getTransactionHistory();
-                                $pointHistory = $userPoint->getPointHistory();
+        <div class="main-content">
+            <div class="recent-activity">
+                <h2>ประวัติธุรกรรม</h2>
+                <?php if ($islogin) : ?>
+                <table class="activity-table">
+                    <thead>
+                    <tr>
+                        <th>ชื่อธุรกรรม</th>
+                        <th>ประเภทธุรกรรม</th>
+                        <th>วันที่ทำการ</th>
+                        <th>แต้มที่ได้รับ</th>
+                        <th>วันที่แต้มหมดอายุ</th>
+                        <th>ค่าธรรมเนียม</th>
+                        <th class="amount-th">จำนวนเงิน</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $transactionData = $transaction->getTransactionByUserIdJoinTable($user_id);
+                    $pointTransaction = $userPoint->getTransactionHistory();
+                    $pointHistory = $userPoint->getPointHistory();
 
-                                $map = [
-                                    "1" => "รับเงิน",
-                                    "2" => "โอนเงิน",
-                                    "3" => "ฝากเงิน",
-                                    "4" => "ถอนเงิน"
-                                ]; // Transaction type mapping
-                            
-                                foreach ($transactionData as $transaction):
-                                    $senderUserId = $transaction['recipient_user_id'];
-                                    $transactionDate = date('d/m/Y H:i:s', strtotime($transaction['created_at']));
+                    $map = [
+                        "1" => "รับเงิน",
+                        "2" => "โอนเงิน",
+                        "3" => "ฝากเงิน",
+                        "4" => "ถอนเงิน"
+                    ]; // Transaction type mapping
 
-                                    $prefix = 'SmallBank';
+                    foreach ($transactionData as $transaction):
+                        $senderUserId = $transaction['user_id'];
+                        $receiverUsername = $transaction['recipient_username'];
+                        $transactionDate = date('d/m/Y H:i:s', strtotime($transaction['created_at']));
+                        $prefix = 'SmallBank';
 
-                                    if (!empty($senderUserId)) {
-                                        $prefix = $transaction['transaction_type_id'] == 1 ? 'โอนจาก ' . $user->getUsername() :
-                                            ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $user->getUsername() : $prefix);
-                                    }
+                        if (!empty($senderUserId)) {
+                            $prefix = $transaction['transaction_type_id'] == 1 ? 'โอนจาก ' . $receiverUsername :
+                                ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $receiverUsername : $prefix);
+                        }
 
-                                    $transactionType = isset($map[$transaction['transaction_type_id']]) ? $map[$transaction['transaction_type_id']] : 'Unknown';
+                        $transactionType = isset($map[$transaction['transaction_type_id']]) ? $map[$transaction['transaction_type_id']] : 'Unknown';
 
-                                    $pointAmount = 0;
-                                    $pointExpirationDate = '-';
+                        $pointAmount = 0;
+                        $pointExpirationDate = '-';
 
-                                    foreach ($pointHistory as $pointHistoryZ) {
-                                        if (date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at'])) == date('Y-m-d H:i:s', strtotime($transaction['created_at']))) {
-                                            $pointAmount = $pointHistoryZ['points'];
-                                            $pointExpirationDate = date('d/m/Y H:i:s', strtotime($pointHistoryZ['expiration_date']));
-                                            break;
-                                        }
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($prefix); ?></td>
-                                        <td><?php echo htmlspecialchars($transactionType); ?></td>
-                                        <td><?php echo $transactionDate; ?></td>
-                                        <td><?php echo number_format($pointAmount); ?></td>
-                                        <td><?php echo htmlspecialchars($pointExpirationDate); ?></td>
-                                        <td>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></td>
-                                        <td class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
+                        foreach ($pointHistory as $pointHistoryZ) {
+                            if (date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at'])) == date('Y-m-d H:i:s', strtotime($transaction['created_at']))) {
+                                $pointAmount = $pointHistoryZ['points'];
+                                $pointExpirationDate = date('d/m/Y H:i:s', strtotime($pointHistoryZ['expiration_date']));
+                                break;
+                            }
+                        }
+                        ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($prefix); ?></td>
+                            <td><?php echo htmlspecialchars($transactionType); ?></td>
+                            <td><?php echo $transactionDate; ?></td>
+                            <td><?php echo number_format($pointAmount); ?></td>
+                            <td><?php echo htmlspecialchars($pointExpirationDate); ?></td>
+                            <td>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></td>
+                            <td class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
 
                         </table>
                     <?php else: ?>
@@ -198,5 +196,4 @@ $currency = '฿';
         });
     </script>
 </body>
-
 </html>
