@@ -21,6 +21,7 @@ body {
     transition: background 0.5s ease;
 }
 
+
 h1, h2, h3 {
     color: #333;
 }
@@ -187,10 +188,12 @@ button {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    table-layout: fixed; /* Ensures columns don't grow beyond container */
 }
 
 .activity-table th, .activity-table td {
     padding: 15px;
+    /*white-space: nowrap; !* Prevent text wrapping in table cells *!*/
 }
 
 .activity-table th {
@@ -225,6 +228,9 @@ button {
 }
 
 @media (max-width: 768px) {
+    .container {
+        height:auto;
+    }
     .dashboard {
         flex-direction: column;
     }
@@ -258,6 +264,10 @@ button {
 
     .activity-table tr:hover {
         background-color: #e0e0e0;
+    }
+    table th, table td {
+        padding: 10px; /* Adjust padding for smaller screens */
+        font-size: 14px; /* Smaller font size for readability */
     }
 }
 
