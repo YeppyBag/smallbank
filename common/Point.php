@@ -68,10 +68,10 @@ class Point {
         $currentDay = date('N'); // มี ตัว D 'wed'
         $currentHour = date('H');
 
-        $pointMultiplier = 0.01; // Default multiplier
+        $pointMultiplier = 0.01;
 
         if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 21)) {
-            $pointMultiplier = 0.02; // Double points
+            $pointMultiplier = 0.02;
         }
         return $pointMultiplier;
     }
