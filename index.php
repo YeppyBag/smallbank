@@ -140,7 +140,24 @@ $currency = '฿';
                             "2" => "โอนเงิน",
                             "3" => "ฝากเงิน",
                             "4" => "ถอนเงิน"
-                        ]; // Transaction type mapping
+                        ];
+
+                        $pointHistoryMap = [];
+                        foreach ($pointHistory as $pointHistoryZ) {
+                            $pointCreatedAt = date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at']));
+                            $pointHistoryMap[$pointCreatedAt] = [
+                                'points' => $pointHistoryZ['points'],
+                                'expiration_date' => date('d/m/Y', strtotime($pointHistoryZ['expiration_date']))
+                            ];
+                        }
+
+                        $pointTransactionMap = [];
+                        foreach ($pointTransaction as $pointTrans) {
+                            $pointTransCreatedAt = date('Y-m-d H:i:s', strtotime($pointTrans['created_at']));
+                            if ($pointTrans['transaction_type_id'] == 6) {
+                                $pointTransactionMap[$pointTransCreatedAt] = -$pointTrans['point_amount'];
+                            }
+                        }
 
                         foreach ($transactionData as $transaction):
                             $senderUserId = $transaction['user_id'];
@@ -153,28 +170,19 @@ $currency = '฿';
                                     ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $receiverUsername : $prefix);
                             }
 
-                            $transactionType = isset($map[$transaction['transaction_type_id']]) ? $map[$transaction['transaction_type_id']] : 'Unknown';
+                            $transactionType = $map[$transaction['transaction_type_id']] ?? 'Unknown';
 
                             $pointAmount = 0;
                             $pointExpirationDate = '-';
 
-                            foreach ($pointHistory as $pointHistoryZ) {
-                                $pointCreatedAt = date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at']));
-                                $transactionCreatedAt = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
+                            $transactionCreatedAt = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
+                            if (isset($pointHistoryMap[$transactionCreatedAt])) {
+                                $pointAmount = $pointHistoryMap[$transactionCreatedAt]['points'];
+                                $pointExpirationDate = $pointHistoryMap[$transactionCreatedAt]['expiration_date'];
+                            }
 
-                                if ($pointCreatedAt == $transactionCreatedAt) {
-                                    $pointAmount = $pointHistoryZ['points'];
-                                    $pointExpirationDate = date('d/m/Y', strtotime($pointHistoryZ['expiration_date']));
-                                    break;
-                                }
-                                foreach ($pointTransaction as $pointTrans) {
-                                    $pointTransCreatedAt = date('Y-m-d H:i:s', strtotime($pointTrans['created_at']));
-
-                                    if ($pointTransCreatedAt == $transactionCreatedAt && $pointTrans['transaction_type_id'] == 6) {
-                                        $pointAmount = -$pointTrans['point_amount'];
-                                        break;
-                                    }
-                                }
+                            if (isset($pointTransactionMap[$transactionCreatedAt])) {
+                                $pointAmount += $pointTransactionMap[$transactionCreatedAt];
                             }
 
                             ?>
