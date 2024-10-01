@@ -37,7 +37,7 @@ class Transaction {
         $fee = $this->fee->getFeeByAmount($amount);
         $fee_amount = $amount < 100 ? $fee : ($fee * 0.01) * $amount;
         if ($this->save($this->user->getId(),3, $amount, $fee, $fee_amount)) {
-            $newBalance = $this->depositToUserWallet($this->user->getId(), $amount);
+            $newBalance = $this->depositToUserWallet($this->user->getId(), $amount - $fee_amount);
             return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance;
         }
         return "การฝากล้มเหลว";
