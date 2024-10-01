@@ -18,6 +18,7 @@ body {
     display: flex;
     min-height: 100vh;
     align-items: center;
+    transition: background 0.5s ease;
 }
 
 h1, h2, h3 {
@@ -53,6 +54,11 @@ button {
     flex-shrink: 0;
     background-color: #f4f5f7;
     overflow-y: auto;
+    transition: background 0.3s ease;
+}
+
+.sidebar:hover {
+    background-color: rgba(244, 245, 247, 0.8);
 }
 
 .main-content {
@@ -78,6 +84,11 @@ button {
     border-radius: 5%;
     background-color: white;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.balance-section:hover {
+    transform: scale(1.02);
 }
 
 .balance-current {
@@ -128,6 +139,7 @@ button {
     font-weight: 200;
     color: #777;
 }
+
 .point-almost-expire {
     display: flex;
     padding-left: 20px;
@@ -151,10 +163,12 @@ button {
     font-size: 16px;
     font-weight: 500;
     flex-grow: 1;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .actions .btn:hover {
     background-color: #005ea6;
+    transform: translateY(-2px);
 }
 
 .recent-activity {
@@ -162,6 +176,11 @@ button {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.recent-activity:hover {
+    transform: scale(1.02);
 }
 
 .activity-table {
@@ -184,7 +203,7 @@ button {
 }
 
 .activity-table tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; /* Highlight on hover */
 }
 
 .amount {
@@ -244,23 +263,23 @@ button {
 
 @media (max-width: 950px) {
     h1, h2, h3 {
-        font-size: 1.5em; /* Reduce header font sizes */
+        font-size: 1.5em;
     }
 
     .balance-amount h1 {
-        font-size: 28px; /* Further adjust balance font size */
+        font-size: 28px;
     }
 
     .actions .btn {
-        font-size: 12px; /* Further reduce button font size */
-        padding: 6px 12px; /* Further adjust button padding */
+        font-size: 12px;
+        padding: 6px 12px;
     }
 
     .activity-table th, .activity-table td {
-        font-size: 12px; /* Adjust table font size */
+        font-size: 12px;
     }
 
     .footer {
-        padding: 10px; /* Adjust footer padding */
+        padding: 10px;
     }
 }

@@ -42,13 +42,14 @@ form input[type="text"] {
     border: 2px solid #0070ba;
     border-radius: 5px;
     outline: none;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
     width: 100%;
 }
 
 form input[type="number"]:focus,
 form input[type="text"]:focus {
     border-color: #005bb5;
+    box-shadow: 0 0 5px rgba(0, 91, 181, 0.5);
 }
 
 form input[type="submit"] {
@@ -59,12 +60,13 @@ form input[type="submit"] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s;
-    width: 100%; /* Make submit button take full width */
+    transition: background 0.3s, transform 0.2s;
+    width: 100%;
 }
 
 form input[type="submit"]:hover {
     background: #005bb5;
+    transform: scale(1.02);
 }
 
 input[type="number"] {
@@ -77,25 +79,28 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-/* Media Queries for Responsive Design */
+input::placeholder {
+    color: #aaa;
+}
+
 @media (max-width: 600px) {
     body {
-        height: auto; /* Allow body to stretch in height */
-        padding: 20px; /* Add padding to body for smaller devices */
+        height: auto;
+        padding: 20px;
     }
 
     .container {
-        margin-top: 20px; /* Reduce top margin on smaller screens */
-        padding: 15px; /* Adjust padding */
+        margin-top: 20px;
+        padding: 15px;
     }
 
     h2 {
-        font-size: 1.5rem; /* Smaller font size for the heading */
+        font-size: 1.5rem;
     }
 
     form input[type="number"],
     form input[type="text"],
     form input[type="submit"] {
-        font-size: 1rem; /* Ensure input text is readable */
+        font-size: 1rem;
     }
 }
