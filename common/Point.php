@@ -26,7 +26,6 @@ class Point {
         $this->executeQuery($logTransaction);
     }
 
-
     public function usePoints($amount, $transactionId) {
         $currentPoints = $this->getPoints();
         if ($currentPoints >= $amount) {
@@ -51,6 +50,14 @@ class Point {
         $query = "SELECT * FROM tb_point_transaction WHERE user_id = $this->userId ORDER BY created_at DESC";
         return $this->fetchQuery($query);
     }
+    public function getTransactionHistories(): ?array {
+        $query = "SELECT tb.*, ty.transaction_type_name AS transfer_type_name
+              FROM tb_point_transaction tb 
+              JOIN tb_transaction_type ty ON tb.transaction_type_id = ty.transaction_type_id 
+              WHERE tb.user_id = $this->userId ORDER BY created_at DESC";
+        return $this->fetchQuery($query);
+    }
+
     public function getPointHistory(): ?array {
         $query = "SELECT * FROM tb_point WHERE user_id = $this->userId";
         return $this->fetchQuery($query);
