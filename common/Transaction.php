@@ -4,6 +4,7 @@ namespace common;
 
 require_once "Fee.php";
 require_once "Point.php";
+require_once "Config.php";
 
 class Transaction {
     private $conn;
@@ -29,7 +30,7 @@ class Transaction {
         return $this->executeQuery($query);
     }
 
-    public function deposit($amount, $usePoint): string {
+    public function deposit($amount, $usePoint,$amountUsed): string {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > 5000)
@@ -39,16 +40,12 @@ class Transaction {
         $localize = "";
 
         $fee_amount = $this->fee->getFeeAmount($amount);
-        $available_points = $this->point->getPoints();
-        $points_to_use = min($fee_amount, $available_points);
 
         if ($this->save($this->user->getId(), 3, $amount, $fee_rate, $fee_amount)) {
             $transaction_id = mysqli_insert_id($this->conn);
 
-            if ($usePoint == 1 && $available_points > 0) {
-                $fee_amount -= $points_to_use;
-
-                $this->point->usePoints($points_to_use, $transaction_id);
+            if ($usePoint == 1) {
+                $this->point->usePoints($amountUsed, $transaction_id);
                 $localize = "แต้มคงเหลือ: " . $this->point->getPoints();
             }
 
@@ -57,6 +54,33 @@ class Transaction {
         }
 
         return "การฝากล้มเหลว";
+    }
+
+    public function send($amount, $receiver_user_id, $usePoint, $amountUse): string {
+        if ($amount < 1)
+            return "จำนวนไม่ถูกต้อง";
+        if ($amount > $this->user->getWalletBalance())
+            return "ยอดเงินไม่เพียงพอ";
+
+        $feePercentage = $this->fee->getSenderFee();
+        $fee_amount = round($amount * $feePercentage);
+
+        if ($this->save($this->user->getId(), 2, $amount, $feePercentage, $fee_amount, $receiver_user_id)) {
+            $transaction_id = mysqli_insert_id($this->conn);
+
+            if ($usePoint == 1) {
+                $this->point->usePoints($amountUse, $transaction_id);
+                $localize = "แต้มคงเหลือ: " . $this->point->getPoints();
+            }
+
+            $this->point->handleSendPoint($amount, $transaction_id);
+            $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount + $fee_amount);
+            $this->receive($this->user->getId(), $amount, $receiver_user_id);
+
+            return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance . ($localize ?? '');
+        }
+
+        return "โอนเงินล้มเหลว";
     }
 
     private function depositToUserWallet($user_id, $amount) {
@@ -86,32 +110,6 @@ class Transaction {
         }
         return "ล้มเหลว";
     }
-    public function send($amount, $receiver_user_id, $usePoint): string {
-        if ($amount < 1) return "จำนวนไม่ถูกต้อง";
-        if ($amount > $this->user->getWalletBalance()) return "ยอดเงินไม่เพียงพอ";
-
-        $feePercentage = $this->fee->getSenderFee();
-        $fee_amount = $amount * $feePercentage;
-
-        $available_points = $this->point->getPoints();
-        $points_to_use = min($fee_amount, $available_points);
-
-        if ($usePoint == 1 && $points_to_use > 0)
-            $fee_amount -= $points_to_use;
-
-        if ($this->save($this->user->getId(), 2, $amount, $feePercentage, $fee_amount, $receiver_user_id)) {
-            $transaction_id = mysqli_insert_id($this->conn);
-            if ($usePoint == 1 && $points_to_use > 0) {
-                $this->point->usePoints($points_to_use, $transaction_id);
-            }
-            $this->point->handleSendPoint($amount, $transaction_id);
-            $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount + $fee_amount);
-            $this->receive($this->user->getId(), $amount, $receiver_user_id);
-            return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance;
-        }
-        return "โอนเงินล้มเหลว";
-    }
-
 
     public function receive($sender_id, $amount, $receiver_user_id) : string { // receive = 1
         if ($amount < 1) {
