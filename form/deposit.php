@@ -58,7 +58,7 @@ if (isset($_SESSION['user_id'])) {
         </div>
 
         <div class="point_used">
-            ใช้แต้ม Pts.
+            ใช้แต้ม Pts. <?= $point->getPoints() ?>
             <input
                     checked=""
                     id="point_used_checkbox"
