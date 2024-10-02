@@ -57,24 +57,39 @@ if (isset($_SESSION['user_id'])) {
             <h1>฿ <?php echo number_format($user->getWalletBalance(), 2); ?></h1>
         </div>
 
-        <div class="point_used">
-            ใช้แต้ม Pts. <?= $point->getPoints() ?>
-            <input
-                    checked=""
-                    id="point_used_checkbox"
-                    class="point-checkbox"
-                    name="point_used"
-                    type="checkbox"
-                    value="1"
-                    <?php if ($point->getPoints() <= 0) : ?>
-                    disabled
-                    <?php endif; ?>
-            />
-            <label for="point_used_checkbox" class="pointswitch-label">
-                <div class="point-inner"></div>
-                <span class="tooltip">ใช้แต้ม Pts. ในการลด ค่าธรรมเนียม 1 หน่วย ต่อ 1 Pts.</span>
-            </label>
-        </div>
+        <?php if ($point->getPoints() < Config::$pointRequirement) : ?>
+            <div class="point_used">
+                ใช้แต้ม Pts. <?= $point->getPoints() ?>
+                <input
+                        id="point_used_checkbox"
+                        class="point-checkbox"
+                        name="point_used"
+                        type="checkbox"
+                        value="1"
+                        disabled
+                />
+                <label for="point_used_checkbox" class="pointswitch-label">
+                    <div class="point-inner"></div>
+                    <span class="tooltip">แต้มไม่เพียงพอ</span>
+                </label>
+            </div>
+        <?php else: ?>
+            <div class="point_used">
+                ใช้แต้ม Pts. <?= $point->getPoints() ?>
+                <input
+                        id="point_used_checkbox"
+                        class="point-checkbox"
+                        name="point_used"
+                        type="checkbox"
+                        value="1"
+                />
+                <label for="point_used_checkbox" class="pointswitch-label">
+                    <div class="point-inner"></div>
+                    <span class="tooltip">ใช้แต้ม Pts. ในการลด ค่าธรรมเนียม 1 หน่วย ต่อ 1000 Pts.</span>
+                </label>
+            </div>
+        <?php endif; ?>
+
         <input type="number" id='amount' name="amount" placeholder="จำนวนที่ต้องการฝาก" required max="5000" min="20" step="0.01">
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="3" name="transaction_type_id">

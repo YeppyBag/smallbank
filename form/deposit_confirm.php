@@ -38,11 +38,10 @@
                         <span>จำนวนเงินที่ฝาก :</span>
                         <span><?= number_format($amount, 2) ?> บาท</span>
                         <span>ค่าธรรมเนียม (<?= $feeRate ?>%) :</span>
-                        <span>-<?= number_format($fee_amount, 2) ?> บาท</span>
-
-                        <?php if ($usePoint == 1 && isset($points_to_use) && $points_to_use > 0): ?>
+                        <span>-<?= number_format($newfee_amount, 2) ?> บาท</span>
+                        <?php if ($usePoint == 1 && isset($points_to_use) && $points_to_use >= 1): ?>
                             <span>ใช้แต้ม point <?= $points_to_use ?> หักลบค่าธรรมเนียม :</span>
-                            <span>+<?= number_format($points_to_use, 2) ?> บาท</span>
+                            <span>+<?= number_format($points_to_use / 1000, 2) ?> บาท</span>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -50,12 +49,13 @@
         </div>
         <div class="card checkout">
             <div class="footer">
-                <label class="price"><?= number_format($subtotol, 2) ?> บาท</label>
+                <label class="price"><?= number_format($subtotal, 2) ?> บาท</label>
                 <form method="POST" action="../action/money_transaction.php" onsubmit="confirmAction(event,'ฝากเงิน')">
                     <input type="hidden" name="amount" value="<?= htmlspecialchars($amount) ?>">
                     <input type="hidden" name="user_id" value="<?= htmlspecialchars($user_id)?>">
                     <input type="hidden" name="transaction_type_id" value="<?= htmlspecialchars($transaction_type_id) ?>">
                     <input type="hidden" name="point_used" value="<?= htmlspecialchars($usePoint) ?>">
+                    <input type="hidden" name="amount_used" value="<?= htmlspecialchars($points_to_use) ?>">
                     <input type="submit" value="ยืนยัน" class="checkout-btn">
                 </form>
             </div>

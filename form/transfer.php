@@ -71,24 +71,38 @@ $user = new User($conn, $_SESSION['user_id']);
                 <span class="name">โอนโดยเมล</span>
             </label>
         </div>
-        <div class="point_used">
-            ใช้แต้ม Pts. <?= $point->getPoints() ?>
-            <input
-                    checked=""
-                    id="point_used_checkbox"
-                    class="point-checkbox"
-                    name="point_used"
-                    type="checkbox"
-                    value="1"
-                <?php if ($point->getPoints() <= 0) : ?>
-                    disabled
-                <?php endif; ?>
-            />
-            <label for="point_used_checkbox" class="pointswitch-label">
-                <div class="point-inner"></div>
-                <span class="tooltip">ใช้แต้ม Pts. ในการลด ค่าธรรมเนียม 1 หน่วย ต่อ 1 Pts.</span>
-            </label>
-        </div>
+        <?php if ($point->getPoints() < Config::$pointRequirement) : ?>
+            <div class="point_used">
+                ใช้แต้ม Pts. <?= $point->getPoints() ?>
+                <input
+                        id="point_used_checkbox"
+                        class="point-checkbox"
+                        name="point_used"
+                        type="checkbox"
+                        value="1"
+                        disabled
+                />
+                <label for="point_used_checkbox" class="pointswitch-label">
+                    <div class="point-inner"></div>
+                    <span class="tooltip">แต้มไม่เพียงพอ</span>
+                </label>
+            </div>
+        <?php else: ?>
+            <div class="point_used">
+                ใช้แต้ม Pts. <?= $point->getPoints() ?>
+                <input
+                        id="point_used_checkbox"
+                        class="point-checkbox"
+                        name="point_used"
+                        type="checkbox"
+                        value="1"
+                />
+                <label for="point_used_checkbox" class="pointswitch-label">
+                    <div class="point-inner"></div>
+                    <span class="tooltip">ใช้แต้ม Pts. ในการลด ค่าธรรมเนียม 1 หน่วย ต่อ 1000 Pts.</span>
+                </label>
+            </div>
+        <?php endif; ?>
         <input type="text" id="receiver" name="receiver" placeholder="Receiver Username" required><br>
         <script>
             function updatePlaceholder(type) {

@@ -40,10 +40,10 @@
                         <span>จำนวนเงินทั้งหมด :</span>
                         <span><?= number_format($amount,2) ?> บาท</span>
                         <span>ค่าธรรมเนียม (<?= $fee->getSenderFee() * 100?>%) : </span>
-                        <span><?= number_format($fee_amount,2) ?> บาท</span>
-                        <?php if ($usePoint == 1 && isset($points_to_use) && $points_to_use > 0): ?>
+                        <span><?= number_format($newfee_amount,2) ?> บาท</span>
+                        <?php if ($usePoint == 1 && isset($points_to_use) && $points_to_use >= 1): ?>
                             <span>ใช้แต้ม point <?= $points_to_use ?> หักลบค่าธรรมเนียม :</span>
-                            <span>+<?= number_format($points_to_use, 2) ?> บาท</span>
+                            <span>+<?= number_format($points_to_use / 1000, 2) ?> บาท</span>
                         <?php endif; ?>
                         <span>แต้มที่จะได้รับ : </span>
                         <span><?= number_format(Point::promotionPointGain($amount)) ?> Pts.</span>
@@ -60,6 +60,7 @@
                     <input type="hidden" name="receiver_id" value="<?= htmlspecialchars($receiver_id) ?>">
                     <input type="hidden" name="transaction_type_id" value="<?= htmlspecialchars($transaction_type_id) ?>" >
                     <input type="hidden" name="point_used" value="<?= htmlspecialchars($usePoint) ?>">
+                    <input type="hidden" name="amount_used" value="<?= htmlspecialchars($points_to_use) ?>">
                     <input type="submit" value="ยืนยัน" class="checkout-btn">
                 </form>
             </div>
