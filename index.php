@@ -126,8 +126,6 @@ $currency = '฿';
                             <th>ชื่อธุรกรรม</th>
                             <th>ประเภทธุรกรรม</th>
                             <th>วันที่ทำการ</th>
-                            <th>แต้มที่ได้รับ</th>
-                            <th>วันที่แต้มหมดอายุ</th>
                             <th>ค่าธรรมเนียม</th>
                             <th class="amount-th">จำนวนเงิน</th>
                         </tr>
@@ -135,33 +133,12 @@ $currency = '฿';
                         <tbody>
                         <?php
                         $transactionData = $transaction->getTransactionByUserIdJoinTable($user_id);
-                        $pointTransaction = $userPoint->getTransactionHistory();
-                        $pointHistory = $userPoint->getPointHistory();
-
                         $map = [
                             "1" => "รับเงิน",
                             "2" => "โอนเงิน",
                             "3" => "ฝากเงิน",
                             "4" => "ถอนเงิน"
                         ];
-
-                        $pointHistoryMap = [];
-                        foreach ($pointHistory as $pointHistoryZ) {
-                            $pointCreatedAt = date('Y-m-d H:i:s', strtotime($pointHistoryZ['created_at']));
-                            $pointHistoryMap[$pointCreatedAt] = [
-                                'points' => $pointHistoryZ['points'],
-                                'expiration_date' => date('d/m/Y', strtotime($pointHistoryZ['expiration_date']))
-                            ];
-                        }
-
-                        $pointTransactionMap = [];
-                        foreach ($pointTransaction as $pointTrans) {
-                            $pointTransCreatedAt = date('Y-m-d H:i:s', strtotime($pointTrans['created_at']));
-                            if ($pointTrans['transaction_type_id'] == 6) {
-                                $pointTransactionMap[$pointTransCreatedAt] = -$pointTrans['point_amount'];
-                            }
-                        }
-
                         foreach ($transactionData as $transaction):
                             $senderUserId = $transaction['user_id'];
                             $receiverUsername = $transaction['recipient_username'];
@@ -172,33 +149,24 @@ $currency = '฿';
                                 $prefix = $transaction['transaction_type_id'] == 1 ? 'โอนจาก ' . $receiverUsername :
                                     ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $receiverUsername : $prefix);
                             }
-
                             $transactionType = $map[$transaction['transaction_type_id']] ?? 'Unknown';
 
-                            $pointAmount = 0;
-                            $pointExpirationDate = '-';
-
                             $transactionCreatedAt = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
-                            if (isset($pointHistoryMap[$transactionCreatedAt])) {
-                                $pointAmount = $pointHistoryMap[$transactionCreatedAt]['points'];
-                                $pointExpirationDate = $pointHistoryMap[$transactionCreatedAt]['expiration_date'];
-                            }
 
-                            if (isset($pointTransactionMap[$transactionCreatedAt])) {
-                                $pointAmount += $pointTransactionMap[$transactionCreatedAt];
+                            if (isset($pointExpirationMap[$transactionCreatedAt])) {
+                                $pointAmount = $pointExpirationMap[$transactionCreatedAt]['points'];
+                                $pointExpirationDate = $pointExpirationMap[$transactionCreatedAt]['expiration_date'];
                             }
-
                             ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($prefix); ?></td>
                                 <td><?php echo htmlspecialchars($transactionType); ?></td>
                                 <td><?php echo $transactionDate; ?></td>
-                                <td><?php echo number_format($pointAmount); ?></td>
-                                <td><?php echo htmlspecialchars($pointExpirationDate); ?></td>
                                 <td>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></td>
                                 <td class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></td>
                             </tr>
                         <?php endforeach; ?>
+
                         </tbody>
                     </table>
                 <?php else: ?>
