@@ -8,11 +8,12 @@ include "../connect.inc.php";
 require_once "../common/User.php";
 require_once "../common/Fee.php";
 require_once "../common/Point.php";
+require_once "../common/Config.php";
 
-if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['amount'])) {
+if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['amount']) && isset($_POST['transaction_type_id'])) {
     $user_id = $_POST['user_id'];
-    $amount = $_POST['amount'];
-    $transaction_type_id = $_POST['transaction_type_id'];
+    $amount = (float) $_POST['amount'];
+    $transaction_type_id = (int) $_POST['transaction_type_id'];
 
     $usePoint = $_POST['point_used'] ?? 0;
 
@@ -20,13 +21,20 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
     $fee = new Fee($conn);
     $point = new Point($conn, $user_id);
 
+    $userPoint = $point->getPoints();
+
     $feeRate = $fee->getFeeRate($amount);
     $fee_amount = $fee->getFeeAmount($amount);
 
-    if ($usePoint == 1) {
-        $available_points = $point->getPoints();
-        $points_to_use = min($fee_amount, $available_points);
-        $newfee_amount = $fee_amount - $points_to_use; // Subtract points used from fee amount
+    $newfee_amount = $fee_amount;
+    $points_to_use = 0;
+
+    if ($usePoint == 1 && $userPoint >= Config::$pointRequirement && Config::$pointRequirement > 0) {
+        $available_points = floor((int) $userPoint / 1000) * 1000;
+        $points_to_use = min($fee_amount * 1000, $available_points);
+        $newfee_amount = $fee_amount - floor($points_to_use / 1000);
+    } else {
+        $newfee_amount = $fee_amount;
     }
 
     if ($transaction_type_id == 3 && $amount > 5000) {
@@ -34,7 +42,7 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
         exit();
     }
 
-    $subtotol = ($usePoint != 0) ? $amount - $newfee_amount : $amount;
+    $subtotal = ($usePoint != 0) ? $amount - $newfee_amount : $amount - $fee_amount;
 
     include '../form/deposit_confirm.php';
     exit();
