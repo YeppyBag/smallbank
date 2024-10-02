@@ -45,7 +45,7 @@ $currency = '฿';
         <iframe id="iframe" src="" frameborder="0"></iframe>
     </dialog>
     <div class="navbar">
-        <h1 class="logo">SmallBank</h1>
+        <a href="index.php"><h1 class="logo">SmallBank</h1></a>
         <?php
         if (!$islogin) {
             echo "<a href='form/login.php'>SIGN UP / LOG IN</a>";
@@ -94,7 +94,9 @@ $currency = '฿';
 
                 <div class="point-amount">
                     <?php if ($islogin): ?>
-                        <p class="point"><?php echo number_format($userPoint->getPoints()) ?> </p>
+                        <a href="#" class="point-link" id="point-transaction-link" data-url="form/point_transaction_info.php">
+                            <p class="point"><?php echo number_format($userPoint->getPoints()); ?></p>
+                        </a>
                         <p class="available-text">Pts.</p>
                     <?php endif; ?>
                 </div>
@@ -128,6 +130,7 @@ $currency = '฿';
                             <th>วันที่ทำการ</th>
                             <th>ค่าธรรมเนียม</th>
                             <th class="amount-th">จำนวนเงิน</th>
+                            <th>ยอดสุทธิ</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -150,13 +153,6 @@ $currency = '฿';
                                     ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $receiverUsername : $prefix);
                             }
                             $transactionType = $map[$transaction['transaction_type_id']] ?? 'Unknown';
-
-                            $transactionCreatedAt = date('Y-m-d H:i:s', strtotime($transaction['created_at']));
-
-                            if (isset($pointExpirationMap[$transactionCreatedAt])) {
-                                $pointAmount = $pointExpirationMap[$transactionCreatedAt]['points'];
-                                $pointExpirationDate = $pointExpirationMap[$transactionCreatedAt]['expiration_date'];
-                            }
                             ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($prefix); ?></td>
@@ -164,6 +160,7 @@ $currency = '฿';
                                 <td><?php echo $transactionDate; ?></td>
                                 <td>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></td>
                                 <td class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></td>
+                                <td class="amount">฿<?php echo number_format(($transaction['amount']) + ($transaction['fee_amount']), 2); ?></td>
                             </tr>
                         <?php endforeach; ?>
 
@@ -180,7 +177,7 @@ $currency = '฿';
 </div>
 
 <div class="footer">
-    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.0.0 </p>
+    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.1.0 </p>
 </div>
 <script>
     document.querySelectorAll('.btn').forEach(button => {
@@ -189,6 +186,24 @@ $currency = '฿';
             this.disabled = true;
             window.location.href = this.getAttribute('data-url');
         });
+    });
+
+    document.getElementById('point-transaction-link').addEventListener('click', function (event) {
+        event.preventDefault();
+        const url = this.getAttribute('data-url');
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok)
+                    throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(data => {
+                document.querySelector('.main-content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
     });
 </script>
 </body>
