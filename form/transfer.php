@@ -19,6 +19,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <link rel="stylesheet" href="../css/redirect.css">
     <link rel="stylesheet" href="../css/transfer.css">
+    <link rel="stylesheet" href="../css/pointuse.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,6 +71,24 @@ $user = new User($conn, $_SESSION['user_id']);
                 <span class="name">โอนโดยเมล</span>
             </label>
         </div>
+        <div class="point_used">
+            ใช้แต้ม Pts. <?= $point->getPoints() ?>
+            <input
+                    checked=""
+                    id="point_used_checkbox"
+                    class="point-checkbox"
+                    name="point_used"
+                    type="checkbox"
+                    value="1"
+                <?php if ($point->getPoints() <= 0) : ?>
+                    disabled
+                <?php endif; ?>
+            />
+            <label for="point_used_checkbox" class="pointswitch-label">
+                <div class="point-inner"></div>
+                <span class="tooltip">ใช้แต้ม Pts. ในการลด ค่าธรรมเนียม 1 หน่วย ต่อ 1 Pts.</span>
+            </label>
+        </div>
         <input type="text" id="receiver" name="receiver" placeholder="Receiver Username" required><br>
         <script>
             function updatePlaceholder(type) {
@@ -80,13 +99,11 @@ $user = new User($conn, $_SESSION['user_id']);
                     receiverInput.placeholder = "อีเมล ผู้รับ";
             }
         </script>
-
         <input type="number" name="amount" placeholder="จำนวนเงิน" required min="1" step="0.01"><br>
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
-        <input type="hidden" value="2" name="transaction_type_id"> <!-- Send in tb_transaction_type 2 -->
+        <input type="hidden" value="2" name="transaction_type_id">
 
         <input type="submit" value="โอนเงิน" class="btn-send">
-        <input type="reset" value="รีเซ็ต" class="btn-cancel">
     </form>
 </div>
 </body>
