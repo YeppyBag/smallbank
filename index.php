@@ -35,9 +35,12 @@ $currency = '฿';
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src=script/LoadDialog.js></script>
+
 </head>
 <body>
 <div class="container">
@@ -48,7 +51,7 @@ $currency = '฿';
         <a href="index.php"><h1 class="logo">SmallBank</h1></a>
         <?php
         if (!$islogin) {
-            echo "<a href='form/login.php'>SIGN UP / LOG IN</a>";
+            echo "<a href='#' id='login-link' data-url='form/login.php'>LOGIN/REGISTER</a>";
             echo '<div class="dropdown-login" id="login-form-container" style="display: none;"></div>';
         } else {
             echo "<div class='dropdown'>";
@@ -61,6 +64,12 @@ $currency = '฿';
         ?>
 
     </div>
+    <div class="floatator" style="display: none;">
+        <button class="close-button" id="close-dialog">X</button>
+        <div class="floatator-content">
+        </div>
+    </div>
+
     <div class="dashboard">
         <div class="sidebar">
             <div class="profile">
@@ -76,7 +85,7 @@ $currency = '฿';
                 <div class="balance-current">
                     <h2>
                         <?php if ($islogin): ?>
-                            ยินดีต้อนรับ <?php $user->getUsername() ?>จำนวนเงินปัจจุบัน
+                            ยินดีต้อนรับ <?php echo "<h1>". $user->getUsername() . "</h1>" ;?> จำนวนเงินปัจจุบัน
                         <?php else: ?>
                             ยินดีต้อนรับ ท่านสมาชิก
                         <?php endif; ?>
@@ -175,36 +184,8 @@ $currency = '฿';
         </div>
     </div>
 </div>
-
 <div class="footer">
-    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.1.0 </p>
+    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.2.0 </p>
 </div>
-<script>
-    document.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('click', function () {
-            this.innerHTML = 'รอซักครู่';
-            this.disabled = true;
-            window.location.href = this.getAttribute('data-url');
-        });
-    });
-
-    document.getElementById('point-transaction-link').addEventListener('click', function (event) {
-        event.preventDefault();
-        const url = this.getAttribute('data-url');
-
-        fetch(url)
-            .then(response => {
-                if (!response.ok)
-                    throw new Error('Network response was not ok');
-                return response.text();
-            })
-            .then(data => {
-                document.querySelector('.main-content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    });
-</script>
 </body>
 </html>
