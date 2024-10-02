@@ -41,7 +41,7 @@
                         <span>-<?= number_format($newfee_amount, 2) ?> บาท</span>
                         <?php if ($usePoint == 1 && isset($points_to_use) && $points_to_use >= 1): ?>
                             <span>ใช้แต้ม point <?= $points_to_use ?> หักลบค่าธรรมเนียม :</span>
-                            <span>+<?= number_format($points_to_use / 1000, 2) ?> บาท</span>
+                            <span>+<?= number_format($points_to_use / Config::$pointRequirement, 2) ?> บาท</span>
                         <?php endif; ?>
                     </div>
                 </div>

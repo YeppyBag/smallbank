@@ -53,9 +53,9 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
         $points_to_use = 0;
 
         if ($usePoint == 1 && $userPoint >= Config::$pointRequirement && Config::$pointRequirement > 0) {
-            $available_points = floor((int) $userPoint / 1000) * 1000;
-            $points_to_use = min($fee_amount * 1000, $available_points);
-            $newfee_amount = $fee_amount - floor($points_to_use / 1000);
+            $available_points = floor((int) $userPoint / Config::$pointRequirement) * Config::$pointRequirement;
+            $points_to_use = min($fee_amount * Config::$pointRequirement, $available_points);
+            $newfee_amount = $fee_amount - floor($points_to_use / Config::$pointRequirement);
         } else {
             $newfee_amount = $fee_amount;
         }
