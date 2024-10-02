@@ -106,7 +106,7 @@ class Transaction {
             }
             $this->point->handleSendPoint($amount, $transaction_id);
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount + $fee_amount);
-            $this->receive($receiver_user_id, $amount, 2);
+            $this->receive($this->user->getId(), $amount, $receiver_user_id);
             return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance;
         }
         return "โอนเงินล้มเหลว";
