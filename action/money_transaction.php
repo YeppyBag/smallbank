@@ -12,6 +12,7 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
     $transactionType = $_POST['transaction_type_id'];
 
     $usePoint = $_POST['point_used'] ?? 0;
+    $amountUsed = $_POST["amount_used"] ?? 0;
 
     if ($transactionType == 3 && $amount > 5000) {
         header("Location: ..form/deposit_page.php?deposit-error=Deposit amount cannot exceed 5000");
@@ -21,12 +22,12 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
     $transaction = new Transaction($conn, $user_id);
 
     if ($transactionType == 3) { // Deposit
-        $result = $transaction->deposit($amount, $usePoint);
+        $result = $transaction->deposit($amount, $usePoint,$amountUsed);
     } elseif ($transactionType == 4) { // Withdraw
         $result = $transaction->withdraw($amount);
     } elseif ($transactionType == 2) { // Send
         $receiver_id = $_POST['receiver_id'];
-        $result = $transaction->send($amount, $receiver_id, $usePoint);
+        $result = $transaction->send($amount, $receiver_id, $usePoint,$amountUsed);
     } else {
         header("Location: ../form/deposit.php?deposit-error=Invalid transaction type.");
         exit();
