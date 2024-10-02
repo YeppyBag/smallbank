@@ -98,11 +98,14 @@ $currency = '฿';
                         <p class="available-text">Pts.</p>
                     <?php endif; ?>
                 </div>
-                <?php if ($points_to_expire > 0) : ?>
-                <p class="point-almost-expire"><?= $points_expire_message ?></p>
-                <?php else: ?>
-                <p class="point-almost-expire">ยังไม่มีแต้มจะหมดอายุเร็วๆนี้</p>
+                <?php if (!empty($_SESSION['user_id'])):?>
+                    <?php if ($points_to_expire > 0) : ?>
+                        <p class="point-almost-expire"><?= $points_expire_message ?></p>
+                    <?php else: ?>
+                        <p class="point-almost-expire">ยังไม่มีแต้มจะหมดอายุเร็วๆนี้</p>
+                    <?php endif; ?>
                 <?php endif; ?>
+
                 <div class="actions">
                     <?php if ($islogin): ?>
                         <button class="btn" data-url="form/deposit.php">ฝากเงิน</button>
@@ -209,7 +212,7 @@ $currency = '฿';
 </div>
 
 <div class="footer">
-    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 0.9.0.</p>
+    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 0.9.0 </p>
 </div>
 <script>
     document.querySelectorAll('.btn').forEach(button => {
