@@ -183,7 +183,7 @@ $currency = '฿';
     </div>
 </div>
 <div class="footer">
-    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.2.0 </p>
+    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.2.1 </p>
 </div>
 <script src=script/LoadDialog.js></script>
 </body>
