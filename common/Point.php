@@ -62,10 +62,8 @@ class Point {
         $query = "SELECT * FROM tb_point WHERE user_id = $this->userId";
         return $this->fetchQuery($query);
     }
-    public function handleSendPoint($amount, $transaction_id) { // โอน
-        if ($amount >= Config::$reachGainPoint) {
-            $this->addPoints(self::promotionPointGain($amount), $transaction_id); // 1200 * 0.01 =  12
-        }
+    public function handleSendPoint($point, $transaction_id) { // โอน
+        $this->addPoints(self::promotionPointGain($point), $transaction_id); // 1200 * 0.01 =  12
     }
 
     public static function promotionPointGain($amount) {

@@ -46,7 +46,7 @@
                             <span>+<?= number_format($points_to_use / Config::$pointRequirement, 2) ?> บาท</span>
                         <?php endif; ?>
                         <span>แต้มที่จะได้รับ <?php if (Point::isEventX2()) echo "X" . Config::$extraPointGain * 100 ?> : </span>
-                        <span><?= number_format(Point::promotionPointGain($amount)) ?> Pts.</span>
+                        <span><?= number_format($point_gain_amount) ?> Pts.</span>
                     </div>
                 </div>
             </div>
@@ -61,6 +61,7 @@
                     <input type="hidden" name="transaction_type_id" value="<?= htmlspecialchars($transaction_type_id) ?>" >
                     <input type="hidden" name="point_used" value="<?= htmlspecialchars($usePoint) ?>">
                     <input type="hidden" name="amount_used" value="<?= htmlspecialchars($points_to_use) ?>">
+                    <input type="hidden" name="point_gain" value="<?= htmlspecialchars($point_gain_amount) ?>">
                     <input type="submit" value="ยืนยัน" class="checkout-btn">
                 </form>
             </div>

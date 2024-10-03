@@ -56,7 +56,7 @@ class Transaction {
         return "การฝากล้มเหลว";
     }
 
-    public function send($amount, $receiver_user_id, $usePoint, $amountUse): string {
+    public function send($amount, $receiver_user_id, $usePoint, $amountUse, $point_gain): string {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > $this->user->getWalletBalance())
@@ -73,7 +73,7 @@ class Transaction {
                 $localize = "แต้มคงเหลือ: " . $this->point->getPoints();
             }
 
-            $this->point->handleSendPoint($amount, $transaction_id);
+            $this->point->handleSendPoint($point_gain, $transaction_id);
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount + $fee_amount);
             $this->receive($this->user->getId(), $amount, $receiver_user_id);
 
