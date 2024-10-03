@@ -73,15 +73,20 @@ class Point {
     }
 
     private static function eventX2(): float {
-        $currentDay = date('N'); // มี ตัว D 'wed'
-        $currentHour = date('H');
-
         $pointMultiplier = Config::$pointGain;
-
-        if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 21)) {
+        if (self::isEventX2()) {
             $pointMultiplier = Config::$extraPointGain;
         }
         return $pointMultiplier;
+    }
+    public static function isEventX2(): bool {
+        date_default_timezone_set('Asia/Bangkok');
+        $currentDay = date('N'); // มี ตัว D 'wed'
+        $currentHour = date('H');
+
+        if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 22))
+            return true;
+        return false;
     }
 
     public function deleteExpiredPoints() { //ลบแต้ม บูด
