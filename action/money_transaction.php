@@ -27,8 +27,7 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
         $result = $transaction->withdraw($amount);
     } elseif ($transactionType == 2) { // Send
         $receiver_id = $_POST['receiver_id'];
-        $point_gain = $_POST['point_gain'];
-        $result = $transaction->send($amount, $receiver_id, $usePoint, $amountUsed, $point_gain);
+        $result = $transaction->send($amount, $receiver_id, $usePoint, $amountUsed);
     } else {
         header("Location: ../form/deposit.php?deposit-error=Invalid transaction type.");
         exit();

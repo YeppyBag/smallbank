@@ -46,17 +46,17 @@ class Transaction {
 
             if ($usePoint == 1) {
                 $this->point->usePoints($amountUsed, $transaction_id);
-                $localize = "แต้มคงเหลือ: " . $this->point->getPoints();
+                $localize = "<br> แต้มคงเหลือ: " . $this->point->getPoints();
             }
 
             $newBalance = $this->depositToUserWallet($this->user->getId(), $amount - $fee_amount);
-            return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . $newBalance . $localize;
+            return "ฝากเงินสำเร็จ ยอดเงินทั้งหมด: " . number_format($newBalance,2) . $localize;
         }
 
         return "การฝากล้มเหลว";
     }
 
-    public function send($amount, $receiver_user_id, $usePoint, $amountUse, $point_gain): string {
+    public function send($amount, $receiver_user_id, $usePoint, $amountUse): string {
         if ($amount < 1)
             return "จำนวนไม่ถูกต้อง";
         if ($amount > $this->user->getWalletBalance())
@@ -70,14 +70,14 @@ class Transaction {
 
             if ($usePoint == 1) {
                 $this->point->usePoints($amountUse, $transaction_id);
-                $localize = "แต้มคงเหลือ: " . $this->point->getPoints();
+                $localize = "<br> แต้มคงเหลือ: " . $this->point->getPoints();
             }
 
-            $this->point->handleSendPoint($point_gain, $transaction_id);
+            $this->point->handleSendPoint($amount, $transaction_id);
             $newBalance = $this->withdrawToUserWallet($this->user->getId(), $amount + $fee_amount);
             $this->receive($this->user->getId(), $amount, $receiver_user_id);
 
-            return "โอนเงินสำเร็จ ยอดคงเหลือ: " . $newBalance . ($localize ?? '');
+            return "โอนเงินสำเร็จ ยอดคงเหลือ: " . number_format($newBalance,2) . ($localize ?? '<br> แต้มที่ได้รับ: ' . Point::promotionPointGain($amount));
         }
 
         return "โอนเงินล้มเหลว";

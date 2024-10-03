@@ -43,7 +43,6 @@ $currency = '฿';
 </head>
 <body>
 <div class="container">
-
     <div class="navbar">
         <a href="index.php"><h1 class="logo">SmallBank</h1></a>
         <?php
@@ -83,9 +82,8 @@ $currency = '฿';
                     </h2>
                 </div>
                 <div class="balance-amount">
-                    <?php if ($islogin)
-                        echo "<h1>" . $currency . number_format($user->getWalletBalance(), 2) . "</h1>"; ?>
                     <?php if ($islogin): ?>
+                        <h1 id="wallet-balance"><?php echo $currency . number_format($user->getWalletBalance(), 2); ?></h1>
                         <p class="available-text">มีอยู่</p>
                     <?php else: ?>
                         <p class="available-text">กรุณาเข้าสู่ระบบพื่อดูยอดเงิน</p>
@@ -163,7 +161,6 @@ $currency = '฿';
                                 <td class="amount">฿<?php echo number_format(($transaction['amount']) + ($transaction['fee_amount']), 2); ?></td>
                             </tr>
                         <?php endforeach; ?>
-
                         </tbody>
                     </table>
                 <?php else: ?>

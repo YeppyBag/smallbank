@@ -61,7 +61,6 @@
                     <input type="hidden" name="transaction_type_id" value="<?= htmlspecialchars($transaction_type_id) ?>" >
                     <input type="hidden" name="point_used" value="<?= htmlspecialchars($usePoint) ?>">
                     <input type="hidden" name="amount_used" value="<?= htmlspecialchars($points_to_use) ?>">
-                    <input type="hidden" name="point_gain" value="<?= htmlspecialchars($point_gain_amount) ?>">
                     <input type="submit" value="ยืนยัน" class="checkout-btn">
                 </form>
             </div>
