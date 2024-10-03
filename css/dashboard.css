@@ -217,15 +217,6 @@ button {
     text-align: right;
 }
 
-.footer {
-    background-color: #003087;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    width: 100%;
-    margin-top: auto;
-}
-
 @media (max-width: 768px) {
     .container {
         height:auto;
@@ -287,10 +278,6 @@ button {
     .activity-table th, .activity-table td {
         font-size: 12px;
     }
-
-    .footer {
-        padding: 10px;
-    }
 }
 @keyframes fadeInUp {
     0% {
@@ -332,7 +319,6 @@ button {
 .close-button:hover{
     color: RED;
 }
-
 
 
 .form-container {

@@ -23,6 +23,7 @@ if (isset($_SESSION['user_id'])) {
     $expire_day = date('Y-m-d', strtotime('+1 day'));
     $points_expire_message = sprintf("%d Pts. สามารถใช้ได้ภายใน %s", $points_to_expire, $expire_day);
 }
+date_default_timezone_set('Asia/Bangkok');
 $currency = '฿';
 ?>
 
@@ -173,9 +174,6 @@ $currency = '฿';
             </div>
         </div>
     </div>
-</div>
-<div class="footer">
-    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.2.2 </p>
 </div>
 <script src=script/LoadContent.js></script>
 </body>

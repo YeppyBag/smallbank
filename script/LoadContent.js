@@ -1,4 +1,4 @@
-function loadContent(url, containerSelector) {
+function loadContent(url) {
     fetch(url)
         .then(response => {
             if (!response.ok)

@@ -62,8 +62,10 @@ class Point {
         $query = "SELECT * FROM tb_point WHERE user_id = $this->userId";
         return $this->fetchQuery($query);
     }
-    public function handleSendPoint($point, $transaction_id) { // โอน
-        $this->addPoints(self::promotionPointGain($point), $transaction_id); // 1200 * 0.01 =  12
+    public function handleSendPoint($amount, $transaction_id) { // โอน
+        if ($amount >= Config::$reachGainPoint) {
+            $this->addPoints(self::promotionPointGain($amount), $transaction_id); // 1200 * 0.01 =  12
+        }
     }
 
     public static function promotionPointGain($amount) {
@@ -80,12 +82,6 @@ class Point {
             $pointMultiplier = Config::$extraPointGain;
         }
         return $pointMultiplier;
-    }
-    public static function isEventX2(): bool {
-        $currentDay = date('N'); // มี ตัว D 'wed'
-        $currentHour = date('H');
-        if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 21)) return true;
-        return false;
     }
 
     public function deleteExpiredPoints() { //ลบแต้ม บูด
