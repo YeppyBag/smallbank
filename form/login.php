@@ -26,7 +26,7 @@ session_start();
     <input type="checkbox" id="mm" aria-hidden="true">
 
     <div class="signup">
-        <form name="register-form" method="post" action="action/register.php">
+        <form name="register-form" method="post" action="../action/register.php">
             <label for="mm" aria-hidden="true">Sign up</label>
             <?php
             FeatureUtil::displayMessage('error', $_GET['register-error'] ?? null);
@@ -41,7 +41,7 @@ session_start();
     </div>
 
     <div class="login">
-        <form name="login-form" method="post" action="action/login.php">
+        <form name="login-form" method="post" action="../action/login.php">
             <label for="mm" aria-hidden="true">Login</label>
             <?php
             FeatureUtil::displayMessage('error', $_GET['login-error'] ?? null);

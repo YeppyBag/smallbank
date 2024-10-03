@@ -42,14 +42,12 @@ $currency = '฿';
 </head>
 <body>
 <div class="container">
-    <dialog>
-        <iframe id="iframe" src="" frameborder="0"></iframe>
-    </dialog>
+
     <div class="navbar">
         <a href="index.php"><h1 class="logo">SmallBank</h1></a>
         <?php
         if (!$islogin) {
-            echo "<a href='#' id='login-link' data-url='form/login.php'>LOGIN/REGISTER</a>";
+            echo "<a href='form/login.php'>LOGIN/REGISTER</a>";
             echo '<div class="dropdown-login" id="login-form-container" style="display: none;"></div>';
         } else {
             echo "<div class='dropdown'>";
@@ -62,12 +60,6 @@ $currency = '฿';
         ?>
 
     </div>
-    <div class="floatator" style="display: none;">
-        <button class="close-button" id="close-dialog">X</button>
-        <div class="floatator-content">
-        </div>
-    </div>
-
     <div class="dashboard">
         <div class="sidebar">
             <div class="profile">
@@ -183,8 +175,8 @@ $currency = '฿';
     </div>
 </div>
 <div class="footer">
-    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.2.1 </p>
+    <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.2.2 </p>
 </div>
-<script src=script/LoadDialog.js></script>
+<script src=script/LoadContent.js></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ body {
 
 .main {
   width: 350px;
-  height: 600px;
+  height: 525px;
   background: linear-gradient(to bottom, #ffc2e0, #b5d4f7);
   overflow: hidden;
   border-radius: 10px;
