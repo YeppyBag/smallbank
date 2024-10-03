@@ -39,8 +39,6 @@ $currency = '฿';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src=script/LoadDialog.js></script>
-
 </head>
 <body>
 <div class="container">
@@ -187,5 +185,6 @@ $currency = '฿';
 <div class="footer">
     <p>&copy; 2024 SmallBank,Peggy Bag. All rights reserved Version 1.2.0 </p>
 </div>
+<script src=script/LoadDialog.js></script>
 </body>
 </html>
