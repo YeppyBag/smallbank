@@ -6,10 +6,10 @@ use common\TransactionType;
 use common\User;
 
 include("connect.inc.php");
-include "common/Transaction.php";
-include "common/TransactionType.php";
-include "common/User.php";
-include "common/point.php";
+require_once "common/Transaction.php";
+require_once "common/TransactionType.php";
+require_once "common/User.php";
+require_once "common/point.php";
 $islogin = false;
 if (isset($_SESSION['user_id'])) {
     $islogin = true;

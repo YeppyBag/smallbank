@@ -42,9 +42,10 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
     $result = $conn->query($query);
 
     if ($result->num_rows > 0) {
-        $point_gain_amount = (int) floor($amount / 1000);
+        $point_gain_amount = (int) floor($amount /  Config::$pointRequirement);
         $row = $result->fetch_assoc();
         $receiver_id = $row['user_id'];
+
         $receiver = new User($conn,$receiver_id);
 
         $feeRate = $fee->getFeeRate($amount);
