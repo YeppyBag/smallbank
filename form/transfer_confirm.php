@@ -45,7 +45,7 @@
                             <span>ใช้แต้ม point <?= $points_to_use ?> หักลบค่าธรรมเนียม :</span>
                             <span>+<?= number_format($points_to_use / Config::$pointRequirement, 2) ?> บาท</span>
                         <?php endif; ?>
-                        <span>แต้มที่จะได้รับ : </span>
+                        <span>แต้มที่จะได้รับ <?php if (Point::isEventX2()) echo "X" . Config::$extraPointGain * 100 ?> : </span>
                         <span><?= number_format(Point::promotionPointGain($amount)) ?> Pts.</span>
                     </div>
                 </div>

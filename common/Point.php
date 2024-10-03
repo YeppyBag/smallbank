@@ -83,6 +83,12 @@ class Point {
         }
         return $pointMultiplier;
     }
+    public static function isEventX2(): bool {
+        $currentDay = date('N'); // มี ตัว D 'wed'
+        $currentHour = date('H');
+        if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 21)) return true;
+        return false;
+    }
 
     public function deleteExpiredPoints() { //ลบแต้ม บูด
         $query = "DELETE FROM tb_point WHERE expiration_date <= CURDATE()";
