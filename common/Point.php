@@ -27,16 +27,42 @@ class Point {
     }
 
     public function usePoints($amount, $transactionId) {
-        $currentPoints = $this->getPoints();
-        if ($currentPoints >= $amount) {
-            $updatePoints = "UPDATE tb_point SET points = points - $amount WHERE user_id = $this->userId";
-            $this->executeQuery($updatePoints);
+        $query = "SELECT point_id, points FROM tb_point WHERE user_id = $this->userId ORDER BY point_id ASC";
+        $result = $this->executeQuery($query);
 
-            $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
-                               VALUES ($this->userId, $amount, 6, $transactionId)";
-            $this->executeQuery($logTransaction);
+        $pointsToUse = $amount;
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pointId = $row['point_id'];
+            $currentPoints = $row['points'];
+
+            if ($pointsToUse <= $currentPoints) {
+                $updatePoints = "UPDATE tb_point SET points = points - $pointsToUse WHERE point_id = $pointId";
+                $this->executeQuery($updatePoints);
+
+                $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
+                               VALUES ($this->userId, $pointsToUse, 6, $transactionId)";
+                $this->executeQuery($logTransaction);
+
+                if ($currentPoints - $pointsToUse == 0) {
+                    $deleteQuery = "DELETE FROM tb_point WHERE point_id = $pointId";
+                    $this->executeQuery($deleteQuery);
+                }
+                break;
+            } else {
+                $pointsToUse -= $currentPoints;
+                $deleteQuery = "DELETE FROM tb_point WHERE point_id = $pointId";
+                $this->executeQuery($deleteQuery);
+                $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
+                               VALUES ($this->userId, $currentPoints, 6, $transactionId)";
+                $this->executeQuery($logTransaction);
+            }
+        }
+        if ($pointsToUse > 0) {
+            echo ("คะแนนไม่เพียงพอ");
         }
     }
+
 
     public function getPoints() {
         $query = "SELECT SUM(points) AS total_points FROM tb_point WHERE user_id = $this->userId";
@@ -45,7 +71,6 @@ class Point {
             return $row['total_points'] ?? 0;
         return 0;
     }
-
     public function getTransactionHistory(): ?array {
         $query = "SELECT * FROM tb_point_transaction WHERE user_id = $this->userId ORDER BY created_at DESC";
         return $this->fetchQuery($query);
@@ -63,9 +88,8 @@ class Point {
         return $this->fetchQuery($query);
     }
     public function handleSendPoint($amount, $transaction_id) { // โอน
-        if ($amount >= Config::$reachGainPoint) {
+        if ($amount >= Config::$reachGainPoint)
             $this->addPoints(self::promotionPointGain($amount), $transaction_id); // 1200 * 0.01 =  12
-        }
     }
 
     public static function promotionPointGain($amount) {
@@ -74,9 +98,7 @@ class Point {
 
     private static function eventX2(): float {
         $pointMultiplier = Config::$pointGain;
-        if (self::isEventX2()) {
-            $pointMultiplier = Config::$extraPointGain;
-        }
+        if (self::isEventX2()) $pointMultiplier = Config::$extraPointGain;
         return $pointMultiplier;
     }
     public static function isEventX2(): bool {
@@ -84,7 +106,7 @@ class Point {
         $currentDay = date('N'); // มี ตัว D 'wed'
         $currentHour = date('H');
 
-        if ($currentDay == 3 || ($currentHour >= 19 && $currentHour < 22))
+        if ($currentDay == Config::$eventDay || ($currentHour >= Config::$eventTimeStart && $currentHour < Config::$eventTimeEnd))
             return true;
         return false;
     }
