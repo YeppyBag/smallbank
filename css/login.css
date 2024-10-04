@@ -116,3 +116,33 @@ button {
 button:hover {
   background: #ff99cc;
 }
+@media screen and (max-width: 480px) {
+  label {
+    font-size: 1.5em;
+    margin: 20px;
+  }
+
+  input, button {
+    width: 90%;
+  }
+
+  input {
+    height: 34px;
+    font-size: 0.9em;
+  }
+
+  input:focus {
+    width: 95%;
+    height: 38px;
+  }
+
+  .login {
+    height: 350px;
+    transform: translateY(-150px);
+  }
+
+  button {
+    font-size: 0.9em;
+    height: 36px;
+  }
+}
