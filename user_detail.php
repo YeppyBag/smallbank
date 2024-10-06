@@ -136,7 +136,3 @@ if($_SESSION['permission'] == 1){
 }
 
 ?>
-$transac_id = $_GET['id'];
-$sql = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.user_id INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id INNER JOIN tb_user ru ON ru.user_id = t.recipient_user_id WHERE t.transaction_id = '$transac_id'";
-$result = mysqli_query($conn,$sql );
-if($_SESSION['permission'] == 1){
