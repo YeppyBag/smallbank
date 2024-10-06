@@ -15,7 +15,7 @@ $transac_id = $_GET['id'];
 $sql = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.user_id INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id WHERE t.transaction_id = '$transac_id'";
 $result = mysqli_query($conn, $sql);
 
-$sql2 = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.recipient_user_id INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id WHERE t.transaction_id = '$transac_id'";
+$sql2 = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.recipient_user_id WHERE t.transaction_id = '$transac_id'";
 $result2 = mysqli_query($conn, $sql2);
 
 if (isset($_SESSION['user_id'])) {
@@ -92,9 +92,7 @@ if ($_SESSION['permission'] == 1) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while ($arr = mysqli_fetch_array($result)) { 
-                                        while ($recipient = mysqli_fetch_array($result2)){
-                                        
+                                    <?php while ($arr = mysqli_fetch_array($result)) {
                                         ?>
                                         <tr>
                                             <th><?php echo $arr['transaction_id'] ?></th>
@@ -105,9 +103,18 @@ if ($_SESSION['permission'] == 1) {
                                             <th><?php echo $arr['created_at'] ?></th>
                                             <th><?php echo number_format($arr['fee_amount']) ?></th>
                                             <th><?php echo number_format($arr['amount']) ?></th>
-                                            <th><a href="user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a></th>
+                                            <?php
+                                            while ($recipient = mysqli_fetch_array($result2)) {
+                                                ?>
+
+                                                <th>
+                                                    <a
+                                                        href="user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a>
+                                                </th>
+
+                                            <?php } ?>
                                         </tr>
-                                    <?php }} ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         <?php else: ?>
