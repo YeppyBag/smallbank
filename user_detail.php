@@ -1,5 +1,4 @@
 <?php
-
 use common\Point;
 use common\Transaction;
 use common\TransactionType;
@@ -13,7 +12,7 @@ require_once "common/point.php";
 $islogin = false;
 if (isset($_SESSION['user_id'])) {
     $islogin = true;
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_GET['id'];
     $user = new User($conn, $user_id);
     $userPoint = new Point($conn, $user_id);
     $transaction = new Transaction($conn, $user_id);
@@ -25,6 +24,7 @@ if (isset($_SESSION['user_id'])) {
 }
 date_default_timezone_set('Asia/Bangkok');
 $currency = '฿';
+if($_SESSION['permission'] == 1){
 ?>
 
 <html lang="en">
@@ -33,7 +33,7 @@ $currency = '฿';
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>SmallBank Dashboard</title>
+    <title>User Transaction Detail</title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/navbar.css">
@@ -68,75 +68,18 @@ $currency = '฿';
 
         </div>
         <div class="dashboard">
-            <div class="sidebar">
-                <div class="profile">
-                    <div class="profile-image" style="background-image: url('<?php if ($islogin)
-                        echo $user->getProfile();
-                    else
-                        echo "img/default-profile.png";
-                    ?>
-                        ');"></div>
-                </div>
-
-                <div class="balance-section">
-                    <div class="balance-current">
-                        <h2>
-                            <?php if ($islogin): ?>
-                                ยินดีต้อนรับ <?php echo "<h1>" . $user->getUsername() . "</h1>"; ?> จำนวนเงินปัจจุบัน
-                            <?php else: ?>
-                                ยินดีต้อนรับ ท่านสมาชิก
-                            <?php endif; ?>
-                        </h2>
-                    </div>
-                    <div class="balance-amount">
-                        <?php if ($islogin): ?>
-                            <h1 id="wallet-balance"><?php echo $currency . number_format($user->getWalletBalance(), 2); ?>
-                            </h1>
-                            <p class="available-text">มีอยู่</p>
-                        <?php else: ?>
-                            <p class="available-text">กรุณาเข้าสู่ระบบพื่อดูยอดเงิน</p>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="point-amount">
-                        <?php if ($islogin): ?>
-                            <a href="#" class="point-link" id="point-transaction-link"
-                                data-url="form/point_transaction_info.php">
-                                <p class="point"><?php echo number_format($userPoint->getPoints()); ?></p>
-                            </a>
-                            <p class="available-text">Pts.</p>
-                        <?php endif; ?>
-                    </div>
-                    <?php if (!empty($_SESSION['user_id'])): ?>
-                        <?php if ($points_to_expire > 0): ?>
-                            <p class="point-almost-expire"><?= $points_expire_message ?></p>
-                        <?php else: ?>
-                            <p class="point-almost-expire">ยังไม่มีแต้มจะหมดอายุเร็วๆนี้</p>
-                        <?php endif; ?>
-                    <?php endif; ?>
-
-                    <div class="actions">
-                        <?php if ($islogin): ?>
-                            <button class="btn" data-url="form/deposit.php">ฝากเงิน</button>
-                            <button class="btn" data-url="form/withdraw.php">ถอน</button>
-                            <button class="btn" data-url="form/transfer.php">โอนเงิน</button>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-
             <div class="main-content">
                 <div class="recent-activity">
                     <h2>ประวัติธุรกรรม</h2>
                     <?php if ($islogin): ?>
                         <table class="activity-table">
-                            <thead>
+                        <thead>
                                 <tr>
                                     <th>ชื่อธุรกรรม</th>
                                     <th>ประเภทธุรกรรม</th>
                                     <th>วันที่ทำการ</th>
                                     <th>ค่าธรรมเนียม</th>
-                                    <th class="amount-th">จำนวนเงิน</th>
+                                    <th>จำนวนเงิน</th>
                                     <th>ยอดสุทธิ</th>
                                 </tr>
                             </thead>
@@ -162,14 +105,14 @@ $currency = '฿';
                                     $transactionType = $map[$transaction['transaction_type_id']] ?? 'Unknown';
                                     ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($prefix); ?></td>
-                                        <td><?php echo htmlspecialchars($transactionType); ?></td>
-                                        <td><?php echo $transactionDate; ?></td>
-                                        <td>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></td>
-                                        <td class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></td>
-                                        <td class="amount">
+                                        <th><?php echo htmlspecialchars($prefix); ?></th>
+                                        <th><?php echo htmlspecialchars($transactionType); ?></th>
+                                        <th><?php echo $transactionDate; ?></th>
+                                        <th>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></th>
+                                        <th class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></th>
+                                        <th class="amount">
                                             ฿<?php echo number_format(($transaction['amount']) + ($transaction['fee_amount']), 2); ?>
-                                        </td>
+                                        </th>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -187,3 +130,13 @@ $currency = '฿';
 </body>
 
 </html>
+<?php 
+}else {
+    header("location:index.php");
+}
+
+?>
+$transac_id = $_GET['id'];
+$sql = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.user_id INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id INNER JOIN tb_user ru ON ru.user_id = t.recipient_user_id WHERE t.transaction_id = '$transac_id'";
+$result = mysqli_query($conn,$sql );
+if($_SESSION['permission'] == 1){

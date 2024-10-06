@@ -39,6 +39,9 @@ button {
     flex-grow: 1;
     height: 100vh;
 }
+a{
+    text-decoration: none;
+}
 
 .dashboard {
     display: flex;

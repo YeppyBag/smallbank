@@ -18,6 +18,7 @@ if (mysqli_num_rows($query) > 0) {
         $point->deleteExpiredPoints();
         $_SESSION['user_id'] = $arr["user_id"];
         $_SESSION['username'] = $arr["username"];
+        $_SESSION['permission'] = $arr['permission_id'];
         header("Location: ../index.php");
         exit();
     } else {
