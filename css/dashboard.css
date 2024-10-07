@@ -294,34 +294,6 @@ a{
 }
 
 
-.floatator {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(27 28 29 / 68%);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    animation: fadeInUp 0.5s ease;
-}
-.close-button {
-    align-self: flex-end;
-    width: 0;
-    display: flex;
-    background-color: #ffffff;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #000000;
-}
-.close-button:hover{
-    color: RED;
-}
 
 
 .form-container {
