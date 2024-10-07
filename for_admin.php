@@ -74,8 +74,8 @@ if ($_SESSION['permission'] == 1) {
                         <div class="search">
                             <h2>ประวัติธุรกรรม</h2>
                             <form action="action/admin_date_searching.php" method="POST">
-                                <input type="datetime-local" name="begin">-
-                                <input type="datetime-local" name="to">
+                                <input type="datetime-local" name="begin" required>-
+                                <input type="datetime-local" name="to" required>
                                 <input type="hidden" name="id" value="<?php echo $_SESSION['user_id'] ?>">
                                 <button type="submit">ค้นหา</button>
                             </form>

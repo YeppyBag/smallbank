@@ -51,7 +51,7 @@ $result = mysqli_query($conn, $sql);
 <body>
     <div class="container">
         <div class="navbar">
-            <a href="index.php">
+            <a href="../index.php">
                 <h1 class="logo">SmallBank</h1>
             </a>
             <?php
