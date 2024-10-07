@@ -37,7 +37,7 @@ $currency = '฿';
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/login.css">
+    <!-- <link rel="stylesheet" href="css/login.css"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -58,10 +58,10 @@ $currency = '฿';
                 echo "<a href='#'>Profile</a>";
                 echo "<div class='dropdown-content'>";
                 echo "<a href='form/setting.php'>Setting</a>";
-                if($_SESSION['permission'] == 1){
+                if ($_SESSION['permission'] == 1) {
                     echo "<a href='for_admin.php'>Admin</a>";
                 }
-                echo "<a href='action/logout.php'>Logout</a>"; 
+                echo "<a href='action/logout.php'>Logout</a>";
                 echo "</div></div>";
             }
             ?>
@@ -127,7 +127,15 @@ $currency = '฿';
 
             <div class="main-content">
                 <div class="recent-activity">
-                    <h2>ประวัติธุรกรรม</h2>
+                    <div class="search">
+                        <h2>ประวัติธุรกรรม</h2>
+                        <form action="action/date_searching.php" method="POST">
+                            <input type="datetime-local" name="begin">-
+                            <input type="datetime-local" name="to">
+                            <input type="hidden" name="id" value="<?php echo $_SESSION['user_id']?>">
+                            <button type="submit">ค้นหา</button>
+                        </form>
+                    </div>
                     <?php if ($islogin): ?>
                         <table class="activity-table">
                             <thead>

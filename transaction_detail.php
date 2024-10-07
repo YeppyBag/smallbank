@@ -104,7 +104,6 @@ if ($_SESSION['permission'] == 1) {
                                             <th><?php echo number_format($arr['fee_amount']) ?></th>
                                             <th><?php echo number_format($arr['amount']) ?></th>
                                             <?php
-                                            $d = "-";
                                             $recipient = mysqli_fetch_array($result2);
                                             if (!empty($recipient['recipient_user_id'])) {
                                                 ?>
