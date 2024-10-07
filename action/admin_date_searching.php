@@ -100,7 +100,7 @@ $result = mysqli_query($conn, $sql);
                                                 href="../transaction_detail.php?id=<?php echo $arr['transaction_id']; ?>"><?php echo $arr['transaction_id'] ?></a>
                                         </th>
                                         <th><a
-                                                href="user_detail.php?id=<?php echo $arr['user_id'] ?>"><?php echo $arr['username'] ?></a>
+                                                href="../user_detail.php?id=<?php echo $arr['user_id'] ?>"><?php echo $arr['username'] ?></a>
                                         </th>
                                         <th><?php echo $arr['transaction_type_name'] ?></th>
                                         <th><?php echo $arr['created_at'] ?></th>
