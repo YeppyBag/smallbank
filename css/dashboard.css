@@ -184,7 +184,7 @@ a{
 }
 
 .recent-activity:hover {
-    transform: scale(1.02);
+    transform: scale(1.005);
 }
 
 .activity-table {

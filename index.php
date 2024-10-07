@@ -124,7 +124,8 @@ $currency = '฿';
 
             <div class="main-content">
                 <div class="recent-activity">
-                    <div class="search">
+                    <?php if($islogin){?>
+                        <div class="search">
                         <h2>ประวัติธุรกรรม</h2>
                         <form action="action/date_searching.php" method="POST">
                             <input type="datetime-local" name="begin">-
@@ -133,6 +134,7 @@ $currency = '฿';
                             <button type="submit">ค้นหา</button>
                         </form>
                     </div>
+                        <?php }?>
                     <?php if ($islogin): ?>
                         <table class="activity-table">
                             <thead>
