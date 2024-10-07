@@ -114,7 +114,7 @@ $result = mysqli_query($conn, $sql);
 
                                             <th>
                                                 <a
-                                                    href="user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a>
+                                                    href="../user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a>
                                             </th>
                                         <?php } else { ?>
                                             <th>-</th>
