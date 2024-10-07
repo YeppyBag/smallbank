@@ -105,22 +105,19 @@ if ($_SESSION['permission'] == 1) {
                                             <th><?php echo number_format($arr['amount']) ?></th>
                                             <?php
                                             $d = "-";
-                                            while ($recipient = mysqli_fetch_array($result2)) {
+                                            $recipient = mysqli_fetch_array($result2);
+                                            if (!empty($recipient['recipient_user_id'])) {
                                                 ?>
 
                                                 <th>
-                                                    <?php 
-                                                        if(!empty($recipient['recipient_user_id'])){
-                                                    ?>
                                                     <a
-                                                    href="user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a>
-                                                    <?php }else echo "-";
-                                                    ?>
+                                                        href="user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a>
                                                 </th>
-
+                                            <?php } else { ?>
+                                                <th>-</th>
                                             <?php } ?>
-                                        </tr>
-                                    <?php } ?>
+                                        <?php } ?>
+                                    </tr>
                                 </tbody>
                             </table>
                         <?php else: ?>
