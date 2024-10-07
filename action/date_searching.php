@@ -98,7 +98,7 @@ $result = mysqli_query($conn, $sql);
                                     <tr>
                                         <th><?php echo $arr['transaction_id'] ?></th>
                                         <th><a
-                                                href="user_detail.php?id=<?php echo $arr['user_id'] ?>"><?php echo $arr['username'] ?></a>
+                                                href="../user_detail.php?id=<?php echo $arr['user_id'] ?>"><?php echo $arr['username'] ?></a>
                                         </th>
                                         <th><?php echo $arr['transaction_type_name'] ?></th>
                                         <th><?php echo $arr['created_at'] ?></th>
@@ -112,7 +112,7 @@ $result = mysqli_query($conn, $sql);
 
                                             <th>
                                                 <a
-                                                    href="user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a>
+                                                    href="../user_detail.php?id=<?php echo $recipient['recipient_user_id'] ?>"><?php echo $recipient['username'] ?></a>
                                             </th>
                                         <?php } else { ?>
                                             <th>-</th>
