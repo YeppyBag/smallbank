@@ -7,7 +7,6 @@ use common\User;
 
 include("connect.inc.php");
 require_once "common/Transaction.php";
-require_once "common/TransactionType.php";
 require_once "common/User.php";
 require_once "common/point.php";
 $islogin = false;
@@ -17,7 +16,6 @@ if (isset($_SESSION['user_id'])) {
     $user = new User($conn, $user_id);
     $userPoint = new Point($conn, $user_id);
     $transaction = new Transaction($conn, $user_id);
-    $transactionType = new TransactionType($conn);
     $userPoint->deleteExpiredPoints();
     $points_to_expire = $userPoint->getPointsExpiringInOneDay();
     $expire_day = date('Y-m-d', strtotime('+1 day'));
@@ -107,8 +105,6 @@ if ($_SESSION['permission'] == 1) {
                                             <th><?php echo number_format($arr['fee_amount']) ?></th>
                                             <th><?php echo number_format($arr['amount']) ?></th>
                                             <!-- <th><?php echo $arr['recipient_user_id'] ?></th> -->
-
-
                                         </tr>
                                     <?php } ?>
                                 </tbody>
