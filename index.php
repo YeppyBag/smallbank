@@ -131,7 +131,7 @@ $currency = '฿';
                             <button type="submit">ค้นหา</button>
                         </form>
                     </div>
-                        <?php }?>
+                    <?php }?>
                     <?php if ($islogin): ?>
                         <table class="activity-table">
                             <thead>

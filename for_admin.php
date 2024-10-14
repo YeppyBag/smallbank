@@ -1,25 +1,20 @@
 <?php
 
-use common\Point;
-use common\Transaction;
-use common\User;
 
 include("connect.inc.php");
 require_once "common/Transaction.php";
 require_once "common/User.php";
 require_once "common/point.php";
 $islogin = false;
-if (isset($_SESSION['user_id'])) {
-    $islogin = true;
-    $user_id = $_SESSION['user_id'];
-    $user = new User($conn, $user_id);
-    $userPoint = new Point($conn, $user_id);
-    $transaction = new Transaction($conn, $user_id);
-    $userPoint->deleteExpiredPoints();
-    $points_to_expire = $userPoint->getPointsExpiringInOneDay();
-    $expire_day = date('Y-m-d', strtotime('+1 day'));
-}
-$sql = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.user_id INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id ORDER BY created_at DESC";
+if (isset($_SESSION['user_id'])) $islogin = true;
+$sql = "SELECT t.transaction_id, t.created_at, t.fee_amount, t.amount, 
+       u.user_id, u.username, 
+       tt.transaction_type_name
+FROM tb_transaction t
+INNER JOIN tb_user u ON u.user_id = t.user_id
+INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id
+ORDER BY t.created_at DESC;
+";
 $result = mysqli_query($conn, $sql);
 if ($_SESSION['permission'] == 1) {
     ?>

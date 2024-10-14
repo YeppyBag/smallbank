@@ -1,24 +1,9 @@
 <?php
 
-use common\Point;
-use common\Transaction;
-use common\User;
-
 include("../connect.inc.php");
-require_once "../common/Transaction.php";
-require_once "../common/User.php";
-require_once "../common/point.php";
 $islogin = false;
 if (isset($_SESSION['user_id'])) {
     $islogin = true;
-    $user_id = $_SESSION['user_id'];
-    $user = new User($conn, $user_id);
-    $userPoint = new Point($conn, $user_id);
-    $transaction = new Transaction($conn, $user_id);
-    $userPoint->deleteExpiredPoints();
-    $points_to_expire = $userPoint->getPointsExpiringInOneDay();
-    $expire_day = date('Y-m-d', strtotime('+1 day'));
-    $points_expire_message = sprintf("%d Pts. สามารถใช้ได้ภายใน %s", $points_to_expire, $expire_day);
 }
 
 $begin = $_POST['begin'];
@@ -53,17 +38,17 @@ $result = mysqli_query($conn, $sql);
             </a>
             <?php
             if (!$islogin) {
-                echo "<a href='form/login.php'>LOGIN/REGISTER</a>";
+                echo "<a href='../form/login.php'>LOGIN/REGISTER</a>";
                 echo '<div class="dropdown-login" id="login-form-container" style="display: none;"></div>';
             } else {
                 echo "<div class='dropdown'>";
                 echo "<a href='#'>Profile</a>";
                 echo "<div class='dropdown-content'>";
-                echo "<a href='form/setting.php'>Setting</a>";
+                echo "<a href='../form/setting.php'>Setting</a>";
                 if ($_SESSION['permission'] == 1) {
-                    echo "<a href='for_admin.php'>Admin</a>";
+                    echo "<a href='../for_admin.php'>Admin</a>";
                 }
-                echo "<a href='action/logout.php'>Logout</a>";
+                echo "<a href='../action/logout.php'>Logout</a>";
                 echo "</div></div>";
             }
             ?>
@@ -77,7 +62,7 @@ $result = mysqli_query($conn, $sql);
                         <table class="activity-table">
                             <thead>
                                 <tr>
-                                    <th>transaction_id</th>
+                                    <th>รหัสธุรกรรม</th>
                                     <th>ชื่อผู้ใช้</th>
                                     <th>ประเภทธุรกรรม</th>
                                     <th>วันที่ทำการ</th>
@@ -129,7 +114,6 @@ $result = mysqli_query($conn, $sql);
             </div>
         </div>
     </div>
-    <script src=script/LoadContent.js></script>
 </body>
 
 </html>
