@@ -3,26 +3,26 @@
 namespace common;
 
 use Config;
+use TransactionType;
 
 require_once "Config.php";
 
 class Point {
     private $conn;
     private int $userId;
-    private int $expireDays = 3;
     public function __construct($conn, $userId) {
         $this->conn = $conn;
         $this->userId = $userId;
     }
 
     public function addPoints($amount, $transactionId) {
-        $expirationDate = date('Y-m-d', strtotime('+'.$this->expireDays.' days'));
+        $expirationDate = date('Y-m-d', strtotime('+'.Config::$pointExpireDays.' days'));
         $insertPoints = "INSERT INTO tb_point (user_id, points, expiration_date) 
                      VALUES ($this->userId, $amount, '$expirationDate')";
         $this->executeQuery($insertPoints);
 
         $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
-                       VALUES ($this->userId, $amount, 5, $transactionId)";
+                       VALUES ($this->userId, $amount,". getTransactionTypeValue(TransactionType::Earn) .", $transactionId)";
         $this->executeQuery($logTransaction);
     }
 
@@ -41,7 +41,7 @@ class Point {
                 $this->executeQuery($updatePoints);
 
                 $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
-                               VALUES ($this->userId, $pointsToUse, 6, $transactionId)";
+                               VALUES ($this->userId, $pointsToUse,".getTransactionTypeValue(TransactionType::Use).", $transactionId)";
                 $this->executeQuery($logTransaction);
 
                 if ($currentPoints - $pointsToUse == 0) {
@@ -54,7 +54,7 @@ class Point {
                 $deleteQuery = "DELETE FROM tb_point WHERE point_id = $pointId";
                 $this->executeQuery($deleteQuery);
                 $logTransaction = "INSERT INTO tb_point_transaction (user_id, point_amount, transaction_type_id, transaction_id) 
-                               VALUES ($this->userId, $currentPoints, 6, $transactionId)";
+                               VALUES ($this->userId, $currentPoints,".getTransactionTypeValue(TransactionType::Use).", $transactionId)";
                 $this->executeQuery($logTransaction);
             }
         }
@@ -87,7 +87,7 @@ class Point {
         $query = "SELECT * FROM tb_point WHERE user_id = $this->userId";
         return $this->fetchQuery($query);
     }
-    public function handleSendPoint($amount, $transaction_id) { // โอน
+    public function handleSendPoint($amount, $transaction_id): void { // โอน
         if ($amount >= Config::$reachGainPoint)
             $this->addPoints(self::promotionPointGain($amount), $transaction_id); // 1200 * 0.01 =  12
     }
@@ -116,7 +116,7 @@ class Point {
         return $this->executeQuery($query);
     }
     public function getPointsExpiringInOneDay(): int {
-        $expire_date = date('Y-m-d', strtotime('+1 day'));
+        $expire_date = date('Y-m-d', strtotime('+' .Config::$pointExpireInOneDay . ' day'));
         $query = "SELECT SUM(points) AS expiring_points 
               FROM tb_point 
               WHERE user_id = $this->userId 

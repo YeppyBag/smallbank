@@ -60,7 +60,7 @@ if (isset($_SESSION['user_id'])) {
         </div>
         <input type="number" name="amount" placeholder="จำนวนที่ต้องการถอน" required min="1" max = "<?php echo $user->getWalletBalance();?>" step="0.01">
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
-        <input type="hidden" value="4" name="transaction_type_id"> <!--  Withdraw in tb_transaction_type 4 -->
+        <input type="hidden" value="4" name="transaction_type_id">
         <input type="submit" value="ถอน">
     </form>
 </div>

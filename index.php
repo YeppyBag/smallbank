@@ -2,7 +2,6 @@
 
 use common\Point;
 use common\Transaction;
-use common\TransactionType;
 use common\User;
 
 include("connect.inc.php");
@@ -18,7 +17,7 @@ if (isset($_SESSION['user_id'])) {
     $transaction = new Transaction($conn, $user_id);
     $userPoint->deleteExpiredPoints();
     $points_to_expire = $userPoint->getPointsExpiringInOneDay();
-    $expire_day = date('Y-m-d', strtotime('+1 day'));
+    $expire_day = date('Y-m-d', strtotime('+'. Config::$pointExpireInOneDay .' day'));
     $points_expire_message = sprintf("%d Pts. สามารถใช้ได้ภายใน %s", $points_to_expire, $expire_day);
 }
 date_default_timezone_set('Asia/Bangkok');

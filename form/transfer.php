@@ -12,6 +12,7 @@ require_once "../common/Point.php";
 if (isset($_SESSION['user_id'])) {
     $point = new Point($conn, $_SESSION["user_id"]);
     $point->deleteExpiredPoints();
+    $user = new User($conn, $_SESSION['user_id']);
 }
 ?>
 <!doctype html>
@@ -37,7 +38,6 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
 <?php
-$user = new User($conn, $_SESSION['user_id']);
 ?>
 <div class="container">
     <div class="navbar">
@@ -116,7 +116,6 @@ $user = new User($conn, $_SESSION['user_id']);
         <input type="number" name="amount" placeholder="จำนวนเงิน" required min="1" step="0.01"><br>
         <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="user_id">
         <input type="hidden" value="2" name="transaction_type_id">
-
         <input type="submit" value="โอนเงิน" class="btn-send">
     </form>
 </div>

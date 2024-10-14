@@ -2,7 +2,6 @@
 
 use common\Point;
 use common\Transaction;
-use common\TransactionType;
 use common\User;
 
 include("connect.inc.php");
@@ -19,7 +18,6 @@ if (isset($_SESSION['user_id'])) {
     $userPoint->deleteExpiredPoints();
     $points_to_expire = $userPoint->getPointsExpiringInOneDay();
     $expire_day = date('Y-m-d', strtotime('+1 day'));
-    $points_expire_message = sprintf("%d Pts. สามารถใช้ได้ภายใน %s", $points_to_expire, $expire_day);
 }
 $sql = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.user_id INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id ORDER BY created_at DESC";
 $result = mysqli_query($conn, $sql);
@@ -36,7 +34,6 @@ if ($_SESSION['permission'] == 1) {
         <link rel="stylesheet" href="css/dashboard.css">
         <link rel="stylesheet" href="css/profile.css">
         <link rel="stylesheet" href="css/navbar.css">
-        <!-- <link rel="stylesheet" href="css/login.css"> -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -82,29 +79,23 @@ if ($_SESSION['permission'] == 1) {
                             <table class="activity-table">
                                 <thead>
                                     <tr>
-                                        <th>transaction_id</th>
+                                        <th>รหัสธุรกรรม</th>
                                         <th>ชื่อผู้ใช้</th>
                                         <th>ประเภทธุรกรรม</th>
                                         <th>วันที่ทำการ</th>
                                         <th>ค่าธรรมเนียม</th>
                                         <th>จำนวนเงิน</th>
-                                        <!-- <th>ผู้รับ/ผู้ส่ง</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php while ($arr = mysqli_fetch_array($result)) { ?>
                                         <tr>
-                                            <th><a
-                                                    href="transaction_detail.php?id=<?php echo $arr['transaction_id'] ?>"><?php echo $arr['transaction_id'] ?></a>
-                                            </th>
-                                            <th><a
-                                                    href="user_detail.php?id=<?php echo $arr['user_id'] ?>"><?php echo $arr['username'] ?></a>
-                                            </th>
+                                            <th><a href="transaction_detail.php?id=<?php echo $arr['transaction_id'] ?>"><?php echo $arr['transaction_id'] ?></a></th>
+                                            <th><a href="user_detail.php?id=<?php echo $arr['user_id'] ?>"><?php echo $arr['username'] ?></a></th>
                                             <th><?php echo $arr['transaction_type_name'] ?></th>
                                             <th><?php echo $arr['created_at'] ?></th>
                                             <th><?php echo number_format($arr['fee_amount']) ?></th>
                                             <th><?php echo number_format($arr['amount']) ?></th>
-                                            <!-- <th><?php echo $arr['recipient_user_id'] ?></th> -->
                                         </tr>
                                     <?php } ?>
                                 </tbody>

@@ -20,7 +20,6 @@ class User {
         if ($row = mysqli_fetch_assoc($result)) return $this->walletBalance = $row['wallet_balance'];
         return null;
     }
-
     public function getWalletBalance() : float {
         return $this->walletBalance;
     }

@@ -127,7 +127,6 @@ $result = mysqli_query($conn, $sql);
             </div>
         </div>
     </div>
-    <script src=script/LoadContent.js></script>
 </body>
 
 </html>

@@ -37,7 +37,7 @@ if (!empty($_SESSION['user_id']) && isset($_POST['user_id']) && isset($_POST['am
         $newfee_amount = $fee_amount;
     }
 
-    if ($transaction_type_id == 3 && $amount > 5000) {
+    if ($transaction_type_id == 3 && $amount > Config::$depositMaximum) {
         header("Location: ../form/deposit_page.php?deposit-error=Deposit amount cannot exceed 5000");
         exit();
     }
