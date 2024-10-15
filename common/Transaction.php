@@ -22,11 +22,11 @@ class Transaction {
 
     public function save($user_id, $transaction_type_id, $amount, $fee,$fee_amount, $recipient_user_id = null) {
         if ($recipient_user_id === null)
-            $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee,fee_amount, recipient_user_id, created_at)
-                  VALUES ($user_id, $transaction_type_id, $amount, $fee,$fee_amount, NULL, NOW())";
+            $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee,fee_amount, recipient_user_id)
+                  VALUES ($user_id, $transaction_type_id, $amount, $fee,$fee_amount, NULL)";
          else
-             $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee,fee_amount, recipient_user_id, created_at)
-                  VALUES ($user_id, $transaction_type_id, $amount, $fee,$fee_amount, $recipient_user_id, NOW())";
+             $query = "INSERT INTO $this->table_name (user_id, transaction_type_id, amount, fee,fee_amount, recipient_user_id)
+                  VALUES ($user_id, $transaction_type_id, $amount, $fee,$fee_amount, $recipient_user_id)";
         return $this->executeQuery($query);
     }
 
