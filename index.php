@@ -18,7 +18,7 @@ if (isset($_SESSION['user_id'])) {
     $transaction = new Transaction($conn, $user_id);
     $userPoint->deleteExpiredPoints();
     $points_to_expire = $userPoint->getPointsExpiringInOneDay();
-    $expire_day = date('Y-m-d', strtotime('+'. Config::$pointExpireInOneDay .' day'));
+    $expire_day = date('d-m-Y', strtotime('+'. Config::$pointExpireInOneDay .' day'));
     $points_expire_message = sprintf("%d Pts. สามารถใช้ได้ภายใน %s", $points_to_expire, $expire_day);
 }
 date_default_timezone_set('Asia/Bangkok');
@@ -77,9 +77,9 @@ $currency = '฿';
                     <div class="balance-current">
                         <h2>
                             <?php if ($islogin): ?>
-                                ยินดีต้อนรับ <?php echo "<h1>" . $user->getUsername() . "</h1>"; ?> จำนวนเงินปัจจุบัน
+                                ยินดีต้อนรับ คุณ<?php echo "<h1>" . $user->getUsername() . "</h1>"; ?> จำนวนเงินปัจจุบัน
                             <?php else: ?>
-                                ยินดีต้อนรับ ท่านสมาชิก
+                                ยินดีต้อนรับ
                             <?php endif; ?>
                         </h2>
                     </div>
@@ -133,7 +133,7 @@ $currency = '฿';
                         </form>
                     </div>
                     <?php }?>
-                    <?php if ($islogin)renderTransactionTable($islogin,$user_id,$transaction);?>
+                    <?php if ($islogin)renderTransactionTable($islogin,$user_id,$transaction); else echo "<h2>ล็อกอินเพื่อดูประวัติ ธุรกรรม</h2>"?>
                 </div>
             </div>
         </div>

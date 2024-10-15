@@ -33,12 +33,6 @@ class User {
         if ($row = mysqli_fetch_assoc($result)) return $row['profile'];
         return "img/default-profile.png";
     }
-    public function getEmail() : string {
-        $sql = "SELECT email FROM $this->table_name WHERE user_id = $this->userId";
-        $result = $this->conn->query($sql);
-        if ($row = mysqli_fetch_assoc($result)) return $row['email'];
-        return "Can't get Email";
-    }
     public function getUsername() : string{
         $sql = "SELECT username FROM $this->table_name WHERE user_id = $this->userId";
         $result = $this->conn->query($sql);

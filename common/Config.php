@@ -57,5 +57,9 @@ class Config {
      * จำนวนเงินสูงสุดที่สามารถทำการฝากได้
      */
     public static float $depositMaximum = 5000;
-    public static int $pointExpireInOneDay = 1;
+    /**
+     * จำนวนวันที่จะหมดอายุในข้างหน้า
+     * @var int จำนวนวัน
+     */
+    public static int $pointExpireInOneDay = 2;
 }

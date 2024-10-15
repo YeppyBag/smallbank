@@ -1,9 +1,5 @@
 <?php
 function renderTransactionTable($islogin, $user_id, $transaction) {
-    if (!$islogin) {
-        echo '<br><h2>เข้าสู่ระบบ เพื่อดูข้อมูลธุรกรรม</h2><br>';
-        return;
-    }
     $transactionData = $transaction->getTransactionByUserIdJoinTable($user_id);
     $map = [
         "1" => "รับเงิน",

@@ -4,7 +4,6 @@ namespace common;
 
 use Config;
 use TransactionType;
-
 require_once "Config.php";
 
 class Point {
@@ -110,7 +109,9 @@ class Point {
             return true;
         return false;
     }
-
+    /**
+     * @deprecated เลิกใช้ ไปทำ event ใน mysql แทน
+     */
     public function deleteExpiredPoints() { //ลบแต้ม บูด
         $query = "DELETE FROM tb_point WHERE expiration_date <= CURDATE()";
         return $this->executeQuery($query);
