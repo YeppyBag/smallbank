@@ -8,6 +8,7 @@ include("connect.inc.php");
 include "common/Transaction.php";
 include "common/User.php";
 include "common/point.php";
+include "transactionTable.php";
 $islogin = false;
 if (isset($_SESSION['user_id'])) {
     $islogin = true;
@@ -132,57 +133,7 @@ $currency = '฿';
                         </form>
                     </div>
                     <?php }?>
-                    <?php if ($islogin): ?>
-                        <table class="activity-table">
-                            <thead>
-                                <tr>
-                                    <th>ชื่อธุรกรรม</th>
-                                    <th>ประเภทธุรกรรม</th>
-                                    <th>วันที่ทำการ</th>
-                                    <th>ค่าธรรมเนียม</th>
-                                    <th class="amount-th">จำนวนเงิน</th>
-                                    <th>ยอดสุทธิ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $transactionData = $transaction->getTransactionByUserIdJoinTable($user_id);
-                                $map = [
-                                    "1" => "รับเงิน",
-                                    "2" => "โอนเงิน",
-                                    "3" => "ฝากเงิน",
-                                    "4" => "ถอนเงิน"
-                                ];
-                                foreach ($transactionData as $transaction):
-                                    $senderUserId = $transaction['user_id'];
-                                    $receiverUsername = $transaction['recipient_username'];
-                                    $transactionDate = date('d/m/Y H:i:s', strtotime($transaction['created_at']));
-                                    $prefix = 'SmallBank';
-
-                                    if (!empty($senderUserId)) {
-                                        $prefix = $transaction['transaction_type_id'] == 1 ? 'โอนจาก ' . $receiverUsername :
-                                            ($transaction['transaction_type_id'] == 2 ? 'โอนเงินไปยัง ' . $receiverUsername : $prefix);
-                                    }
-                                    $transactionType = $map[$transaction['transaction_type_id']] ?? 'Unknown';
-                                    ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($prefix); ?></td>
-                                        <td><?php echo htmlspecialchars($transactionType); ?></td>
-                                        <td><?php echo $transactionDate; ?></td>
-                                        <td>฿<?php echo number_format(($transaction['fee_amount']), 2); ?></td>
-                                        <td class="amount">฿<?php echo number_format(($transaction['amount']), 2); ?></td>
-                                        <td class="amount">
-                                            ฿<?php echo number_format(($transaction['amount']) + ($transaction['fee_amount']), 2); ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    <?php else: ?>
-                        <br>
-                        <h2>เข้าสู่ระบบ เพื่อดูข้อมูลธุรกรรม</h2>
-                        <br>
-                    <?php endif; ?>
+                    <?php if ($islogin)renderTransactionTable($islogin,$user_id,$transaction);?>
                 </div>
             </div>
         </div>
