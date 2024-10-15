@@ -1,7 +1,6 @@
 <html lang="th">
 <?php
 use common\Point;
-include "../common/Point.php";
 if (isset($_SESSION['user_id'])) {
     $point = new Point($conn, $_SESSION["user_id"]);
     $point->deleteExpiredPoints();
