@@ -27,8 +27,7 @@ if (isset($_SESSION['user_id'])) {
         <div class="steps">
             <div class="step">
                 <div class="profile">
-                    <div class="profile-image" style="background-image: url('<?php use common\Point;
-
+                    <div class="profile-image" style="background-image: url('<?
                     echo "../" . $sender->getProfile(); ?>');"></div>
                     <div class="arrow-icon">→</div>
                     <div class="profile-image" style="background-image: url('<?php echo "../" . $receiver->getProfile(); ?>');"></div>
