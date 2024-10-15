@@ -6,9 +6,9 @@ use common\TransactionType;
 use common\User;
 
 include("connect.inc.php");
-require_once "common/Transaction.php";
-require_once "common/User.php";
-require_once "common/point.php";
+include "common/Transaction.php";
+include "common/User.php";
+include "common/point.php";
 $islogin = false;
 $transac_id = $_GET['id'];
 $sql = "SELECT * FROM tb_transaction t INNER JOIN tb_user u ON u.user_id = t.user_id INNER JOIN tb_transaction_type tt ON tt.transaction_type_id = t.transaction_type_id WHERE t.transaction_id = '$transac_id'";
